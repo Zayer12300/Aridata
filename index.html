@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="./assets/Favicon.svg?v=5" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png?v=5" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png?v=5" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png?v=5" />
+  <link rel="shortcut icon" href="./assets/favicon.ico?v=5" />
+  <meta name="theme-color" content="#D34209" />
+  <title>Aridata | Ariba Contract Data Processor</title>
+
+  <!-- Browser libs -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#f8f5f1;
+      --card:#fffaf5;
+      --card-strong:rgba(255,248,240,0.97);
+      --card-soft:rgba(255,250,245,0.94);
+      --line:#e7d7c8;
+      --line-strong:#d8c1ad;
+      --text:#2f1e14;
+      --text-soft:#5b4335;
+      --muted:#7a675c;
+      --primary:#ea580c;
+      --primary-dark:#c2410c;
+      --primary-light:#ffedd5;
+      --green:#15803d;
+      --red:#b91c1c;
+      --amber:#b45309;
+      --chip:#fff1e6;
+      --chip-text:#9a3412;
+      --navy:#4a2c1a;
+      --shadow:0 14px 40px rgba(74,44,26,.16);
+      --shadow-soft:0 10px 30px rgba(74,44,26,.10);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        linear-gradient(rgba(25,18,14,0.38), rgba(25,18,14,0.34)),
+        url("./assets/Teams-Background_2025_3-03-08-2026_12_22_AM.png");
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+      color:var(--text);
+      font-family:Inter,"Segoe UI",Arial,sans-serif;
+      min-height:100vh;
+    }
+    .wrap{
+      max-width:1240px;
+      margin:0 auto;
+      padding:28px 24px 34px;
+      position:relative;
+      z-index:1;
+    }
+    .wrap::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.10), transparent 24%),
+        radial-gradient(circle at top right, rgba(234,88,12,0.14), transparent 30%),
+        linear-gradient(rgba(255,248,240,0.06), rgba(58,33,20,0.08));
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+      pointer-events:none;
+      z-index:-1;
+    }
+    .header{
+      background:var(--card-strong);
+      border:1px solid rgba(219,228,240,0.85);
+      border-radius:22px;
+      box-shadow:0 20px 50px rgba(15,23,42,.16);
+      overflow:hidden;
+      margin-bottom:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .topbar{
+      height:auto;
+      background:linear-gradient(90deg,#fdba74 0%, #ea580c 55%, #c2410c 100%);
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      padding:6px 20px;
+      gap:8px;
+    }
+    .header-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      padding:24px 24px 22px;
+    }
+    .eyebrow{
+      font-size:12px;
+      color:#9ca3af;
+      margin-bottom:6px;
+    }
+    h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.03em;color:var(--navy);text-transform:uppercase}
+    iconify-icon{font-size:18px}
+    .tab-btn iconify-icon{font-size:18px}
+    .section-title iconify-icon{font-size:22px}
+    .dropzone iconify-icon{font-size:52px;opacity:.85;filter:drop-shadow(0 2px 6px rgba(234,88,12,.25))}
+    .preview-toolbar iconify-icon{font-size:18px}
+    .btn iconify-icon{font-size:18px}
+    .subtitle{margin-top:10px;color:var(--text-soft);font-size:15px;line-height:1.55;max-width:720px}
+    .badge{
+      background:linear-gradient(180deg,#eff6ff 0%, #dbeafe 100%);
+      color:var(--chip-text);
+      border:1px solid #bfdbfe;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+    }
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      margin-bottom:18px;
+      padding:6px;
+      width:max-content;
+      background:rgba(255,255,255,0.92);
+      border:1px solid rgba(219,228,240,0.8);
+      border-radius:14px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .tab-btn{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:transparent;
+      border:1px solid transparent;
+      color:var(--muted);
+      padding:12px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:800;
+      box-shadow:none;
+      transition:.18s ease;
+    }
+    .tab-btn.active{
+      color:#ffffff;
+      border-color:#ea580c;
+      background:linear-gradient(135deg,#fb923c 0%, #ea580c 55%, #c2410c 100%);
+      box-shadow:0 10px 24px rgba(234,88,12,.28);
+    }
+    .tab-btn:hover{
+      color:var(--primary-dark);
+      background:#fff4ed;
+      border-color:#fed7aa;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 380px;
+      gap:18px;
+    }
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .metric{
+      background:var(--card-soft);
+      border:1px solid rgba(219,228,240,0.9);
+      border-radius:18px;
+      box-shadow:var(--shadow-soft);
+      padding:18px 18px 18px 22px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      border-left:4px solid var(--line-strong);
+      transition:.18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .metric:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+      border-left-color:#ea580c;
+    }
+    .metric::before{
+      content:"";
+      position:absolute;
+      top:0; right:0;
+      width:60px; height:60px;
+      border-radius:0 18px 0 60px;
+      background:linear-gradient(135deg,rgba(234,88,12,0.07),transparent);
+      pointer-events:none;
+    }
+    .metric-label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:#64748b;
+      font-weight:800;
+      margin-bottom:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .metric-label iconify-icon{ font-size:14px; }
+    .metric-value{
+      font-size:36px;
+      font-weight:900;
+      line-height:1;
+      margin-bottom:8px;
+      color:var(--navy);
+      letter-spacing:-.03em;
+    }
+    .metric-help{
+      font-size:12px;
+      color:var(--text-soft);
+      line-height:1.5;
+    }
+    .panel-stack{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .issue-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-height:320px;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .issue-list::-webkit-scrollbar{width:4px}
+    .issue-list::-webkit-scrollbar-track{background:transparent}
+    .issue-list::-webkit-scrollbar-thumb{background:rgba(234,88,12,.25);border-radius:99px}
+    .issue-empty{
+      font-size:13px;
+      color:var(--muted);
+      padding:10px 0;
+    }
+    .issue-item{
+      border:1px solid #fde68a;
+      background:#fffbeb;
+      border-radius:12px;
+      padding:12px;
+    }
+    .issue-item.error{
+      border-color:#fecaca;
+      background:#fef2f2;
+    }
+    .issue-title{
+      font-size:13px;
+      font-weight:800;
+      margin-bottom:4px;
+    }
+    .issue-meta{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.45;
+      white-space:pre-wrap;
+    }
+    .mini-note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+      line-height:1.45;
+    }
+    .preview-modal{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.48);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      z-index:1000;
+    }
+    .preview-modal.show{display:flex}
+    .preview-dialog{
+      width:min(1200px,100%);
+      max-height:88vh;
+      overflow:hidden;
+      background:#fff;
+      border-radius:18px;
+      box-shadow:0 24px 70px rgba(15,23,42,.24);
+      display:flex;
+      flex-direction:column;
+    }
+    .preview-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+    }
+    .preview-title{
+      margin:0;
+      font-size:20px;
+      font-weight:800;
+    }
+    .preview-sub{
+      margin-top:6px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .preview-body{
+      padding:18px 20px 22px;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .preview-toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .sheet-card{
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .sheet-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      background:#f8fafc;
+      border-bottom:1px solid var(--line);
+    }
+    .sheet-name{
+      font-size:14px;
+      font-weight:800;
+    }
+    .sheet-meta{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .table-wrap{
+      overflow:auto;
+    }
+    .preview-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+      min-width:760px;
+    }
+    .preview-table th,
+    .preview-table td{
+      border-bottom:1px solid #e5e7eb;
+      padding:10px 12px;
+      text-align:left;
+      vertical-align:top;
+    }
+    .preview-table th{
+      position:sticky;
+      top:0;
+      background:#f8fafc;
+      z-index:1;
+      font-weight:800;
+    }
+    .desktop-box{
+      border:1px solid #dbeafe;
+      background:#eff6ff;
+      border-radius:12px;
+      padding:14px;
+    }
+    .desktop-box strong{
+      display:block;
+      margin-bottom:6px;
+    }
+    .card{
+      background:var(--card-strong);
+      border:1px solid rgba(219,228,240,0.92);
+      border-radius:20px;
+      box-shadow:0 18px 44px rgba(15,23,42,.14);
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+    .card-body{padding:22px}
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:18px;
+      font-weight:800;
+      margin:0 0 6px 0;
+      color:var(--navy);
+      letter-spacing:-.01em;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--line);
+    }
+    .section-title iconify-icon{ font-size:20px; flex-shrink:0; }
+    .section-sub{
+      margin:0 0 18px 0;
+      color:var(--text-soft);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .field{margin-bottom:16px}
+    .label{
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    input[type="text"], textarea, select{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #d1d5db;
+      border-radius:10px;
+      font:inherit;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+    input[type="text"]:focus, textarea:focus, select:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(234,88,12,.14);
+    }
+    .dropzone{
+      border:2px dashed #f59e0b;
+      border-radius:16px;
+      padding:32px 18px;
+      background:linear-gradient(180deg, rgba(255,249,243,0.98) 0%, rgba(255,237,213,0.92) 100%);
+      text-align:center;
+      cursor:pointer;
+      transition:.22s ease;
+
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:170px;
+      gap:6px;
+    }
+    .dropzone.dragover{
+      background:linear-gradient(180deg,#fff1e6 0%, #fed7aa 100%);
+      border-color:#ea580c;
+      box-shadow:0 0 0 4px rgba(234,88,12,.12);
+      transform:translateY(-1px);
+    }
+    .help{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+    .check{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:10px 0;
+      color:var(--text-soft);
+      font-size:14px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border:none;
+      border-radius:12px;
+      padding:12px 16px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .btn-primary{background:linear-gradient(135deg,#fb923c 0%, #ea580c 55%, #c2410c 100%);color:#fff;box-shadow:0 12px 24px rgba(234,88,12,.22)}
+    .btn-primary:hover{background:linear-gradient(135deg,#fdba74 0%, #ea580c 55%, #c2410c 100%);transform:translateY(-1px)}
+    .btn-secondary{
+      background:#ffffff;
+      border:1px solid var(--line);
+      color:var(--primary-dark);
+      box-shadow:var(--shadow-soft);
+    }
+    .btn-secondary:hover:not(:disabled){
+      background:#fff4ed;
+      border-color:#fed7aa;
+      color:#c2410c;
+      transform:translateY(-1px);
+    }
+    .btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;transform:none}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #fca5a5;
+      color:#ef4444;
+      box-shadow:none;
+    }
+    .btn-ghost:hover:not(:disabled){
+      background:#fef2f2;
+      border-color:#f87171;
+      color:#dc2626;
+      transform:translateY(-1px);
+    }
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .meta-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(280px,.9fr);
+      gap:16px;
+      margin-top:14px;
+      align-items:start;
+    }
+    .meta-stack{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .info-card,
+    .options-card,
+    .controls-card{
+      background:rgba(255,255,255,0.72);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      transition:.18s ease;
+    }
+    .info-card:hover, .options-card:hover, .controls-card:hover{
+      background:rgba(255,255,255,0.88);
+      box-shadow:var(--shadow);
+    }
+    .meta-title{
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      margin:0 0 8px 0;
+    }
+    .file-name-display{
+      font-size:14px;
+      font-weight:700;
+      color:var(--navy);
+      margin-bottom:6px;
+      line-height:1.4;
+      word-break:break-word;
+    }
+    .file-format{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .options-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .options-list .check{
+      margin:0;
+      font-size:13px;
+    }
+    .controls-card .status-label{
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+    .controls-card .row{
+      margin-top:12px;
+    }
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      border:1px solid transparent;
+    }
+    .idle{background:#f8fafc;color:#64748b;border-color:#e2e8f0}
+    .running{background:#fff4ed;color:#c2410c;border-color:#fed7aa}
+    .running::before{
+      content:"";
+      display:inline-block;
+      width:7px; height:7px;
+      border-radius:50%;
+      background:#ea580c;
+      margin-right:6px;
+      animation:pulse 1.2s infinite;
+    }
+    @keyframes pulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.5;transform:scale(.75)}
+    }
+    .success{background:#ecfdf5;color:var(--green);border-color:#bbf7d0}
+    .error{background:#fef2f2;color:var(--red);border-color:#fecaca}
+    .warn{background:#fffbeb;color:var(--amber);border-color:#fde68a}
+
+    .progress-wrap{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%);
+      box-shadow:inset 0 1px 3px rgba(0,0,0,.06);
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    .progress-wrap.active{
+      opacity:1;
+    }
+    .progress-bar{
+      height:14px;
+      width:0%;
+      background:linear-gradient(90deg,#fdba74 0%, #ea580c 55%, #c2410c 100%);
+      transition:width .3s ease;
+      border-radius:0 8px 8px 0;
+      box-shadow:0 2px 8px rgba(234,88,12,.25);
+      position:relative;
+    }
+    .progress-meta{
+      display:flex;
+      justify-content:space-between;
+      font-size:12px;
+      color:var(--muted);
+      padding:10px 12px;
+    }
+    .log{
+      height:380px;
+      overflow:auto;
+      background:linear-gradient(180deg,#0b1f33 0%,#091929 100%);
+      border-radius:14px;
+      padding:14px;
+      white-space:pre-wrap;
+      font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03), 0 8px 24px rgba(0,0,0,.18);
+      scroll-behavior:smooth;
+    }
+    .log::-webkit-scrollbar{width:5px}
+    .log::-webkit-scrollbar-track{background:transparent}
+    .log::-webkit-scrollbar-thumb{background:rgba(148,163,184,.25);border-radius:99px}
+
+    .log-info{color:#60a5fa}
+    .log-success{color:#22c55e}
+    .log-warning{color:#f59e0b}
+    .log-error{color:#ef4444}
+    .download-box{
+      display:none;
+      margin-top:14px;
+      padding:16px 18px;
+      border:1px solid #bbf7d0;
+      background:linear-gradient(135deg,#f0fdf4 0%, #dcfce7 100%);
+      border-radius:14px;
+      box-shadow:0 4px 16px rgba(21,128,61,.10);
+    }
+    .download-box.show{display:block}
+    .preview-section{
+      margin-top:24px;
+      background:linear-gradient(180deg,#fff8f1 0%, #fffaf5 100%);
+      border:1px solid #f1d2b8;
+      border-radius:14px;
+      padding:16px;
+      box-shadow:var(--shadow-soft);
+    }
+    .preview-title{
+      font-size:14px;
+      font-weight:800;
+      margin-bottom:10px;
+      color:var(--navy);
+    }
+    .preview-container{
+      max-height:260px;
+      overflow:auto;
+      border:1px solid #edd5c0;
+      border-radius:10px;
+      background:#fff;
+    }
+    #headersPreviewTable{
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+      min-width:720px;
+    }
+    #headersPreviewTable th{
+      position:sticky;
+      top:0;
+      background:#fff1e6;
+      padding:8px 10px;
+      border-bottom:1px solid #e6c8ae;
+      text-align:left;
+      color:#5a3b2c;
+      font-weight:800;
+      z-index:1;
+    }
+    #headersPreviewTable td{
+      padding:8px 10px;
+      border-bottom:1px solid #f0e0d1;
+      color:var(--text-soft);
+      vertical-align:top;
+    }
+    .preview-empty{
+      padding:18px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .data-summary{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+    }
+    .data-summary-item{
+      background:#fff;
+      border:1px solid #edd5c0;
+      border-radius:12px;
+      padding:12px;
+    }
+    .data-summary-item.warn-item{
+      background:#fffbeb;
+      border-color:#fde68a;
+    }
+    .data-summary-item.warn-item .data-summary-value{ color:#b45309; }
+    .data-summary-item.error-item{
+      background:#fef2f2;
+      border-color:#fecaca;
+    }
+    .data-summary-item.error-item .data-summary-value{ color:#b91c1c; }
+    .data-summary-label{
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .data-summary-value{
+      font-size:24px;
+      font-weight:800;
+      color:var(--navy);
+      line-height:1;
+    }
+    .hidden{display:none!important}
+    .footer{
+      margin-top:30px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,237,213,0.18);
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,244,236,0.80);
+      text-shadow:0 1px 2px rgba(58,33,20,.32);
+      font-weight:600;
+      letter-spacing:.02em;
+    }
+    @media (max-width: 960px){
+      .grid{grid-template-columns:1fr}
+      .header-inner{flex-direction:column}
+      .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .meta-layout{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .summary-grid{grid-template-columns:1fr}
+      .preview-head{flex-direction:column}
+      .data-summary{grid-template-columns:1fr 1fr}
+    }
+.session-info{
+      display:flex;
+      flex-direction:row;
+      gap:10px;
+      align-items:center;
+    }
+    .session-info .session-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      font-weight:700;
+      padding:4px 11px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.35);
+      background:rgba(255,255,255,0.18);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      letter-spacing:.01em;
+      white-space:nowrap;
+      color:#fff;
+    }
+    .session-chip iconify-icon{
+      font-size:13px;
+      flex-shrink:0;
+      color:#fff;
+    }
+
+    .workflow-banner{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0;
+      background:var(--card-strong);
+      border:1px solid rgba(219,228,240,0.85);
+      border-radius:16px;
+      padding:18px 32px;
+      margin-bottom:14px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .workflow-step{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:5px;
+      padding:0 32px;
+      position:relative;
+      flex:0 0 auto;
+    }
+    .wf-num{
+      position:absolute;
+      top:0; left:50%;
+      transform:translateX(-22px);
+      width:18px; height:18px;
+      background:var(--primary);
+      color:#fff;
+      font-size:10px;
+      font-weight:900;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      z-index:1;
+    }
+    .workflow-step iconify-icon{
+      font-size:30px;
+      margin-top:6px;
+    }
+    .wf-label{
+      font-size:13px;
+      font-weight:800;
+      color:var(--navy);
+      white-space:nowrap;
+    }
+    .wf-hint{
+      font-size:11px;
+      color:var(--muted);
+      text-align:center;
+      white-space:nowrap;
+    }
+    .wf-arrow{
+      color:var(--primary);
+      flex-shrink:0;
+      opacity:.45;
+      padding:0 4px;
+    }
+    .wf-arrow iconify-icon{ font-size:24px; }
+    @media(max-width:640px){
+      .workflow-banner{ display:none; }
+    }
+
+    .all-clear{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:14px;
+      background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%);
+      border:1px solid #bbf7d0;
+      border-radius:12px;
+      margin-top:8px;
+    }
+    .all-clear iconify-icon{
+      font-size:28px;
+      color:#15803d;
+      flex-shrink:0;
+      margin-top:1px;
+    }
+    .all-clear strong{
+      display:block;
+      font-size:13px;
+      color:#15803d;
+      margin-bottom:3px;
+    }
+    .all-clear div div{
+      font-size:12px;
+      color:#166534;
+      line-height:1.45;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="topbar">
+      <div class="session-info">
+        <div class="session-chip chip-time">
+          <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+          <span id="sessionTime"></span>
+        </div>
+        <div class="session-chip chip-user">
+          <iconify-icon icon="mdi:wifi-off"></iconify-icon>
+          <span id="sessionUser">Offline</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-inner">
+      <div>
+        <h1>Aridata</h1>
+        <div class="subtitle">Upload your contract files, review the data, and export.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="headers">
+      <iconify-icon icon="mdi:file-document-outline" style="color:#ffffff"></iconify-icon>
+      Contract Headers
+    </button>
+    <button class="tab-btn" data-tab="items">
+      <iconify-icon icon="mdi:file-excel" style="color:#4a2c1a"></iconify-icon>
+      Line Items
+    </button>
+  </div>
+
+  <div class="workflow-banner">
+    <div class="workflow-step">
+      <div class="wf-num">1</div>
+      <iconify-icon icon="mdi:upload-outline" style="color:#ea580c"></iconify-icon>
+      <div class="wf-label">Upload File</div>
+      <div class="wf-hint">Drop or browse your CSV</div>
+    </div>
+    <div class="wf-arrow"><iconify-icon icon="mdi:chevron-right"></iconify-icon></div>
+    <div class="workflow-step">
+      <div class="wf-num">2</div>
+      <iconify-icon icon="mdi:shield-check-outline" style="color:#ea580c"></iconify-icon>
+      <div class="wf-label">Validate Data</div>
+      <div class="wf-hint">Check for errors &amp; issues</div>
+    </div>
+    <div class="wf-arrow"><iconify-icon icon="mdi:chevron-right"></iconify-icon></div>
+    <div class="workflow-step">
+      <div class="wf-num">3</div>
+      <iconify-icon icon="mdi:download-circle-outline" style="color:#ea580c"></iconify-icon>
+      <div class="wf-label">Download Output</div>
+      <div class="wf-hint">Export your processed file</div>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="metric">
+      <div class="metric-label"><iconify-icon icon="mdi:view-dashboard-outline" style="color:#ea580c"></iconify-icon> Workspace</div>
+      <div id="summaryWorkspace" class="metric-value">Ready</div>
+      <div class="metric-help">Your current working session</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label"><iconify-icon icon="mdi:file-document-multiple-outline" style="color:#ea580c"></iconify-icon> Header Rows</div>
+      <div id="summaryHeaderRows" class="metric-value">0</div>
+      <div class="metric-help">Contracts found in your uploaded file</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label"><iconify-icon icon="mdi:file-excel-box" style="color:#ea580c"></iconify-icon> Line Item Workbooks</div>
+      <div id="summaryWorkbooks" class="metric-value">0</div>
+      <div class="metric-help">Excel files ready for download</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label"><iconify-icon icon="mdi:alert-circle-outline" style="color:#ea580c"></iconify-icon> Validation Issues</div>
+      <div id="summaryIssues" class="metric-value">0</div>
+      <div class="metric-help">Problems found that need your attention</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- HEADERS TAB -->
+        <div id="tab-headers">
+          <h2 class="section-title">
+            <iconify-icon icon="mdi:file-document-outline" style="color:#ea580c"></iconify-icon>
+            Contract Headers
+          </h2>
+          <p class="section-sub">Start by uploading your contract list (CSV file). You can preview the data, check for errors, then download the final output with one click.</p>
+
+          <div class="field">
+            <label class="label">Upload Your Contract File</label>
+            <div class="dropzone" id="headersDropzone">
+              <strong>Drop your file here to get started</strong>
+              <iconify-icon icon="mdi:cloud-upload-outline" style="color:#ea580c;margin:6px 0"></iconify-icon>
+              <div class="help">or click here to browse your computer</div>
+              <input id="headersFile" type="file" accept=".csv,text/csv" hidden />
+            </div>
+            <div class="help" id="headersFileName" style="display:none">No file selected.</div>
+          </div>
+
+          <div class="meta-layout">
+            <div class="meta-stack">
+              <div class="info-card">
+                <div class="meta-title">Selected File</div>
+                <div id="headersSelectedFileDisplay" class="file-name-display">No file selected.</div>
+                <div class="file-format">Supported file type: CSV (Excel-exported spreadsheet)</div>
+              </div>
+              <div class="options-card">
+                <div class="meta-title">Options</div>
+                <div class="options-list">
+                  <label class="check"><input id="headersBackup" type="checkbox" /> Keep a backup copy of existing files</label>
+                  <label class="check"><input id="headersLogging" type="checkbox" checked /> Show activity log while processing</label>
+                </div>
+
+                <div class="field" style="margin-top:12px">
+                  <div class="meta-title"><iconify-icon icon="mdi:database-cog-outline" style="color:#ea580c"></iconify-icon> Business System</div>
+                  <select id="businessSystemSelect">
+                    <option value="S4QCLNT120">S4QCLNT120</option>
+                    <option value="S4PCLNT100">S4PCLNT100</option>
+                    <option value="S4DCLNT100">S4DCLNT100</option>
+                    <option value="__OTHER__">Other...</option>
+                  </select>
+                  <input id="businessSystemCustom" type="text" placeholder="Enter custom system (e.g. S4TCLNT300)" style="display:none;margin-top:8px" />
+                  <div class="help">Choose the system where contracts will be imported. If unsure, leave as default.</div>
+                </div>
+              </div>
+            </div>
+            <div class="controls-card">
+              <div class="status-label">Current Status</div>
+              <div id="headersStatus" class="status idle">Idle</div>
+              <div class="row">
+                <button id="headersClear" class="btn btn-ghost" title="Reset and start over">Clear</button>
+                <button id="headersPreview" class="btn btn-secondary" disabled title="Upload a file first to enable preview">
+                  <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+                  Preview File
+                </button>
+                <button id="headersValidate" class="btn btn-secondary" disabled title="Upload a file first to validate data">
+                  <iconify-icon icon="mdi:check"></iconify-icon>
+                  Validate Data
+                </button>
+                <button id="headersRun" class="btn btn-primary" disabled title="Validate your data first before generating output">
+                  <iconify-icon icon="mdi:download"></iconify-icon>
+                  Generate Contracts.csv
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-wrap">
+            <div id="headersProgressBar" class="progress-bar"></div>
+            <div class="progress-meta">
+              <span id="headersProgressText">No active process</span>
+              <span id="headersProgressValue">0%</span>
+            </div>
+          </div>
+
+          <div class="preview-section">
+            <div class="preview-title">Data Preview — Your Contracts at a Glance</div>
+            <div class="preview-container">
+              <table id="headersPreviewTable">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+              <div id="headersPreviewEmpty" class="preview-empty">Upload a file above to see your contract data here.</div>
+            </div>
+            <div class="data-summary">
+              <div class="data-summary-item">
+                <div class="data-summary-label">Total Rows</div>
+                <div id="sumRows" class="data-summary-value">0</div>
+              </div>
+              <div class="data-summary-item">
+                <div class="data-summary-label">Unique Contracts</div>
+                <div id="sumContracts" class="data-summary-value">0</div>
+              </div>
+              <div class="data-summary-item warn-item" id="sumMissingCard">
+                <div class="data-summary-label">Missing Fields</div>
+                <div id="sumMissing" class="data-summary-value">0</div>
+              </div>
+              <div class="data-summary-item error-item" id="sumDupCard">
+                <div class="data-summary-label">Duplicate Contracts</div>
+                <div id="sumDup" class="data-summary-value">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="headersDownloadBox" class="download-box">
+            <div style="font-weight:700;margin-bottom:8px;">✅ Your file is ready!</div>
+            <div class="help" style="margin:0 0 10px 0;">Your contracts have been processed successfully. Click below to download the output file.</div>
+            <a id="headersDownloadLink" class="btn btn-primary" download="Contracts.csv">
+              <iconify-icon icon="mdi:download"></iconify-icon>
+              Download Contracts.csv
+            </a>
+          </div>
+        </div>
+
+        <!-- ITEMS TAB -->
+        <div id="tab-items" class="hidden">
+          <h2 class="section-title">
+            <iconify-icon icon="mdi:file-excel" style="color:#ea580c"></iconify-icon>
+            Line Items
+          </h2>
+          <p class="section-sub">Upload your line-item files, check for any issues, and generate ready-to-import Excel workbooks.</p>
+
+          <div class="field">
+            <label class="label">Upload Your Line-Item Files</label>
+            <div class="dropzone" id="itemsDropzone">
+              <strong>Drop your files here to get started</strong>
+              <iconify-icon icon="mdi:cloud-upload-outline" style="color:#ea580c;margin:6px 0"></iconify-icon>
+              <div class="help">or click here to browse your computer</div>
+              <input id="itemsFile" type="file" accept=".csv,.json,application/json,text/csv" multiple hidden />
+            </div>
+            <div class="help" id="itemsFileName">No file selected.</div>
+            <div class="help">Supported formats: CSV or JSON files. You can upload multiple files at once.</div>
+          </div>
+
+          <div class="field">
+            <label class="label">Options</label>
+            <label class="check"><input id="itemsBackup" type="checkbox" /> Keep a backup copy of existing files</label>
+            <label class="check"><input id="itemsLogging" type="checkbox" checked /> Show activity log while processing</label>
+          </div>
+
+          <div class="toolbar">
+            <div id="itemsStatus" class="status idle">Idle</div>
+            <div class="row">
+              <button id="itemsNew" class="btn btn-secondary">New Task</button>
+              <button id="itemsClear" class="btn btn-ghost" title="Reset and start over">Clear</button>
+              <button id="itemsPreview" class="btn btn-secondary" disabled title="Upload a file first to enable preview">Preview Output</button>
+              <button id="itemsValidate" class="btn btn-secondary" disabled title="Upload a file first to validate rows">Validate Rows</button>
+              <button id="itemsRun" class="btn btn-primary" disabled title="Validate your data first before generating files">Generate Workbooks</button>
+            </div>
+          </div>
+
+          <div class="progress-wrap">
+            <div id="itemsProgressBar" class="progress-bar"></div>
+            <div class="progress-meta">
+              <span id="itemsProgressText">No active process</span>
+              <span id="itemsProgressValue">0%</span>
+            </div>
+          </div>
+
+          <div id="itemsDownloadBox" class="download-box">
+            <div style="font-weight:700;margin-bottom:8px;">✅ Your files are ready!</div>
+            <div class="help" style="margin:0 0 10px 0;">Excel workbooks have been generated. You can download them all at once, or individually below.</div>
+            <button id="itemsDownloadAllBtn" class="btn btn-primary" style="width:100%; margin-bottom: 12px;">
+              <iconify-icon icon="mdi:download-multiple"></iconify-icon> Download All Individually
+            </button>
+            <div id="itemsDownloadList" style="display:flex; flex-direction:column; gap:8px; max-height:200px; overflow:auto; padding-right:4px;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel-stack">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="section-title">
+            <iconify-icon icon="mdi:alert-circle-outline" style="color:#ea580c"></iconify-icon>
+            Validation Issues
+          </h2>
+          <p class="section-sub">We automatically check your data for common problems — missing contract IDs, duplicate entries, invalid dates, and more.</p>
+          <div id="issueList" class="issue-list"></div>
+          <div id="issueAllClear" class="all-clear hidden">
+            <iconify-icon icon="mdi:check-circle-outline"></iconify-icon>
+            <div>
+              <strong>All clear!</strong>
+              <div>No issues were found in your data. You're good to go.</div>
+            </div>
+          </div>
+          <div class="mini-note">Checks include: missing contract ID or supplier name, invalid date formats, missing item numbers, invalid quantities, and duplicate entries.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h2 class="section-title">
+            <iconify-icon icon="mdi:text-box-outline" style="color:#ea580c"></iconify-icon>
+            Execution Log
+          </h2>
+          <p class="section-sub">A live step-by-step record of everything happening behind the scenes — useful if something goes wrong.</p>
+          <div id="log" class="log"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="previewModal" class="preview-modal">
+    <div class="preview-dialog">
+      <div class="preview-head">
+        <div>
+          <h3 id="previewTitle" class="preview-title">Preview</h3>
+          <div id="previewSubtitle" class="preview-sub">Output preview</div>
+        </div>
+        <div class="preview-toolbar">
+          <button id="previewDownloadBtn" class="btn btn-primary hidden">Download From Preview</button>
+          <button id="previewCloseBtn" class="btn btn-secondary">Close</button>
+        </div>
+      </div>
+      <div id="previewBody" class="preview-body"></div>
+    </div>
+  </div>
+
+  <div class="footer">Aridata Contract Processing Platform © 2026 | ASMO Technology – IT Business Solutions</div>
+</div>
+
+<script>
+/* ============================================================================
+   Shared constants
+============================================================================ */
+const SUPPLIER_PREFIX = "sap:";
+const DOC_CAT_MAP = { "ZLFN": "ZDD" };
+const CURRENCY_MAP = { "M002": "SAR", "M001": "USD", "M003": "EUR" };
+const DATE_COLS = ["EffectiveDate", "ExpirationDate"];
+
+const OPTIONAL_DYNAMIC = [
+  "AffectedParties", "HierarchicalType", "ParentAgreement", "ProposedAmount",
+  "Commodity", "Region", "Client", "cus_DeliveryRestriction", "cus_IKTVAFlag",
+  "cus_IKTVATargets", "cus_PlantRestriction", "ExpirationTermType",
+  "NoticePeriod", "NoticeEmailRecipients", "ExpiringEmailRecipients", "RelatedId",
+  "cus_Incoterms"
+];
+
+const OUTPUT_COLS_HEADERS = [
+  "Owner", "Title", "ContractId", "Description", "Supplier",
+  "AffectedParties", "HierarchicalType", "ParentAgreement",
+  "Amount", "ProposedAmount", "Commodity", "Region", "Client", "cus_Incoterms",
+  "cus_DeliveryRestriction", "cus_IKTVAFlag", "cus_IKTVATargets",
+  "cus_PlantRestriction", "ExpirationTermType", "EffectiveDate",
+  "ExpirationDate", "NoticePeriod", "NoticeEmailRecipients",
+  "ExpiringEmailRecipients", "RelatedId", "ContractStatus",
+  "BaseLanguage", "arb_CompanyCode", "arb_PurchasingOrganization",
+  "arb_PurchasingGroup", "arb_PaymentTerms", "arb_DocumentType",
+  "arb_DocumentCategory", "BusinessSystem"
+];
+
+const SETTINGS_FILE_ITEMS_KEY = "line_items_settings";
+const DEFAULT_ITEM_CATEGORY = "Standard";
+
+const CONTRACT_ITEM_COLUMNS = [
+  "Bundle", "Item Number", "Short Name", "Description",
+  "Extended Description", "Supplier Part Number", "Unit Of Measure", "Unit Price",
+  "Discount Amount", "Supplier Discount(%)", "Unit Price Currency",
+  "Classification Domain", "Classification Code",
+  "Quantity", "Minimum Quantity", "Maximum Quantity",
+  "Minimum Amount", "Maximum Amount",
+  "Manufacturer Name", "Manufacturer Part Number", "Limit Type"
+];
+
+const HEADER_TEMPLATE_COLUMNS = [
+  "Event ID", "Title", "Description", "Requester", "Company Name",
+  "Supplier Name", "SupplierID Domain", "SupplierID Value",
+  "Contract Source", "Buyer Contract ID", "Term Type", "Limit Type",
+  "Agreement Data", "Effective Date", "Expiration Date",
+  "Contract Currency", "Minimum Amount", "Maximum Amount",
+  "Reference Document"
+];
+
+const ATTR_ORDER = [
+  "extended_price", "item_category",
+  "material_number", "material_code", "material_group",
+  "requisition_id", "requisition_item_number", "rfq_id", "rfq_item_number",
+  "plant", "transportation_mode", "inspection_required",
+  "hazardous_indicator", "saso_indicator", "saudi_customs",
+  "special_handling_code_1", "special_handling_code_2", "special_handling_code_3",
+  "shelf_life_code", "storage_conditions", "shelf_life_unit",
+  "stock_segment", "manufacturing_part_text", "item_text",
+  "inspection_text", "material_po_text",
+  "discount_amount", "discount_percentage", "lead_time_days",
+  "status"
+];
+
+const TYPE_MAP = {
+  extended_price: "Money", item_category: "MasterData", material_group: "MasterData",
+  plant: "MasterData", inspection_required: "Yes / No", hazardous_indicator: "Yes / No",
+  saso_indicator: "Yes / No", saudi_customs: "Customs", discount_amount: "Money",
+  discount_percentage: "Percentage", lead_time_days: "Text (single line limited)",
+  material_number: "Text (single line limited)", material_code: "Text (single line limited)",
+  requisition_id: "Text (single line limited)", requisition_item_number: "Text (single line limited)",
+  rfq_id: "Text (single line limited)", rfq_item_number: "Text (single line limited)",
+  manufacturing_part_text: "Text (multiple lines)", item_text: "Text (multiple lines)",
+  inspection_text: "Text (multiple lines)", material_po_text: "Text (multiple lines)",
+  shelf_life_code: "Number", number: "Text"
+};
+
+const FORCE_BLANK = new Set(["rfq_id", "rfq_item_number"]);
+
+const DISPLAY_FIX = {
+  requisition_id: "Requisition ID", rfq_id: "RFQ ID",
+  rfq_item_number: "RFQ Item Number", saso_indicator: "SASO Indicator",
+  special_handling_code_1: "Special Handling Code-1",
+  special_handling_code_2: "Special Handling Code-2",
+  special_handling_code_3: "Special Handling Code-3",
+  material_po_text: "Material PO Text", lead_time_days: "Lead Time (Days)",
+  status: "Line Item Status", requisition_item_number: "Requisition Item Number",
+  material_number: "Material Number", material_code: "Material Code",
+  material_group: "Material Group", item_category: "Item Category",
+  extended_price: "Extended Price", manufacturing_part_text: "Manufacturing Part Text",
+  item_text: "Item Text", inspection_text: "Inspection Text",
+  saudi_customs: "Saudi Customs", discount_amount: "Discount Amount",
+  discount_percentage: "Discount Percentage", shelf_life_code: "Shelf Life Code",
+  storage_conditions: "Storage Conditions", shelf_life_unit: "Shelf Life Unit",
+  stock_segment: "Stock Segment", plant: "Plant",
+  transportation_mode: "Transportation Mode", inspection_required: "Inspection Required",
+  hazardous_indicator: "Hazardous Indicator"
+};
+
+const ALT_COL_MAP = {
+  incoterms: "cus_Incoterms",
+  incoterm: "cus_Incoterms",
+  "delivery restriction": "cus_DeliveryRestriction",
+  deliveryrestriction: "cus_DeliveryRestriction",
+  "iktva flag": "cus_IKTVAFlag",
+  iktvaflag: "cus_IKTVAFlag",
+  "iktva target": "cus_IKTVATargets",
+  iktvatarget: "cus_IKTVATargets",
+  "plant restrictions": "cus_PlantRestrictions",
+  "plant restriction": "cus_PlantRestrictions",
+  "plant restrict": "cus_PlantRestrictions"
+};
+
+/* ============================================================================
+   State + UI refs
+============================================================================ */
+const state = {
+  headersFile: null,
+  itemsFiles: [],
+  headersDownloadUrl: null,
+  generatedItemFiles: [],
+  lastHeaderRows: [],
+  lastHeaderIssues: [],
+  lastItemRows: [],
+  lastItemIssues: [],
+  lastWorkbookPreviews: []
+};
+
+const ui = {
+  log: document.getElementById("log"),
+  headers: {
+    dropzone: document.getElementById("headersDropzone"),
+    fileInput: document.getElementById("headersFile"),
+    fileName: document.getElementById("headersFileName"),
+    fileDisplay: document.getElementById("headersSelectedFileDisplay"),
+    clear: document.getElementById("headersClear"),
+    preview: document.getElementById("headersPreview"),
+    validate: document.getElementById("headersValidate"),
+    run: document.getElementById("headersRun"),
+    status: document.getElementById("headersStatus"),
+    progressBar: document.getElementById("headersProgressBar"),
+    progressText: document.getElementById("headersProgressText"),
+    progressValue: document.getElementById("headersProgressValue"),
+    downloadBox: document.getElementById("headersDownloadBox"),
+    downloadLink: document.getElementById("headersDownloadLink"),
+    previewTableHead: document.querySelector("#headersPreviewTable thead"),
+    previewTableBody: document.querySelector("#headersPreviewTable tbody"),
+    previewEmpty: document.getElementById("headersPreviewEmpty"),
+    logging: document.getElementById("headersLogging"),
+    backup: document.getElementById("headersBackup"),
+    businessSystem: document.getElementById("businessSystemSelect"),
+    businessSystemCustom: document.getElementById("businessSystemCustom"),
+  },
+  items: {
+    dropzone: document.getElementById("itemsDropzone"),
+    fileInput: document.getElementById("itemsFile"),
+    fileName: document.getElementById("itemsFileName"),
+    clear: document.getElementById("itemsClear"),
+    preview: document.getElementById("itemsPreview"),
+    validate: document.getElementById("itemsValidate"),
+    run: document.getElementById("itemsRun"),
+    status: document.getElementById("itemsStatus"),
+    progressBar: document.getElementById("itemsProgressBar"),
+    progressText: document.getElementById("itemsProgressText"),
+    progressValue: document.getElementById("itemsProgressValue"),
+    downloadBox: document.getElementById("itemsDownloadBox"),
+    downloadList: document.getElementById("itemsDownloadList"),
+    downloadAllBtn: document.getElementById("itemsDownloadAllBtn"),
+    logging: document.getElementById("itemsLogging"),
+    backup: document.getElementById("itemsBackup"),
+  },
+  summary: {
+    workspace: document.getElementById("summaryWorkspace"),
+    headerRows: document.getElementById("summaryHeaderRows"),
+    workbooks: document.getElementById("summaryWorkbooks"),
+    issues: document.getElementById("summaryIssues")
+  },
+  headerDataSummary: {
+    rows: document.getElementById("sumRows"),
+    contracts: document.getElementById("sumContracts"),
+    missing: document.getElementById("sumMissing"),
+    duplicates: document.getElementById("sumDup")
+  },
+  issues: document.getElementById("issueList"),
+  preview: {
+    modal: document.getElementById("previewModal"),
+    title: document.getElementById("previewTitle"),
+    subtitle: document.getElementById("previewSubtitle"),
+    body: document.getElementById("previewBody"),
+    close: document.getElementById("previewCloseBtn"),
+    download: document.getElementById("previewDownloadBtn")
+  }
+};
+
+/* ============================================================================
+   UI helpers & Shared Utils
+============================================================================ */
+// Let the browser UI catch up during heavy synchronous processing
+const yieldThread = () => new Promise(r => setTimeout(r, 0));
+
+function log(msg,type="info"){
+  const ts=new Date().toLocaleTimeString();
+  let cls="log-info";
+
+  if(type==="success") cls="log-success";
+  if(type==="warn") cls="log-warning";
+  if(type==="error") cls="log-error";
+
+  const line=document.createElement("div");
+  line.className=cls;
+  line.textContent=`[${ts}] ${msg}`;
+
+  ui.log.appendChild(line);
+  ui.log.scrollTop=ui.log.scrollHeight;
+}
+
+function setStatus(area, kind, text) {
+  area.status.className = `status ${kind}`;
+  area.status.textContent = text;
+}
+
+function setProgress(area, value, text) {
+  const pct = Math.max(0, Math.min(100, value));
+  area.progressBar.style.width = `${pct}%`;
+  area.progressValue.textContent = `${pct}%`;
+  area.progressText.textContent = text;
+  const wrap = area.progressBar.closest('.progress-wrap');
+  if(wrap){ wrap.classList.toggle('active', pct > 0 || text !== 'Waiting for file...'); }
+}
+
+function revokeUrl(url) {
+  if (url) URL.revokeObjectURL(url);
+}
+
+function showDownload(area, url, filename, label) {
+  area.downloadLink.href = url;
+  area.downloadLink.download = filename;
+  area.downloadLink.textContent = label;
+  area.downloadBox.classList.add("show");
+}
+
+function hideDownload(area, oldUrlKey) {
+  if (state[oldUrlKey]) revokeUrl(state[oldUrlKey]);
+  state[oldUrlKey] = null;
+  area.downloadBox.classList.remove("show");
+  if (area.downloadLink) area.downloadLink.removeAttribute("href");
+}
+
+function hideItemsDownload() {
+  if (state.generatedItemFiles) {
+    state.generatedItemFiles.forEach(f => revokeUrl(f.url));
+    state.generatedItemFiles = [];
+  }
+  ui.items.downloadBox.classList.remove("show");
+  if (ui.items.downloadList) ui.items.downloadList.innerHTML = "";
+}
+
+function updateSummary() {
+  ui.summary.workspace.textContent = state.headersFile || (state.itemsFiles && state.itemsFiles.length) ? "Loaded" : "Ready";
+  ui.summary.headerRows.textContent = String(state.lastHeaderRows.length || 0);
+  ui.summary.workbooks.textContent = String(state.lastWorkbookPreviews.length || 0);
+  const issueCount = (state.lastHeaderIssues?.length || 0) + (state.lastItemIssues?.length || 0);
+  ui.summary.issues.textContent = String(issueCount);
+}
+
+function renderIssues(issues) {
+  ui.issues.innerHTML = "";
+  const allClear = document.getElementById("issueAllClear");
+  if(allClear) allClear.classList.add("hidden");
+  if (!issues || !issues.length) {
+    ui.issues.innerHTML = '<div class="issue-empty">No validation issues detected in the latest run.</div>';
+    if(allClear && (state.headersFile || state.itemsFiles.length)) allClear.classList.remove("hidden");
+    updateSummary();
+    return;
+  }
+  issues.slice(0, 200).forEach(issue => {
+    const item = document.createElement("div");
+    item.className = `issue-item ${issue.severity === "error" ? "error" : ""}`;
+    const title = document.createElement("div");
+    title.className = "issue-title";
+    title.textContent = `${issue.severity.toUpperCase()} • ${issue.scope}`;
+    const meta = document.createElement("div");
+    meta.className = "issue-meta";
+    meta.textContent = issue.message;
+    item.appendChild(title);
+    item.appendChild(meta);
+    ui.issues.appendChild(item);
+  });
+  updateSummary();
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function makePreviewTable(rows, maxRows = 25) {
+  if (!rows || !rows.length) return '<div class="issue-empty">No rows available.</div>';
+  const headers = Object.keys(rows[0]);
+  const bodyRows = rows.slice(0, maxRows);
+  return `
+    <div class="table-wrap">
+      <table class="preview-table">
+        <thead>
+          <tr>${headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr>
+        </thead>
+        <tbody>
+          ${bodyRows.map(row => `<tr>${headers.map(h => `<td>${escapeHtml(row[h] ?? "")}</td>`).join("")}</tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openPreviewModal({ title, subtitle, sections, onDownload = null, downloadLabel = "Download" }) {
+  ui.preview.title.textContent = title;
+  ui.preview.subtitle.textContent = subtitle;
+  ui.preview.body.innerHTML = "";
+  sections.forEach(section => {
+    const card = document.createElement("div");
+    card.className = "sheet-card";
+    card.innerHTML = `
+      <div class="sheet-head">
+        <div class="sheet-name">${escapeHtml(section.name)}</div>
+        <div class="sheet-meta">${escapeHtml(section.meta || "")}</div>
+      </div>
+      ${section.html}
+    `;
+    ui.preview.body.appendChild(card);
+  });
+  if (onDownload) {
+    ui.preview.download.classList.remove("hidden");
+    ui.preview.download.textContent = downloadLabel;
+    ui.preview.download.onclick = onDownload;
+  } else {
+    ui.preview.download.classList.add("hidden");
+    ui.preview.download.onclick = null;
+  }
+  ui.preview.modal.classList.add("show");
+}
+
+function closePreviewModal() {
+  ui.preview.modal.classList.remove("show");
+}
+
+function validateHeaderRows(rows) {
+  const issues = [];
+  const seenContracts = new Set();
+  rows.forEach((row, idx) => {
+    const cid = String(row["ContractId"] ?? "").trim();
+    const supplier = String(row["Supplier"] ?? "").trim();
+    const eff = String(row["EffectiveDate"] ?? "").trim();
+    const exp = String(row["ExpirationDate"] ?? "").trim();
+    if (!cid) issues.push({ severity: "error", scope: `Header Row ${idx + 1}`, message: "Missing ContractId." });
+    if (!supplier) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} is missing Supplier.` });
+    if (cid) {
+      if (seenContracts.has(cid)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Duplicate ContractId detected: ${cid}.` });
+      seenContracts.add(cid);
+    }
+    if (eff && !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(eff)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `EffectiveDate format looks invalid: ${eff}` });
+    if (exp && !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(exp)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `ExpirationDate format looks invalid: ${exp}` });
+    const amount = String(row["Amount"] ?? "").trim();
+    if (!amount) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} has blank Amount.` });
+  });
+  return issues;
+}
+
+function validateLineItemRows(rows) {
+  const issues = [];
+  const seenKeys = new Set();
+  rows.forEach((row, idx) => {
+    const cid = String(row.contract_id ?? "").trim();
+    const itemNumber = String(row.item_number ?? "").trim();
+    
+    // Safely parse numbers to avoid comma strings triggering NaN warnings
+    const qtyRaw = String(row.quantity ?? "").replace(/,/g, "");
+    const priceRaw = String(row.unit_price ?? "").replace(/,/g, "");
+    const qty = Number(qtyRaw);
+    const unitPrice = Number(priceRaw);
+
+    if (!cid) issues.push({ severity: "error", scope: `Line Row ${idx + 1}`, message: "Missing contract_id." });
+    if (!itemNumber) issues.push({ severity: "error", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} is missing item_number.` });
+    if (qtyRaw && (!Number.isFinite(qty) || qty < 0)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"} has invalid quantity: ${row.quantity}` });
+    if (priceRaw && (!Number.isFinite(unitPrice) || unitPrice < 0)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"} has invalid unit_price: ${row.unit_price}` });
+    
+    const pairKey = `${cid}||${itemNumber}`;
+    if (cid && itemNumber) {
+      if (seenKeys.has(pairKey)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Duplicate contract/item key detected: ${pairKey}` });
+      seenKeys.add(pairKey);
+    }
+  });
+  return issues;
+}
+
+function wireDropzone(dropzone, input, onFile) {
+  dropzone.addEventListener("click", () => input.click());
+  input.addEventListener("change", e => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    if (input.hasAttribute("multiple")) onFile(files);
+    else onFile(files[0]);
+  });
+  ["dragenter", "dragover"].forEach(evt => dropzone.addEventListener(evt, e => {
+    e.preventDefault(); e.stopPropagation();
+    dropzone.classList.add("dragover");
+  }));
+  ["dragleave", "drop"].forEach(evt => dropzone.addEventListener(evt, e => {
+    e.preventDefault(); e.stopPropagation();
+    dropzone.classList.remove("dragover");
+  }));
+  dropzone.addEventListener("drop", e => {
+    const files = Array.from(e.dataTransfer.files || []);
+    if (!files.length) return;
+    if (input.hasAttribute("multiple")) onFile(files);
+    else onFile(files[0]);
+  });
+}
+
+function updateItemsSelectionUi() {
+  const count = state.itemsFiles.length;
+  if (!count) {
+    ui.items.fileName.textContent = "No file selected.";
+    ui.items.preview.disabled = true;
+    ui.items.validate.disabled = true;
+    ui.items.run.disabled = true;
+    return;
+  }
+  const totalSizeKb = Math.round(state.itemsFiles.reduce((sum, file) => sum + (file.size || 0), 0) / 1024);
+  if (count === 1) {
+    ui.items.fileName.textContent = `Selected: ${state.itemsFiles[0].name} (${Math.round(state.itemsFiles[0].size / 1024)} KB)`;
+  } else {
+    ui.items.fileName.textContent = `${count} files selected (${totalSizeKb} KB total)`;
+  }
+  ui.items.preview.disabled = false;
+  ui.items.validate.disabled = false;
+  ui.items.run.disabled = false;
+}
+
+function renderHeaderPreview(rows) {
+  ui.headers.previewTableHead.innerHTML = "";
+  ui.headers.previewTableBody.innerHTML = "";
+  if (!rows || !rows.length) {
+    ui.headers.previewEmpty.style.display = "block";
+    return;
+  }
+  ui.headers.previewEmpty.style.display = "none";
+  const columns = Object.keys(rows[0]);
+  const headerRow = document.createElement("tr");
+  columns.forEach(col => {
+    const th = document.createElement("th");
+    th.textContent = col;
+    headerRow.appendChild(th);
+  });
+  ui.headers.previewTableHead.appendChild(headerRow);
+  rows.slice(0, 20).forEach(row => {
+    const tr = document.createElement("tr");
+    columns.forEach(col => {
+      const td = document.createElement("td");
+      td.textContent = row[col] ?? "";
+      tr.appendChild(td);
+    });
+    ui.headers.previewTableBody.appendChild(tr);
+  });
+}
+
+function updateHeaderDataSummary(rows) {
+  const safeRows = Array.isArray(rows) ? rows : [];
+  const contractSet = new Set();
+  let missing = 0;
+  safeRows.forEach(row => {
+    const contractId = String(row.ContractId ?? "").trim();
+    const supplier = String(row.Supplier ?? "").trim();
+    const amount = String(row.Amount ?? "").trim();
+    if (!contractId || !supplier || !amount) missing++;
+    if (contractId) contractSet.add(contractId);
+  });
+  ui.headerDataSummary.rows.textContent = String(safeRows.length);
+  ui.headerDataSummary.contracts.textContent = String(contractSet.size);
+  ui.headerDataSummary.missing.textContent = String(missing);
+  ui.headerDataSummary.duplicates.textContent = String(Math.max(0, safeRows.length - contractSet.size));
+}
+
+function resetHeaderPreview() {
+  renderHeaderPreview([]);
+  updateHeaderDataSummary([]);
+}
+
+function dedupe(cols) {
+  const cnt = {};
+  const out = [];
+  for (const c0 of cols) {
+    const clean = String(c0 ?? "").trim();
+    if (!(clean in cnt)) cnt[clean] = 0;
+    out.push(cnt[clean] ? `${clean}_${cnt[clean]}` : clean);
+    cnt[clean] += 1;
+  }
+  return out;
+}
+
+function cleanNum(x) {
+  if (x === null || x === undefined || x === "") return null;
+  const s = String(x).replace(/\s+/g, "");
+  const m = s.match(/(\d+(?:[\d,]*\d)?(?:\.\d+)?)/);
+  if (!m) return null;
+  const n = Number(m[1].replace(/,/g, ""));
+  return Number.isFinite(n) ? n : null;
+}
+
+function mapCurrency(code) {
+  const key = String(code ?? "").trim();
+  return CURRENCY_MAP[key] || key;
+}
+
+function detectCurrencyColumn(rows) {
+  if (!rows.length) return null;
+  const cols = Object.keys(rows[0] || {});
+  const candidates = cols.filter(c => /currency/i.test(c));
+  if (!candidates.length) return null;
+  const priority = ["Currency", "Contract Currency", "Unit Price Currency"];
+  for (const p of priority) {
+    const hit = candidates.find(c => c.toLowerCase() === p.toLowerCase());
+    if (hit) return hit;
+  }
+  return candidates[0];
+}
+
+function snakeKey(s) {
+  return String(s ?? "").trim().toLowerCase().replace(/[^0-9a-z]+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
+}
+
+function snakeColumns(rows) {
+  return rows.map(r => {
+    const out = {};
+    for (const [k, v] of Object.entries(r)) out[snakeKey(k)] = v;
+    return out;
+  });
+}
+
+function normalizeText(v) {
+  return String(v ?? "").replace(/[^A-Za-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function parseCsvText(text) {
+  return Papa.parse(text, { header: false, skipEmptyLines: false }).data;
+}
+
+function parseCsvWithHeader(text, headerRowIndex) {
+  const allRows = Papa.parse(text, { header: false, skipEmptyLines: false }).data;
+  const header = (allRows[headerRowIndex] || []).map(x => String(x ?? "").trim());
+  const bodyRows = allRows.slice(headerRowIndex + 1);
+  const dedupedHeader = dedupe(header);
+  return bodyRows
+    .filter(row => row.some(v => String(v ?? "").trim() !== ""))
+    .map(row => {
+      const obj = {};
+      dedupedHeader.forEach((h, i) => obj[h] = row[i] ?? "");
+      return obj;
+    });
+}
+
+function formatDateValue(raw) {
+  const s = String(raw ?? "").trim();
+  if (!s) return "";
+  if (/^\d{8}$/.test(s)) {
+    const y = Number(s.slice(0,4));
+    const m = Number(s.slice(4,6));
+    const d = Number(s.slice(6,8));
+    if (y && m && d) return `${m}/${d}/${y}`;
+  }
+  const n = Number(s);
+  if (Number.isFinite(n)) {
+    const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+    const date = new Date(excelEpoch.getTime() + n * 86400000);
+    return `${date.getUTCMonth()+1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
+  }
+  const js = new Date(s);
+  if (!isNaN(js.getTime())) {
+    // Check if it's a date-only ISO format, prevent timezone shift
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+       return `${js.getUTCMonth()+1}/${js.getUTCDate()}/${js.getUTCFullYear()}`;
+    }
+    return `${js.getMonth()+1}/${js.getDate()}/${js.getFullYear()}`;
+  }
+  return s;
+}
+
+function groupBy(arr, keyFn) {
+  const m = new Map();
+  for (const item of arr) {
+    const key = keyFn(item);
+    if (!m.has(key)) m.set(key, []);
+    m.get(key).push(item);
+  }
+  return m;
+}
+
+function toSheetRows(rows, columns) {
+  return rows.map(r => {
+    const out = {};
+    columns.forEach(c => out[c] = r[c] ?? "");
+    return out;
+  });
+}
+
+function saveSettingsItems(inputName) {
+  localStorage.setItem(SETTINGS_FILE_ITEMS_KEY, JSON.stringify({ input: inputName }));
+}
+
+function formatSupplier(val) {
+  const digits = String(val ?? "").replace(/\D/g, "");
+  return digits ? `${SUPPLIER_PREFIX}${digits.padStart(10, "0")}` : String(val ?? "").trim();
+}
+
+/* ============================================================================
+   Contract Header logic
+============================================================================ */
+async function processHeaders(file, options, previewOnly = false) {
+  hideDownload(ui.headers, "headersDownloadUrl");
+  setStatus(ui.headers, "running", previewOnly ? "Preview" : "In Progress");
+  setProgress(ui.headers, 5, "Reading CSV");
+  await yieldThread();
+  log(`Headers: reading file ${file.name}`);
+
+  const text = await file.text();
+  const sampleRows = parseCsvText(text).slice(0, 15);
+  let headerIdx = 0;
+
+  for (let i = 0; i < sampleRows.length; i++) {
+    if ((sampleRows[i] || []).some(v => /\bContractId\b/i.test(String(v)))) {
+      headerIdx = i;
+      break;
+    }
+  }
+
+  setProgress(ui.headers, 10, "Detecting & Normalizing rows");
+  await yieldThread();
+  
+  let rows = parseCsvWithHeader(text, headerIdx).map(r => ({ ...r }));
+
+  // Optimization: Consolidate data modifications into 2 passes
+  setProgress(ui.headers, 30, "Normalizing columns");
+  await yieldThread();
+
+  // Pass 1: Handle Column Swaps, Standardization & Defaults
+  for (const r of rows) {
+    if ("Discount Amount" in r && !("Amount" in r)) r["Amount"] = r["Discount Amount"];
+
+    for (const key of Object.keys(r)) {
+      const alt = String(key).trim().toLowerCase();
+      const std = ALT_COL_MAP[alt];
+      if (std) {
+        if (!r[std] || String(r[std]).trim() === "") r[std] = r[key];
+        if (key !== std) delete r[key];
+      }
+    }
+
+    if (!("cus_Incoterms" in r)) {
+      const hit = Object.keys(r).find(c => /incoterm/i.test(c));
+      if (hit) r["cus_Incoterms"] = String(r[hit] ?? "").trim();
+    }
+    if (!("Owner" in r) || !String(r["Owner"]).trim()) r["Owner"] = "legacyuser";
+
+    if ("ContractId" in r) {
+      const s = String(r["ContractId"] ?? "");
+      r["ContractId"] = s.startsWith("LC") ? s : (s ? `LC${s}` : "");
+    }
+    if ("Title" in r) r["Title"] = normalizeText(r["Title"]);
+    if ("Description" in r) r["Description"] = normalizeText(r["Description"]);
+  }
+
+  // Handle Amount Swap safely after normalizing keys
+  const cols = rows.length ? Object.keys(rows[0]) : [];
+  const amountCols = cols.filter(c => /^Amount/i.test(c));
+  if (amountCols.length >= 2) {
+    const [firstAmtCol, secondAmtCol] = amountCols;
+    for (const r of rows) {
+      const valI = r[firstAmtCol], valJ = r[secondAmtCol];
+      r[firstAmtCol] = valJ; r[secondAmtCol] = valI;
+      r["_OriginalAmount"] = String(r[firstAmtCol] ?? "");
+      r["Amount"] = String(r[secondAmtCol] ?? "");
+      for (const extraCol of amountCols.slice(1)) {
+        if (extraCol in r && extraCol !== "Amount") delete r[extraCol];
+      }
+    }
+  } else if (cols.includes("Amount")) {
+    for (const r of rows) {
+      if (!("_OriginalAmount" in r)) r["_OriginalAmount"] = String(r["Amount"] ?? "");
+    }
+  }
+
+  setProgress(ui.headers, 50, "Formatting Dates & Calculations");
+  await yieldThread();
+
+  // Pass 2: Complex derived values
+  const currencyCol = detectCurrencyColumn(rows);
+  let selectedSystem = ui.headers.businessSystem?.value || "S4QCLNT120";
+  if (selectedSystem === "__OTHER__") selectedSystem = ui.headers.businessSystemCustom?.value || "";
+
+  for (const r of rows) {
+    // Derived amount
+    if ("Unit Price" in r && "Quantity" in r) {
+      const unitPrice = Number(String(r["Unit Price"] ?? "").replace(/,/g, ""));
+      const qty = Number(String(r["Quantity"] ?? "").replace(/,/g, ""));
+      if (Number.isFinite(unitPrice) && Number.isFinite(qty)) {
+        const amountNum = unitPrice * qty;
+        let curCol = ("Unit Price Currency" in r) ? "Unit Price Currency" : ("Currency" in r ? "Currency" : null);
+        const mergedCur = curCol ? mapCurrency(r[curCol]) : "SAR";
+        r["Amount"] = amountNum > 0 ? `${amountNum.toFixed(2)} ${mergedCur}` : "";
+      }
+    }
+
+    if ("Unit Price Currency" in r) r["Unit Price Currency"] = mapCurrency(r["Unit Price Currency"]);
+    if ("Supplier" in r) r["Supplier"] = formatSupplier(r["Supplier"]);
+
+    r["HierarchicalType"] = String(r["HierarchicalType"] ?? "").trim() || "StandAlone";
+    r["ContractStatus"] = String(r["ContractStatus"] ?? "").trim() || "Published";
+    r["BaseLanguage"] = String(r["BaseLanguage"] ?? "").trim() || "English";
+    r["arb_CompanyCode"] = String(r["arb_CompanyCode"] ?? "1000").trim() || "1000";
+
+    const poOrg = String(r["arb_PurchasingOrganization"] ?? "1000").trim() || "1000";
+    r["arb_PurchasingOrganization"] = /^\d+$/.test(poOrg) ? poOrg.padStart(4, "0") : poOrg;
+    r["arb_DocumentType"] = String(r["arb_DocumentType"] ?? "").trim() || "Contract";
+
+    if ("arb_DocumentCategory" in r) {
+      const val = String(r["arb_DocumentCategory"] ?? "").trim();
+      r["arb_DocumentCategory"] = DOC_CAT_MAP[val] || val;
+    }
+
+    r["BusinessSystem"] = selectedSystem || "S4QCLNT120";
+    r["Commodity"] = "";
+    r["Region"] = String(r["Region"] ?? "").trim() || "SAU";
+
+    const clientRaw = String(r["Client"] ?? "").trim();
+    r["Client"] = (!clientRaw || Number(clientRaw) === 1000 || isNaN(Number(clientRaw))) ? "ARAMCO" : String(parseInt(clientRaw, 10));
+
+    if ("Amount" in r && !("Unit Price" in r)) {
+      const hdrCurrency = currencyCol ? mapCurrency(r[currencyCol]) : "SAR";
+      const proposedNum = cleanNum(r["_OriginalAmount"]);
+      const amountNum = cleanNum(r["Amount"]);
+      r["ProposedAmount"] = proposedNum !== null ? `${proposedNum.toFixed(2)} ${hdrCurrency}` : "";
+      r["Amount"] = amountNum !== null ? `${amountNum.toFixed(2)} ${hdrCurrency}` : "";
+      if (currencyCol && currencyCol in r) delete r[currencyCol];
+      delete r["_OriginalAmount"];
+    }
+
+    for (const dc of DATE_COLS) if (dc in r) r[dc] = formatDateValue(r[dc]);
+    for (const dyn of OPTIONAL_DYNAMIC) r[dyn] = String(r[dyn] ?? "").trim();
+
+    if ("cus_DeliveryRestriction" in r) {
+      const n = Number(r["cus_DeliveryRestriction"]);
+      r["cus_DeliveryRestriction"] = Number.isFinite(n) ? parseInt(n, 10) : "";
+    }
+
+    if ("cus_IKTVAFlag" in r) {
+      const v = String(r["cus_IKTVAFlag"]).trim().toUpperCase();
+      r["cus_IKTVAFlag"] = (v === "N") ? "No" : ((v === "Y") ? "Yes" : r["cus_IKTVAFlag"]);
+    }
+    if (r["cus_IKTVAFlag"] === "No") r["cus_IKTVATargets"] = "";
+
+    if ("cus_PlantRestrictions" in r && !("cus_PlantRestriction" in r)) {
+      r["cus_PlantRestriction"] = r["cus_PlantRestrictions"];
+      delete r["cus_PlantRestrictions"];
+    }
+  }
+
+  setProgress(ui.headers, 75, "Consolidating final outputs");
+  await yieldThread();
+
+  // Plant restriction grouping by ContractId
+  const byContract = groupBy(rows, r => String(r["ContractId"] ?? ""));
+  for (const [cid, group] of byContract.entries()) {
+    const mergedPlant = group.map(g => String(g["cus_PlantRestriction"] ?? "").trim()).find(Boolean) || "";
+    const formatted = mergedPlant
+      ? mergedPlant.split(",").map(p => p.trim()).filter(Boolean).map(p => `[${p}]`).join("")
+      : "";
+    group.forEach(g => g["cus_PlantRestriction"] = formatted);
+  }
+
+  // Deduplicate and filter final output format
+  const seenPair = new Set();
+  const seenContract = new Set();
+  const finalRows = [];
+  
+  for (const r of rows) {
+    const key = `${r["ContractId"] ?? ""}||${r["Material Number"] ?? ""}`;
+    if (("Material Number" in r) && seenPair.has(key)) continue;
+    seenPair.add(key);
+
+    const out = {};
+    OUTPUT_COLS_HEADERS.forEach(c => out[c] = r[c] ?? "");
+    finalRows.push(out);
+  }
+
+  state.lastHeaderRows = finalRows;
+  state.lastHeaderIssues = validateHeaderRows(finalRows);
+  renderIssues(state.lastHeaderIssues);
+  renderHeaderPreview(finalRows);
+  updateHeaderDataSummary(finalRows);
+
+  const deduplicatedOutput = finalRows.filter(r => {
+    const cid = String(r["ContractId"] ?? "");
+    if (!cid) return true;
+    if (seenContract.has(cid)) return false;
+    seenContract.add(cid);
+    return true;
+  });
+
+  setProgress(ui.headers, 90, "Preparing Output CSV");
+  await yieldThread();
+
+  const csv = Papa.unparse(deduplicatedOutput, { columns: OUTPUT_COLS_HEADERS, newline: "\n" });
+
+  if (previewOnly) {
+    setStatus(ui.headers, "success", "Preview Ready");
+    setProgress(ui.headers, 100, "Preview completed");
+    log(`Headers: preview completed with ${deduplicatedOutput.length} row(s)`);
+    openPreviewModal({
+      title: "Contracts.csv Preview",
+      subtitle: `${deduplicatedOutput.length} unique contract(s) prepared for output`,
+      sections: [{
+        name: "Contract Headers Output",
+        meta: `Showing up to 25 rows`,
+        html: makePreviewTable(deduplicatedOutput, 25)
+      }]
+    });
+    return;
+  }
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  state.headersDownloadUrl = url;
+  updateSummary();
+
+  showDownload(ui.headers, url, "Contracts.csv", "Download Contracts.csv");
+  setStatus(ui.headers, "success", "Completed");
+  setProgress(ui.headers, 100, "Contracts.csv generated");
+  log(`Headers: output ready, unique contracts=${deduplicatedOutput.length}`);
+}
+
+/* ============================================================================
+   Line item logic
+============================================================================ */
+function _formatCurrency(value, currency) {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return "";
+  return `${num.toFixed(2)} ${currency}`;
+}
+
+function getFormattedValue(key, val, row) {
+  if (val === null || val === undefined) val = "";
+  if (FORCE_BLANK.has(key)) return "";
+
+  if (key === "extended_price" && val !== "") {
+    const curr = row.unit_price_currency || row.contract_currency || row.currency || "SAR";
+    return _formatCurrency(val, String(curr).trim());
+  } else if (key === "plant") {
+    if (String(val).trim() === "") return "";
+    const n = Number(val);
+    return Number.isFinite(n) ? String(parseInt(n, 10)) : String(val);
+  } else if (key === "lead_time_days") {
+    return val !== "" && val !== null && val !== undefined ? String(parseInt(val, 10)) : "";
+  } else if (key === "transportation_mode") {
+    if (String(val).trim() === "") return "";
+    const n = Number(String(val).trim());
+    const codeNorm = Number.isFinite(n) ? String(parseInt(n, 10)).padStart(2, "0") : String(val).trim();
+    const modeMap = { "04": "Boat" };
+    return modeMap[codeNorm] || codeNorm;
+  } else if (key === "saudi_customs") {
+    const customsMap = { E: "E - Exempt", D: "D - Dutiable" };
+    const code = String(val).trim().toUpperCase();
+    return customsMap[code] || code;
+  } else if (["inspection_required", "hazardous_indicator", "saso_indicator"].includes(key)) {
+    return String(val).trim() === "" ? "No" : String(val);
+  } else if (key === "status") {
+    const raw = String(val).trim();
+    const code = raw.toUpperCase();
+    if (code === "L") return "Deleted";
+    if (code === "S") return "Blocked";
+    if (raw === "") return "Released";
+    return raw;
+  } else if (["manufacturing_part_text", "item_text", "inspection_text", "material_po_text"].includes(key)) {
+    return String(val).replace(/\\n/g, "\n");
+  }
+  return val;
+}
+
+function buildItemAttributes(rows) {
+  const output = [];
+
+  for (const row of rows) {
+    const desc = row.description ?? "";
+    for (const key of ATTR_ORDER) {
+      let rawVal = row[key];
+      let valFmt = getFormattedValue(key, rawVal, row);
+
+      if (["material_number", "material_code", "material_group"].includes(key) && valFmt) {
+        const n = Number(valFmt);
+        valFmt = Number.isFinite(n) ? String(parseInt(n, 10)) : String(valFmt);
+      }
+
+      if (typeof valFmt === "string" && ["nan", "none"].includes(valFmt.trim().toLowerCase())) {
+        valFmt = "";
+      }
+
+      const display = DISPLAY_FIX[key] || key.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+      output.push({
+        "Item Number": row.item_number,
+        "Attribute Name": display,
+        "Attribute Value": valFmt,
+        "Display Text": display,
+        "Type": TYPE_MAP[key] || "Text (single line limited)",
+        "Description": desc,
+        "Is Term added from Item Master": "No",
+        "Formula": "",
+        "contract_id": row.contract_id
+      });
+    }
+
+    const numRaw = row.item_number;
+    let numberStr = "";
+    if (numRaw !== null && numRaw !== undefined) {
+      const s = String(numRaw).trim();
+      const digits = [...s].filter(ch => /\d/.test(ch)).join("");
+      numberStr = (digits || s).padStart(4, "0");
+    }
+
+    output.push({
+      "Item Number": row.item_number,
+      "Attribute Name": "Number",
+      "Attribute Value": numberStr,
+      "Display Text": "Number",
+      "Type": "Text",
+      "Description": desc,
+      "Is Term added from Item Master": "No",
+      "Formula": "",
+      "contract_id": row.contract_id
+    });
+  }
+
+  return output;
+}
+
+async function processLineItems(files, options, previewOnly = false) {
+  hideItemsDownload();
+  setStatus(ui.items, "running", previewOnly ? "Preview" : "In Progress");
+  setProgress(ui.items, 10, "Reading input file(s)");
+  await yieldThread();
+
+  const inputFiles = Array.isArray(files) ? files : [files];
+  if (!inputFiles.length) throw new Error("No input files selected.");
+
+  let rows = [];
+  for (const file of inputFiles) {
+    log(`LineItems: reading file ${file.name}`);
+    const ext = file.name.toLowerCase().split(".").pop();
+    let fileRows = [];
+
+    if (ext === "json") {
+      fileRows = JSON.parse(await file.text());
+    } else if (ext === "csv") {
+      const text = await file.text();
+      fileRows = Papa.parse(text, { header: true, skipEmptyLines: false }).data;
+    } else {
+      throw new Error(`Unsupported file type: ${ext}`);
+    }
+    rows.push(...fileRows);
+  }
+
+  setProgress(ui.items, 25, "Normalizing inputs");
+  await yieldThread();
+  
+  rows = snakeColumns(rows);
+  rows.forEach(r => {
+    if ("contractid" in r && !("contract_id" in r)) r.contract_id = r.contractid;
+  });
+
+  log(`LineItems: rows loaded = ${rows.length}`);
+
+  for (const r of rows) {
+    if (r.contract_id !== undefined) {
+      r.contract_id = String(r.contract_id).replace(/\D/g, "").padStart(10, "0");
+    }
+
+    if ("item_category" in r) {
+      if (r.item_category === 0 || r.item_category === "0" || r.item_category === "" || r.item_category == null) {
+        r.item_category = DEFAULT_ITEM_CATEGORY;
+      }
+    } else {
+      r.item_category = DEFAULT_ITEM_CATEGORY;
+    }
+
+    if (!("plant" in r)) {
+      r.plant = "";
+    } else {
+      const s = String(r.plant ?? "").trim();
+      r.plant = ["", "0", "nan", "NaN", "None"].includes(s) ? "" : "2001";
+    }
+
+    delete r.incoterms;
+    delete r.incoterms_location;
+
+    for (const key of Object.keys(r)) {
+      if (typeof r[key] === "string") r[key] = r[key].trim();
+    }
+
+    if ("unit_price" in r) {
+      const n = Number(String(r.unit_price).replace(/,/g, ""));
+      r.unit_price = Number.isFinite(n) ? n : 0;
+    }
+    if ("quantity" in r) {
+      const n = Number(String(r.quantity).replace(/,/g, ""));
+      r.quantity = Number.isFinite(n) ? n : 0;
+    }
+    if ("lead_time_days" in r) {
+      const n = Number(r.lead_time_days);
+      r.lead_time_days = Number.isFinite(n) ? n : "";
+    }
+
+    if ("unit_price" in r && "quantity" in r) {
+      r.extended_price = (Number(r.unit_price) || 0) * (Number(r.quantity) || 0);
+    } else {
+      r.extended_price = "";
+    }
+  }
+
+  state.lastItemRows = rows.map(r => ({ ...r }));
+  state.lastItemIssues = validateLineItemRows(state.lastItemRows);
+  renderIssues(state.lastItemIssues);
+
+  setProgress(ui.items, 40, "Building Attribute Definitions");
+  await yieldThread();
+  const itemAttrRows = buildItemAttributes(rows);
+
+  if (previewOnly) {
+    const previewGroups = groupBy(rows, r => r.contract_id || "");
+    const firstEntry = previewGroups.entries().next().value;
+    if (!firstEntry) throw new Error("No contract groups available for preview.");
+    
+    const [previewContractId, previewRows] = firstEntry;
+    const previewItemAttrRows = itemAttrRows
+      .filter(r => r.contract_id === previewContractId)
+      .map(r => {
+        const out = { ...r };
+        delete out.contract_id;
+        return out;
+      });
+      
+    const previewContentRows = previewRows.map(r => {
+      const out = {};
+      Object.entries(r).forEach(([k, v]) => {
+        const key = k === "extended_description" ? "Extended Description" : k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        out[key] = v;
+      });
+      return out;
+    });
+    
+    setStatus(ui.items, "success", "Preview Ready");
+    setProgress(ui.items, 100, "Preview completed");
+    log(`LineItems: preview completed, contracts=${new Set(rows.map(r => r.contract_id)).size}`);
+    
+    openPreviewModal({
+      title: `Excel Preview • Contract ${previewContractId}`,
+      subtitle: `Preview of workbook sheets before generation`,
+      sections: [
+        {
+          name: "Contract Header",
+          meta: `${HEADER_TEMPLATE_COLUMNS.length} column(s)`,
+          html: makePreviewTable([Object.fromEntries(HEADER_TEMPLATE_COLUMNS.map(col => [col, ""]))], 1)
+        },
+        {
+          name: "Contract Item Information",
+          meta: `${previewRows.length} row(s) in selected contract`,
+          html: makePreviewTable(previewContentRows, 20)
+        },
+        {
+          name: "Header Attributes",
+          meta: `Browser version placeholder sheet`,
+          html: '<div class="issue-empty">Header Attributes is currently generated as an empty placeholder in the browser build.</div>'
+        },
+        {
+          name: "Item Attributes",
+          meta: `${previewItemAttrRows.length} attribute row(s)`,
+          html: makePreviewTable(previewItemAttrRows, 20)
+        }
+      ]
+    });
+    return;
+  }
+
+  setProgress(ui.items, 50, "Grouping Data by Contract");
+  await yieldThread();
+
+  const groups = groupBy(rows, r => r.contract_id || "");
+  // O(N) optimization: Pre-group attribute rows so we don't scan all records repeatedly inside loop
+  const attrGroups = groupBy(itemAttrRows, r => r.contract_id || "");
+  
+  state.lastWorkbookPreviews = Array.from(groups.keys()).filter(Boolean).map(cid => ({ contractId: cid }));
+  updateSummary();
+  
+  let processed = 0;
+  const total = groups.size || 1;
+
+  for (const [cid, grp] of groups.entries()) {
+    const g = grp.map(r => ({ ...r }));
+
+    for (const row of g) {
+      row.extended_description = row.description ?? "";
+      row.commodity = "";
+      row.classification_code = "";
+    }
+
+    const contentSheetRows = g.map(r => {
+      const out = {};
+      for (const [k, v] of Object.entries(r)) {
+        let newKey = k === "extended_description" ? "Extended Description" : k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        out[newKey] = v;
+      }
+      for (const col of CONTRACT_ITEM_COLUMNS) {
+        if (!(col in out)) out[col] = "";
+      }
+      return out;
+    });
+
+    let itemAttrSheet = (attrGroups.get(cid) || []).map(r => {
+      const out = { ...r };
+      delete out.contract_id;
+      return out;
+    });
+
+    const seen = new Set();
+    itemAttrSheet = itemAttrSheet.filter(r => {
+      const key = `${r["Item Number"]}||${r["Attribute Name"]}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const wb = XLSX.utils.book_new();
+
+    // Add standard document properties. This prevents Windows Defender / SmartScreen
+    // from heuristically flagging the browser-generated file as "potentially harmful".
+    wb.Props = {
+      Title: `Contract ${cid} Import Data`,
+      Subject: "Aridata Export",
+      Author: "Aridata Contract Processor",
+      CreatedDate: new Date()
+    };
+
+    // Contract Header
+    const headerSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_json(headerSheet, [], { header: HEADER_TEMPLATE_COLUMNS, skipHeader: false });
+    XLSX.utils.book_append_sheet(wb, headerSheet, "Contract Header");
+
+    // Contract Item Information
+    const contractItemSheet = XLSX.utils.json_to_sheet(toSheetRows(contentSheetRows, CONTRACT_ITEM_COLUMNS));
+    XLSX.utils.book_append_sheet(wb, contractItemSheet, "Contract Item Information");
+
+    // Header Attributes (empty placeholder in this JS version)
+    const headerAttrSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.book_append_sheet(wb, headerAttrSheet, "Header Attributes");
+
+    // Item Attributes
+    const itemAttrColumns = [
+      "Item Number", "Attribute Name", "Attribute Value", "Display Text",
+      "Type", "Description", "Is Term added from Item Master", "Formula"
+    ];
+    const itemAttrSheetWs = XLSX.utils.json_to_sheet(toSheetRows(itemAttrSheet, itemAttrColumns));
+    XLSX.utils.book_append_sheet(wb, itemAttrSheetWs, "Item Attributes");
+
+    const wbArray = XLSX.write(wb, { bookType: "xlsx", type: "array", compression: true });
+    const blob = new Blob([wbArray], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const url = URL.createObjectURL(blob);
+    state.generatedItemFiles.push({ name: `LC${cid}.xlsx`, url });
+
+    processed++;
+    if (processed % 15 === 0 || processed === total) {
+      const pct = 50 + Math.round((processed / total) * 45);
+      setProgress(ui.items, pct, `Generated workbook ${processed} of ${total}`);
+      await yieldThread();
+    }
+  }
+
+  setProgress(ui.items, 98, "Finalizing files");
+  await yieldThread();
+  
+  ui.items.downloadList.innerHTML = "";
+  state.generatedItemFiles.forEach(file => {
+    const a = document.createElement("a");
+    a.className = "btn btn-secondary";
+    a.style.justifyContent = "flex-start";
+    a.href = file.url;
+    a.download = file.name;
+    a.innerHTML = `<iconify-icon icon="mdi:file-excel" style="color:#107c41;"></iconify-icon> ${file.name}`;
+    ui.items.downloadList.appendChild(a);
+  });
+
+  ui.items.downloadBox.classList.add("show");
+  setStatus(ui.items, "success", "Completed");
+  setProgress(ui.items, 100, "Files generated successfully");
+  saveSettingsItems(inputFiles.map(f => f.name).join(", "));
+  log(`LineItems: output ready, contracts=${groups.size}`);
+}
+
+/* ============================================================================
+   Tab handling & Core Wiring
+============================================================================ */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const tab = btn.dataset.tab;
+    document.getElementById("tab-headers").classList.toggle("hidden", tab !== "headers");
+    document.getElementById("tab-items").classList.toggle("hidden", tab !== "items");
+  });
+});
+
+wireDropzone(ui.headers.dropzone, ui.headers.fileInput, file => {
+  state.headersFile = file;
+  const label = `Selected: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+  ui.headers.fileName.textContent = label;
+  ui.headers.fileDisplay.textContent = label;
+  ui.headers.preview.disabled = false;
+  ui.headers.validate.disabled = false;
+  ui.headers.run.disabled = false;
+  setStatus(ui.headers, "idle", "Ready");
+  setProgress(ui.headers, 0, "File selected");
+  log(`Headers: file selected ${file.name}`);
+  updateSummary();
+});
+
+wireDropzone(ui.items.dropzone, ui.items.fileInput, files => {
+  state.itemsFiles = Array.isArray(files) ? files : [files];
+  updateItemsSelectionUi();
+  setStatus(ui.items, "idle", "Ready");
+  setProgress(ui.items, 0, state.itemsFiles.length > 1 ? "Files selected" : "File selected");
+  log(`LineItems: ${state.itemsFiles.length} file(s) selected`);
+  updateSummary();
+});
+
+ui.preview.close.addEventListener("click", closePreviewModal);
+ui.preview.modal.addEventListener("click", e => {
+  if (e.target === ui.preview.modal) closePreviewModal();
+});
+
+/* ==========================================================================
+   Button events
+============================================================================ */
+document.getElementById("itemsNew").addEventListener("click", () => {
+  state.itemsFiles = [];
+  ui.items.fileInput.value = "";
+  updateItemsSelectionUi();
+  setStatus(ui.items, "idle", "Idle");
+  setProgress(ui.items, 0, "New task started");
+  log("LineItems: new task initialized");
+  hideItemsDownload();
+  state.lastItemRows = [];
+  state.lastItemIssues = [];
+  state.lastWorkbookPreviews = [];
+  renderIssues([]);
+  updateSummary();
+});
+
+document.getElementById("itemsClear").addEventListener("click", () => {
+  state.itemsFiles = [];
+  ui.items.fileInput.value = "";
+  updateItemsSelectionUi();
+  setStatus(ui.items, "idle", "Idle");
+  setProgress(ui.items, 0, "Selection cleared");
+  hideItemsDownload();
+  state.lastItemRows = [];
+  state.lastItemIssues = [];
+  state.lastWorkbookPreviews = [];
+  renderIssues([]);
+  updateSummary();
+  log("LineItems: selection cleared");
+});
+
+document.getElementById("headersClear").addEventListener("click", () => {
+  state.headersFile = null;
+  ui.headers.fileInput.value = "";
+  ui.headers.fileName.textContent = "No file selected.";
+  ui.headers.fileDisplay.textContent = "No file selected.";
+  ui.headers.preview.disabled = true;
+  ui.headers.validate.disabled = true;
+  ui.headers.run.disabled = true;
+  setStatus(ui.headers, "idle", "Idle");
+  setProgress(ui.headers, 0, "Selection cleared");
+  hideDownload(ui.headers, "headersDownloadUrl");
+  state.lastHeaderRows = [];
+  state.lastHeaderIssues = [];
+  renderIssues([]);
+  resetHeaderPreview();
+  updateSummary();
+  log("Headers: selection cleared");
+});
+
+const wrapAsyncAction = (area, fn) => async () => {
+  try {
+    await fn();
+  } catch(e) {
+    setStatus(area, "error", "Failed");
+    setProgress(area, 100, "Processing failed");
+    log(`ERROR: ${e.message}`, "error");
+    alert(`Processing failed:\n${e.message}`);
+  }
+};
+
+ui.headers.validate.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
+  if (!state.headersFile) return;
+  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, true);
+  log(`Headers: validation completed, issues=${state.lastHeaderIssues.length}`);
+}));
+
+ui.headers.preview.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
+  if (!state.headersFile) return;
+  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, true);
+}));
+
+ui.headers.run.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
+  if (!state.headersFile) return;
+  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, false);
+}));
+
+ui.items.validate.addEventListener("click", wrapAsyncAction(ui.items, async () => {
+  if (!state.itemsFiles.length) return;
+  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, true);
+  log(`LineItems: validation completed, issues=${state.lastItemIssues.length}`);
+}));
+
+ui.items.preview.addEventListener("click", wrapAsyncAction(ui.items, async () => {
+  if (!state.itemsFiles.length) return;
+  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, true);
+}));
+
+ui.items.run.addEventListener("click", wrapAsyncAction(ui.items, async () => {
+  if (!state.itemsFiles.length) return;
+  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, false);
+}));
+
+ui.items.downloadAllBtn.addEventListener("click", async () => {
+  if (!state.generatedItemFiles.length) return;
+  log(`LineItems: starting batch download of ${state.generatedItemFiles.length} files`);
+  for (let i = 0; i < state.generatedItemFiles.length; i++) {
+    const file = state.generatedItemFiles[i];
+    const a = document.createElement("a");
+    a.href = file.url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    // Stagger downloads by 300ms to prevent browser blocking
+    if (i < state.generatedItemFiles.length - 1) await new Promise(r => setTimeout(r, 300));
+  }
+});
+
+/* ============================================================================
+   Init
+============================================================================ */
+ui.headers.businessSystem.addEventListener("change", () => {
+  if (ui.headers.businessSystem.value === "__OTHER__") {
+    ui.headers.businessSystemCustom.style.display = "block";
+    ui.headers.businessSystemCustom.focus();
+  } else {
+    ui.headers.businessSystemCustom.style.display = "none";
+  }
+});
+
+setStatus(ui.headers, "idle", "Idle");
+ui.headers.fileDisplay.textContent = "No file selected.";
+setProgress(ui.headers, 0, "Waiting for file...");
+setStatus(ui.items, "idle", "Idle");
+setProgress(ui.items, 0, "Waiting for file...");
+log("Application ready. Welcome to Aridata!");
+renderIssues([]);
+resetHeaderPreview();
+updateSummary();
+log("Upload a file using the tabs above to get started. All processing happens locally in your browser.");
+
+document.getElementById("sessionTime").textContent =
+  new Date().toLocaleString('en-US',{
+    dateStyle:"medium",
+    timeStyle:"short"
+  });
+</script>
+</body>
+</html>

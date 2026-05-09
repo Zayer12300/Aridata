@@ -58,7 +58,14 @@ async function runItems(){
     let rows;
 
     if(file.name.endsWith(".json")){
-        rows = JSON.parse(text);
+        try {
+            const parsed = JSON.parse(text);
+            if(!Array.isArray(parsed)) throw new Error("JSON root must be an array");
+            rows = parsed;
+        } catch(e) {
+            alert("Invalid JSON file: " + e.message);
+            return;
+        }
     }else{
         rows = Papa.parse(text,{header:true}).data;
     }

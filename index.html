@@ -2413,7 +2413,7 @@ async function processLineItems(files, options, previewOnly = false) {
     a.style.justifyContent = "flex-start";
     a.href = file.url;
     a.download = file.name;
-    a.innerHTML = `<iconify-icon icon="mdi:file-excel" style="color:#107c41;"></iconify-icon> ${file.name}`;
+    a.innerHTML = `<iconify-icon icon="mdi:file-excel" style="color:#107c41;"></iconify-icon> ${escapeHtml(file.name)}`;
     ui.items.downloadList.appendChild(a);
   });
 

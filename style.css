@@ -4,7 +4,7 @@ body{
   background-color:var(--bg-dark);
   background-image:
     linear-gradient(rgba(24,18,16,0.42), rgba(24,18,16,0.42)),
-    url("/Users/ahmedalzayer/Downloads/UnifiedSAPContractTool 2/assets/Teams-Background_2025_1-03-07-2026_12_24_AM.png");
+    url("./assets/Teams-Background_2025_1-03-07-2026_12_24_AM.png");
   background-repeat:no-repeat;
   background-position:center center;
   background-attachment:fixed;

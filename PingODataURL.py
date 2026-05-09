@@ -4,6 +4,7 @@ SAP OData Ping Utility — DEV 110
 Pings all configured OData service endpoints and reports their status.
 """
 
+import os
 import requests
 from requests.auth import HTTPBasicAuth
 import urllib3
@@ -18,9 +19,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 #  CONFIGURATION
 # ══════════════════════════════════════════════════════════════════
 
-USERNAME    = "ZTEST1_SD110"
-PASSWORD    = "Welcome@123456789"
-ENVIRONMENT = "DEV 110"
+USERNAME    = os.environ["SAP_USERNAME"]
+PASSWORD    = os.environ["SAP_PASSWORD"]
+ENVIRONMENT = os.environ.get("SAP_ENVIRONMENT", "DEV 110")
 TIMEOUT     = 15          # seconds per request
 VERIFY_SSL  = False       # set to "/path/to/ca-bundle.pem" if you have the corp cert
 
@@ -46,9 +47,6 @@ ODATA_SERVICES = [
 # ══════════════════════════════════════════════════════════════════
 #  STATUS HELPERS
 # ══════════════════════════════════════════════════════════════════
-
-# HTTP codes that mean "service is alive"
-ALIVE_CODES = {200, 201, 204, 400, 401, 403, 404, 405, 500}
 
 def resolve_status(http_code: int) -> tuple[str, str]:
     """Return (icon_label, note) based on HTTP response code."""

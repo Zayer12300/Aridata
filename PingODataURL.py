@@ -181,7 +181,7 @@ def print_header():
     print("─" * 110)
 
 def print_result(idx: int, result: dict):
-    http_str = str(result["http"]) if result["http"] else "—"
+    http_str = str(result["http"]) if result["http"] is not None else "—"
     ms_str   = f"{result['ms']} ms"
     note     = result["note"] or ""
     print(f"  {idx:<4} {result['name']:<28} {result['status']:<18} {http_str:<7} {ms_str:>9}  {note}")

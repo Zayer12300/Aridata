@@ -1970,7 +1970,7 @@ async function processHeaders(file, options, previewOnly = false) {
 
     if ("cus_DeliveryRestriction" in r) {
       const n = Number(r["cus_DeliveryRestriction"]);
-      r["cus_DeliveryRestriction"] = Number.isFinite(n) ? parseInt(n, 10) : "";
+      r["cus_DeliveryRestriction"] = Number.isFinite(n) ? String(Math.trunc(n)) : "";
     }
 
     if ("cus_IKTVAFlag" in r) {
@@ -2092,7 +2092,7 @@ function getFormattedValue(key, val, row) {
     const code = String(val).trim().toUpperCase();
     return customsMap[code] || code;
   } else if (["inspection_required", "hazardous_indicator", "saso_indicator"].includes(key)) {
-    return String(val).trim() === "" ? "No" : String(val);
+    return (!val || String(val).trim() === "") ? "No" : String(val);
   } else if (key === "status") {
     const raw = String(val).trim();
     const code = raw.toUpperCase();
@@ -2228,11 +2228,11 @@ async function processLineItems(files, options, previewOnly = false) {
 
     if ("unit_price" in r) {
       const n = Number(String(r.unit_price).replace(/,/g, ""));
-      r.unit_price = Number.isFinite(n) ? n : 0;
+      r.unit_price = Number.isFinite(n) ? n : "";
     }
     if ("quantity" in r) {
       const n = Number(String(r.quantity).replace(/,/g, ""));
-      r.quantity = Number.isFinite(n) ? n : 0;
+      r.quantity = Number.isFinite(n) ? n : "";
     }
     if ("lead_time_days" in r) {
       const n = Number(r.lead_time_days);
@@ -2240,7 +2240,7 @@ async function processLineItems(files, options, previewOnly = false) {
     }
 
     if ("unit_price" in r && "quantity" in r) {
-      r.extended_price = (Number(r.unit_price) || 0) * (Number(r.quantity) || 0);
+      r.extended_price = (r.unit_price !== "" && r.quantity !== "") ? r.unit_price * r.quantity : "";
     } else {
       r.extended_price = "";
     }

@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/svg+xml" href="./assets/Favicon.svg?v=5" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png?v=5" />
-  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png?v=5" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png?v=5" />
-  <link rel="shortcut icon" href="./assets/favicon.ico?v=5" />
-  <meta name="theme-color" content="#D34209" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+  <link rel="shortcut icon" href="./assets/favicon.ico">
+  <meta name="theme-color" content="#ea580c" />
   <title>Aridata | Ariba Contract Data Processor</title>
 
   <!-- Browser libs -->
@@ -22,7 +23,7 @@
       --bg:#f8f5f1;
       --card:#fffaf5;
       --card-strong:rgba(255,248,240,0.97);
-      --card-soft:rgba(255,250,245,0.94);
+      --card-soft:rgba(255,250,245,0.95);
       --line:#e7d7c8;
       --line-strong:#d8c1ad;
       --text:#2f1e14;
@@ -45,11 +46,8 @@
     body{
       margin:0;
       background:
-        linear-gradient(rgba(25,18,14,0.38), rgba(25,18,14,0.34)),
-        url("./assets/Teams-Background_2025_3-03-08-2026_12_22_AM.png");
-      background-size:cover;
-      background-position:center;
-      background-attachment:fixed;
+        linear-gradient(rgba(25,18,14,0.52), rgba(25,18,14,0.52)),
+        url("./assets/Teams-Background_2025_3-03-08-2026_12_22_AM.png") center center / cover no-repeat fixed;
       color:var(--text);
       font-family:Inter,"Segoe UI",Arial,sans-serif;
       min-height:100vh;
@@ -66,11 +64,8 @@
       position:fixed;
       inset:0;
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.10), transparent 24%),
-        radial-gradient(circle at top right, rgba(234,88,12,0.14), transparent 30%),
-        linear-gradient(rgba(255,248,240,0.06), rgba(58,33,20,0.08));
-      backdrop-filter:blur(4px);
-      -webkit-backdrop-filter:blur(4px);
+        radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 24%),
+        radial-gradient(circle at top right, rgba(234,88,12,0.08), transparent 30%);
       pointer-events:none;
       z-index:-1;
     }
@@ -106,12 +101,14 @@
       margin-bottom:6px;
     }
     h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.03em;color:var(--navy);text-transform:uppercase}
-    iconify-icon{font-size:18px}
-    .tab-btn iconify-icon{font-size:18px}
-    .section-title iconify-icon{font-size:22px}
-    .dropzone iconify-icon{font-size:52px;opacity:.85;filter:drop-shadow(0 2px 6px rgba(234,88,12,.25))}
-    .preview-toolbar iconify-icon{font-size:18px}
-    .btn iconify-icon{font-size:18px}
+    iconify-icon{font-size:20px}
+    .tab-btn iconify-icon{font-size:18px;opacity:.8}
+    .tab-btn.active iconify-icon{opacity:1;color:#fff}
+    .tab-btn:not(.active) iconify-icon{color:#94a3b8}
+    .section-title iconify-icon{font-size:24px}
+    .dropzone iconify-icon{font-size:56px;opacity:.85;filter:drop-shadow(0 2px 6px rgba(234,88,12,.25))}
+    .preview-toolbar iconify-icon{font-size:20px}
+    .btn iconify-icon{font-size:20px}
     .subtitle{margin-top:10px;color:var(--text-soft);font-size:15px;line-height:1.55;max-width:720px}
     .badge{
       background:linear-gradient(180deg,#eff6ff 0%, #dbeafe 100%);
@@ -127,41 +124,39 @@
 
     .tabs{
       display:flex;
-      gap:10px;
+      gap:2px;
       margin-bottom:18px;
-      padding:6px;
+      padding:4px;
       width:max-content;
-      background:rgba(255,255,255,0.92);
-      border:1px solid rgba(219,228,240,0.8);
-      border-radius:14px;
-      box-shadow:var(--shadow-soft);
+      background:rgba(255,255,255,0.90);
+      border:1px solid rgba(0,0,0,0.09);
+      border-radius:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.08);
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px);
     }
     .tab-btn{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:7px;
       background:transparent;
-      border:1px solid transparent;
-      color:var(--muted);
-      padding:12px 16px;
-      border-radius:10px;
+      border:none;
+      color:#64748b;
+      padding:9px 18px;
+      border-radius:9px;
       cursor:pointer;
-      font-weight:800;
-      box-shadow:none;
-      transition:.18s ease;
+      font-weight:600;
+      font-size:13.5px;
+      transition:.15s ease;
     }
     .tab-btn.active{
       color:#ffffff;
-      border-color:#ea580c;
-      background:linear-gradient(135deg,#fb923c 0%, #ea580c 55%, #c2410c 100%);
-      box-shadow:0 10px 24px rgba(234,88,12,.28);
+      background:#ea580c;
+      box-shadow:0 2px 8px rgba(234,88,12,.28);
     }
-    .tab-btn:hover{
-      color:var(--primary-dark);
-      background:#fff4ed;
-      border-color:#fed7aa;
+    .tab-btn:hover:not(.active){
+      color:#c2410c;
+      background:rgba(234,88,12,.07);
     }
 
     .grid{
@@ -170,55 +165,39 @@
       gap:18px;
     }
     .summary-grid{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:14px;
-      margin-bottom:18px;
-    }
-    .metric{
-      background:var(--card-soft);
-      border:1px solid rgba(219,228,240,0.9);
-      border-radius:18px;
-      box-shadow:var(--shadow-soft);
-      padding:18px 18px 18px 22px;
+      display:flex;
+      margin-bottom:14px;
+      background:rgba(255,255,255,0.90);
+      border:1px solid rgba(0,0,0,0.08);
+      border-radius:14px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.07);
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px);
-      border-left:4px solid var(--line-strong);
-      transition:.18s ease;
-      position:relative;
       overflow:hidden;
     }
-    .metric:hover{
-      transform:translateY(-2px);
-      box-shadow:var(--shadow);
-      border-left-color:#ea580c;
+    .metric{
+      flex:1;
+      padding:18px 16px;
+      text-align:center;
+      border-right:1px solid rgba(0,0,0,0.07);
     }
-    .metric::before{
-      content:"";
-      position:absolute;
-      top:0; right:0;
-      width:60px; height:60px;
-      border-radius:0 18px 0 60px;
-      background:linear-gradient(135deg,rgba(234,88,12,0.07),transparent);
-      pointer-events:none;
-    }
+    .metric:last-child{ border-right:none; }
     .metric-label{
       display:flex;
       align-items:center;
-      gap:6px;
-      font-size:11px;
-      color:#64748b;
-      font-weight:800;
-      margin-bottom:10px;
+      justify-content:center;
+      gap:5px;
+      font-size:10.5px;
+      color:#94a3b8;
+      font-weight:600;
       text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-    .metric-label iconify-icon{ font-size:14px; }
-    .metric-value{
-      font-size:36px;
-      font-weight:900;
-      line-height:1;
+      letter-spacing:.07em;
       margin-bottom:8px;
+    }
+    .metric-label iconify-icon{ font-size:15px; }
+    .metric-value{
+      font-size:30px;
+      font-weight:900;
       color:var(--navy);
       letter-spacing:-.03em;
     }
@@ -235,45 +214,75 @@
     .issue-list{
       display:flex;
       flex-direction:column;
-      gap:10px;
+      gap:6px;
       max-height:320px;
       overflow:auto;
       padding-right:4px;
     }
-    .issue-list::-webkit-scrollbar{width:4px}
+    .issue-list::-webkit-scrollbar{width:3px}
     .issue-list::-webkit-scrollbar-track{background:transparent}
-    .issue-list::-webkit-scrollbar-thumb{background:rgba(234,88,12,.25);border-radius:99px}
+    .issue-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:99px}
     .issue-empty{
-      font-size:13px;
+      font-size:14px;
       color:var(--muted);
       padding:10px 0;
     }
     .issue-item{
-      border:1px solid #fde68a;
-      background:#fffbeb;
-      border-radius:12px;
-      padding:12px;
+      border:1px solid #e5e7eb;
+      border-left:3px solid #f59e0b;
+      background:#fff;
+      border-radius:8px;
+      padding:10px 12px;
     }
     .issue-item.error{
-      border-color:#fecaca;
-      background:#fef2f2;
+      border-color:#e5e7eb;
+      border-left-color:#ef4444;
     }
     .issue-title{
-      font-size:13px;
-      font-weight:800;
+      font-size:14px;
+      font-weight:700;
       margin-bottom:4px;
     }
     .issue-meta{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.45;
+      font-size:13px;
+      color:#475569;
+      line-height:1.5;
       white-space:pre-wrap;
     }
+    .issue-toplist{
+      margin-bottom:10px;
+      border:1px solid var(--line);
+      background:#f8fafc;
+      border-radius:8px;
+      padding:8px 10px;
+    }
+    .issue-top-title{
+      font-size:13px;
+      font-weight:700;
+      color:#475569;
+      margin-bottom:6px;
+    }
+    .issue-top-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:13px;
+      color:#334155;
+      padding:5px 0;
+      border-top:1px dashed #e2e8f0;
+    }
+    .issue-top-row:first-of-type{ border-top:none; }
+    .issue-top-count{
+      font-weight:800;
+      color:#b91c1c;
+      white-space:nowrap;
+    }
     .mini-note{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:8px;
-      line-height:1.45;
+      font-size:11.5px;
+      color:#94a3b8;
+      margin-top:10px;
+      line-height:1.5;
     }
     .preview-modal{
       position:fixed;
@@ -405,7 +414,7 @@
       padding-bottom:10px;
       border-bottom:1px solid var(--line);
     }
-    .section-title iconify-icon{ font-size:20px; flex-shrink:0; }
+    .section-title iconify-icon{ font-size:24px; flex-shrink:0; }
     .section-sub{
       margin:0 0 18px 0;
       color:var(--text-soft);
@@ -484,7 +493,7 @@
       transition:.18s ease;
     }
     .btn-primary{background:linear-gradient(135deg,#fb923c 0%, #ea580c 55%, #c2410c 100%);color:#fff;box-shadow:0 12px 24px rgba(234,88,12,.22)}
-    .btn-primary:hover{background:linear-gradient(135deg,#fdba74 0%, #ea580c 55%, #c2410c 100%);transform:translateY(-1px)}
+    .btn-primary:hover:not(:disabled){background:linear-gradient(135deg,#fdba74 0%, #ea580c 55%, #c2410c 100%);transform:translateY(-1px)}
     .btn-secondary{
       background:#ffffff;
       border:1px solid var(--line);
@@ -596,7 +605,7 @@
       font-weight:800;
       border:1px solid transparent;
     }
-    .idle{background:#f8fafc;color:#64748b;border-color:#e2e8f0}
+    .idle{display:none}
     .running{background:#fff4ed;color:#c2410c;border-color:#fed7aa}
     .running::before{
       content:"";
@@ -673,7 +682,162 @@
       border-radius:14px;
       box-shadow:0 4px 16px rgba(21,128,61,.10);
     }
-    .download-box.show{display:block}
+    .download-box.show{
+      display:block;
+      animation:downloadPop .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes downloadPop{
+      from{ opacity:0; transform:translateY(10px) scale(.97); }
+      to{ opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    .download-btn-full{ width:100%; justify-content:center; }
+    /* â”€â”€ Modern Acknowledge Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .ack-overlay{
+      display:none;
+      position:fixed;
+      top:0; left:0; right:0; bottom:0;
+      z-index:9999;
+      background:rgba(15,23,42,.45);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      align-items:center;
+      justify-content:center;
+    }
+    .ack-overlay.show{ display:flex; animation:ackFadeIn .3s ease; }
+    @keyframes ackFadeIn{ from{opacity:0} to{opacity:1} }
+    .ack-card{
+      background:#fff;
+      border-radius:20px;
+      padding:40px 44px;
+      max-width:440px;
+      width:92%;
+      box-shadow:
+        0 4px 6px rgba(0,0,0,.04),
+        0 12px 40px rgba(0,0,0,.12),
+        0 0 0 1px rgba(0,0,0,.06);
+      animation:ackSlideUp .4s cubic-bezier(.34,1.3,.64,1);
+      position:relative;
+      overflow:hidden;
+    }
+    .ack-card::before{
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:4px;
+      background:linear-gradient(90deg,#16a34a,#22c55e,#86efac);
+    }
+    @keyframes ackSlideUp{ from{opacity:0;transform:translateY(24px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .ack-icon{
+      width:64px; height:64px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+      border:2px solid #bbf7d0;
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 20px;
+    }
+    .ack-icon svg{ width:32px; height:32px; color:#16a34a; }
+    .ack-title{
+      text-align:center;
+      font-size:20px;
+      font-weight:700;
+      color:#0f172a;
+      margin-bottom:6px;
+      letter-spacing:-.3px;
+    }
+    .ack-sub{
+      text-align:center;
+      font-size:13px;
+      color:#64748b;
+      margin-bottom:24px;
+      line-height:1.5;
+    }
+    .ack-stats{
+      background:#f8fafc;
+      border:1px solid #e2e8f0;
+      border-radius:12px;
+      padding:14px 18px;
+      margin-bottom:20px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .ack-stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:14px;
+    }
+    .ack-stat-label{ color:#475569; display:flex; align-items:center; gap:6px; }
+    .ack-stat-label iconify-icon{ font-size:16px; color:#94a3b8; }
+    .ack-stat-value{ font-weight:600; color:#0f172a; font-size:14px; }
+    .ack-certify{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#fffbeb;
+      border:1px solid #fde68a;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:20px;
+      cursor:pointer;
+      transition:background .15s ease;
+    }
+    .ack-certify:hover{ background:#fef9c3; }
+    .ack-certify input{ margin-top:2px; accent-color:#16a34a; width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+    .ack-certify-text{
+      font-size:12.5px;
+      color:#92400e;
+      line-height:1.5;
+    }
+    .ack-actions{ display:flex; gap:10px; }
+    .ack-btn{
+      flex:1;
+      padding:13px 20px;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      border:none;
+      transition:all .15s ease;
+      text-align:center;
+    }
+    .ack-btn-primary{
+      background:linear-gradient(135deg,#16a34a,#15803d);
+      color:#fff;
+      box-shadow:0 4px 14px rgba(21,128,61,.35);
+    }
+    .ack-btn-primary:hover{ transform:translateY(-1px); box-shadow:0 6px 20px rgba(21,128,61,.4); }
+    .ack-btn-primary:disabled{ opacity:.45; cursor:not-allowed; transform:none; box-shadow:none; }
+    .ack-btn-secondary{
+      background:#f1f5f9;
+      color:#475569;
+      border:1px solid #e2e8f0;
+    }
+    .ack-btn-secondary:hover{ background:#e2e8f0; color:#0f172a; }
+
+    .download-check{
+      width:42px; height:42px;
+      border-radius:50%;
+      background:#16a34a;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+      box-shadow:0 2px 8px rgba(21,128,61,.3);
+    }
+    .download-check svg{ width:22px; height:22px; color:#fff; }
+    .download-success-text{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .download-success-text strong{ font-size:16px; color:#15803d; }
+    .download-meta-row{
+      display:flex; gap:16px; margin-bottom:12px;
+    }
+    .download-meta-item{
+      display:flex; align-items:center; gap:5px;
+      font-size:12px; color:#64748b;
+    }
+    .download-meta-item iconify-icon{ font-size:14px; }
+    .download-btn-full{ width:100%; justify-content:center; }
     .preview-section{
       margin-top:24px;
       background:linear-gradient(180deg,#fff8f1 0%, #fffaf5 100%);
@@ -726,7 +890,7 @@
     .data-summary{
       margin-top:14px;
       display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-columns:repeat(5,minmax(0,1fr));
       gap:10px;
     }
     .data-summary-item{
@@ -774,7 +938,7 @@
     @media (max-width: 960px){
       .grid{grid-template-columns:1fr}
       .header-inner{flex-direction:column}
-      .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .summary-grid{grid-template-columns:1fr 1fr}
       .meta-layout{grid-template-columns:1fr}
     }
     @media (max-width: 640px){
@@ -782,7 +946,7 @@
       .preview-head{flex-direction:column}
       .data-summary{grid-template-columns:1fr 1fr}
     }
-.session-info{
+    .session-info{
       display:flex;
       flex-direction:row;
       gap:10px;
@@ -810,99 +974,169 @@
       color:#fff;
     }
 
-    .workflow-banner{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:0;
-      background:var(--card-strong);
-      border:1px solid rgba(219,228,240,0.85);
-      border-radius:16px;
-      padding:18px 32px;
-      margin-bottom:14px;
-      box-shadow:var(--shadow-soft);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-    }
-    .workflow-step{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:5px;
-      padding:0 32px;
-      position:relative;
-      flex:0 0 auto;
-    }
-    .wf-num{
-      position:absolute;
-      top:0; left:50%;
-      transform:translateX(-22px);
-      width:18px; height:18px;
-      background:var(--primary);
-      color:#fff;
-      font-size:10px;
-      font-weight:900;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      line-height:1;
-      z-index:1;
-    }
-    .workflow-step iconify-icon{
-      font-size:30px;
-      margin-top:6px;
-    }
-    .wf-label{
-      font-size:13px;
-      font-weight:800;
-      color:var(--navy);
-      white-space:nowrap;
-    }
-    .wf-hint{
-      font-size:11px;
-      color:var(--muted);
-      text-align:center;
-      white-space:nowrap;
-    }
-    .wf-arrow{
-      color:var(--primary);
-      flex-shrink:0;
-      opacity:.45;
-      padding:0 4px;
-    }
-    .wf-arrow iconify-icon{ font-size:24px; }
-    @media(max-width:640px){
-      .workflow-banner{ display:none; }
-    }
+    /* Workflow banner removed */
 
     .all-clear{
       display:flex;
-      align-items:flex-start;
-      gap:12px;
-      padding:14px;
-      background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%);
-      border:1px solid #bbf7d0;
-      border-radius:12px;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      background:#f0fdf4;
+      border:1px solid #dcfce7;
+      border-left:3px solid #16a34a;
+      border-radius:8px;
       margin-top:8px;
     }
     .all-clear iconify-icon{
-      font-size:28px;
+      font-size:22px;
       color:#15803d;
       flex-shrink:0;
-      margin-top:1px;
     }
     .all-clear strong{
       display:block;
       font-size:13px;
+      font-weight:700;
       color:#15803d;
-      margin-bottom:3px;
+      margin-bottom:2px;
     }
     .all-clear div div{
-      font-size:12px;
+      font-size:11.5px;
       color:#166534;
       line-height:1.45;
     }
+
+    /* Quality metric colors */
+    .quality-good { color:var(--green) }
+    .quality-warn { color:var(--amber) }
+    .quality-bad  { color:var(--red)   }
+
+    /* â”€â”€ Progress bar shimmer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .progress-bar::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.3) 50%,transparent 100%);
+      transform:translateX(-100%);
+    }
+    .progress-wrap.active .progress-bar::after{
+      animation:barShimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes barShimmer{
+      0%{transform:translateX(-100%)}
+      100%{transform:translateX(300%)}
+    }
+
+    /* â”€â”€ Toast notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    #toastContainer{
+      position:fixed;
+      top:20px;
+      right:20px;
+      z-index:9990;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      pointer-events:none;
+      max-width:380px;
+    }
+    .toast{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#fff;
+      border-radius:12px;
+      padding:12px 14px;
+      box-shadow:0 8px 28px rgba(0,0,0,.15);
+      font-size:13px;
+      font-weight:600;
+      pointer-events:all;
+      animation:toastIn .32s cubic-bezier(.34,1.4,.64,1);
+      border-left:4px solid;
+      cursor:pointer;
+      line-height:1.45;
+    }
+    .toast.t-error  {border-color:#ef4444;color:#7f1d1d}
+    .toast.t-warn   {border-color:#f59e0b;color:#78350f}
+    .toast.t-success{border-color:#22c55e;color:#14532d}
+    .toast.t-info   {border-color:#3b82f6;color:#1e3a5f}
+    .toast iconify-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+    .toast.t-error   iconify-icon{color:#ef4444}
+    .toast.t-warn    iconify-icon{color:#f59e0b}
+    .toast.t-success iconify-icon{color:#22c55e}
+    .toast.t-info    iconify-icon{color:#3b82f6}
+    @keyframes toastIn {from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(16px)}}
+
+    /* â”€â”€ Dropzone file-loaded state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .dropzone.file-loaded{
+      border-color:#16a34a;
+      border-style:solid;
+      background:linear-gradient(180deg,rgba(240,253,244,.98) 0%,rgba(220,252,231,.92) 100%);
+    }
+    .dropzone.file-loaded:hover{
+      background:linear-gradient(180deg,rgba(220,252,231,.98) 0%,rgba(187,247,208,.92) 100%);
+    }
+
+    /* â”€â”€ Status icon colours â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .status.success iconify-icon{color:var(--green)}
+    .status.warn    iconify-icon{color:var(--amber)}
+    .status.error   iconify-icon{color:var(--red)}
+    .status.blocked iconify-icon{color:var(--red)}
+    .status.idle    iconify-icon{color:#64748b}
+
+    /* â”€â”€ Log-panel header row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .log-title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid var(--line);
+      padding-bottom:10px;
+      margin-bottom:12px;
+    }
+    .log-title-row .section-title{
+      border:none;
+      padding-bottom:0;
+      margin:0;
+    }
+
+    /* â”€â”€ Sidebar panel overrides (lighter than main card) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .panel-stack .card{
+      background:rgba(255,255,255,0.85);
+      border-color:rgba(0,0,0,0.08);
+      box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    }
+    .panel-stack .section-title{
+      font-size:13.5px;
+      font-weight:700;
+      color:#475569;
+      letter-spacing:.01em;
+    }
+    .panel-stack .section-title iconify-icon{
+      font-size:16px;
+      color:#94a3b8;
+    }
+
+    /* Validation issue summary badges */
+    #issueSummaryBar{
+      display:none;
+      gap:6px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .issue-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-size:11.5px;
+      font-weight:700;
+      padding:3px 9px;
+      border-radius:6px;
+    }
+    .issue-badge iconify-icon{ font-size:13px; }
+    .error-badge{ background:#fef2f2; color:#dc2626; border:1px solid #fecaca; }
+    .warn-badge { background:#fffbeb; color:#b45309; border:1px solid #fde68a; }
+
+    /* Blocked-generate status style */
+    .blocked{ background:#fef2f2; color:var(--red); border-color:#fecaca; }
   </style>
 </head>
 <body>
@@ -915,73 +1149,45 @@
           <span id="sessionTime"></span>
         </div>
         <div class="session-chip chip-user">
-          <iconify-icon icon="mdi:wifi-off"></iconify-icon>
-          <span id="sessionUser">Offline</span>
+          <iconify-icon icon="mdi:check-circle"></iconify-icon>
+          <span id="sessionUser">Ready</span>
         </div>
       </div>
     </div>
     <div class="header-inner">
       <div>
         <h1>Aridata</h1>
-        <div class="subtitle">Upload your contract files, review the data, and export.</div>
       </div>
     </div>
   </div>
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="headers">
-      <iconify-icon icon="mdi:file-document-outline" style="color:#ffffff"></iconify-icon>
+      <iconify-icon icon="mdi:file-document-outline"></iconify-icon>
       Contract Headers
     </button>
     <button class="tab-btn" data-tab="items">
-      <iconify-icon icon="mdi:file-excel" style="color:#4a2c1a"></iconify-icon>
+      <iconify-icon icon="mdi:file-excel"></iconify-icon>
       Line Items
     </button>
   </div>
 
-  <div class="workflow-banner">
-    <div class="workflow-step">
-      <div class="wf-num">1</div>
-      <iconify-icon icon="mdi:upload-outline" style="color:#ea580c"></iconify-icon>
-      <div class="wf-label">Upload File</div>
-      <div class="wf-hint">Drop or browse your CSV</div>
-    </div>
-    <div class="wf-arrow"><iconify-icon icon="mdi:chevron-right"></iconify-icon></div>
-    <div class="workflow-step">
-      <div class="wf-num">2</div>
-      <iconify-icon icon="mdi:shield-check-outline" style="color:#ea580c"></iconify-icon>
-      <div class="wf-label">Validate Data</div>
-      <div class="wf-hint">Check for errors &amp; issues</div>
-    </div>
-    <div class="wf-arrow"><iconify-icon icon="mdi:chevron-right"></iconify-icon></div>
-    <div class="workflow-step">
-      <div class="wf-num">3</div>
-      <iconify-icon icon="mdi:download-circle-outline" style="color:#ea580c"></iconify-icon>
-      <div class="wf-label">Download Output</div>
-      <div class="wf-hint">Export your processed file</div>
-    </div>
-  </div>
-
   <div class="summary-grid">
     <div class="metric">
-      <div class="metric-label"><iconify-icon icon="mdi:view-dashboard-outline" style="color:#ea580c"></iconify-icon> Workspace</div>
-      <div id="summaryWorkspace" class="metric-value">Ready</div>
-      <div class="metric-help">Your current working session</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label"><iconify-icon icon="mdi:file-document-multiple-outline" style="color:#ea580c"></iconify-icon> Header Rows</div>
+      <div class="metric-label"><iconify-icon icon="mdi:file-document-multiple-outline"></iconify-icon> Rows</div>
       <div id="summaryHeaderRows" class="metric-value">0</div>
-      <div class="metric-help">Contracts found in your uploaded file</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><iconify-icon icon="mdi:file-excel-box" style="color:#ea580c"></iconify-icon> Line Item Workbooks</div>
+      <div class="metric-label"><iconify-icon icon="mdi:file-excel-box"></iconify-icon> Workbooks</div>
       <div id="summaryWorkbooks" class="metric-value">0</div>
-      <div class="metric-help">Excel files ready for download</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><iconify-icon icon="mdi:alert-circle-outline" style="color:#ea580c"></iconify-icon> Validation Issues</div>
+      <div class="metric-label"><iconify-icon icon="mdi:alert-circle-outline"></iconify-icon> Issues</div>
       <div id="summaryIssues" class="metric-value">0</div>
-      <div class="metric-help">Problems found that need your attention</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label"><iconify-icon icon="mdi:chart-line"></iconify-icon> Quality</div>
+      <div id="summaryQuality" class="metric-value quality-good">100%</div>
     </div>
   </div>
 
@@ -992,10 +1198,9 @@
         <!-- HEADERS TAB -->
         <div id="tab-headers">
           <h2 class="section-title">
-            <iconify-icon icon="mdi:file-document-outline" style="color:#ea580c"></iconify-icon>
+            <iconify-icon icon="mdi:file-document-outline"></iconify-icon>
             Contract Headers
           </h2>
-          <p class="section-sub">Start by uploading your contract list (CSV file). You can preview the data, check for errors, then download the final output with one click.</p>
 
           <div class="field">
             <label class="label">Upload Your Contract File</label>
@@ -1036,10 +1241,12 @@
               </div>
             </div>
             <div class="controls-card">
-              <div class="status-label">Current Status</div>
-              <div id="headersStatus" class="status idle">Idle</div>
+              <div id="headersStatus" class="status idle"></div>
               <div class="row">
-                <button id="headersClear" class="btn btn-ghost" title="Reset and start over">Clear</button>
+                <button id="headersClear" class="btn btn-ghost" title="Reset and start over">
+                  <iconify-icon icon="mdi:close-circle-outline"></iconify-icon>
+                  Clear
+                </button>
                 <button id="headersPreview" class="btn btn-secondary" disabled title="Upload a file first to enable preview">
                   <iconify-icon icon="mdi:eye-outline"></iconify-icon>
                   Preview File
@@ -1065,7 +1272,7 @@
           </div>
 
           <div class="preview-section">
-            <div class="preview-title">Data Preview — Your Contracts at a Glance</div>
+            <div class="preview-title">Data Preview â€” Your Contracts at a Glance</div>
             <div class="preview-container">
               <table id="headersPreviewTable">
                 <thead></thead>
@@ -1082,6 +1289,10 @@
                 <div class="data-summary-label">Unique Contracts</div>
                 <div id="sumContracts" class="data-summary-value">0</div>
               </div>
+              <div class="data-summary-item">
+                <div class="data-summary-label">Parent Agreements</div>
+                <div id="sumPA" class="data-summary-value">0</div>
+              </div>
               <div class="data-summary-item warn-item" id="sumMissingCard">
                 <div class="data-summary-label">Missing Fields</div>
                 <div id="sumMissing" class="data-summary-value">0</div>
@@ -1094,9 +1305,28 @@
           </div>
 
           <div id="headersDownloadBox" class="download-box">
-            <div style="font-weight:700;margin-bottom:8px;">✅ Your file is ready!</div>
-            <div class="help" style="margin:0 0 10px 0;">Your contracts have been processed successfully. Click below to download the output file.</div>
-            <a id="headersDownloadLink" class="btn btn-primary" download="Contracts.csv">
+            <div class="download-success-banner">
+              <div class="download-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <div class="download-success-text">
+                <strong>Processing Complete</strong>
+                <span id="headersDownloadMeta">Your contracts are ready for download</span>
+              </div>
+            </div>
+            <div class="download-meta-row">
+              <span class="download-meta-item">
+                <iconify-icon icon="mdi:file-document-outline"></iconify-icon>
+                <span id="headersDownloadRows">â€” rows</span>
+              </span>
+              <span class="download-meta-item">
+                <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                <span id="headersDownloadTime">Just now</span>
+              </span>
+            </div>
+            <a id="headersDownloadLink" class="btn btn-primary download-btn-full" download="Contracts.csv">
               <iconify-icon icon="mdi:download"></iconify-icon>
               Download Contracts.csv
             </a>
@@ -1106,10 +1336,9 @@
         <!-- ITEMS TAB -->
         <div id="tab-items" class="hidden">
           <h2 class="section-title">
-            <iconify-icon icon="mdi:file-excel" style="color:#ea580c"></iconify-icon>
+            <iconify-icon icon="mdi:file-excel"></iconify-icon>
             Line Items
           </h2>
-          <p class="section-sub">Upload your line-item files, check for any issues, and generate ready-to-import Excel workbooks.</p>
 
           <div class="field">
             <label class="label">Upload Your Line-Item Files</label>
@@ -1119,24 +1348,47 @@
               <div class="help">or click here to browse your computer</div>
               <input id="itemsFile" type="file" accept=".csv,.json,application/json,text/csv" multiple hidden />
             </div>
-            <div class="help" id="itemsFileName">No file selected.</div>
-            <div class="help">Supported formats: CSV or JSON files. You can upload multiple files at once.</div>
           </div>
 
-          <div class="field">
-            <label class="label">Options</label>
-            <label class="check"><input id="itemsBackup" type="checkbox" /> Keep a backup copy of existing files</label>
-            <label class="check"><input id="itemsLogging" type="checkbox" checked /> Show activity log while processing</label>
-          </div>
-
-          <div class="toolbar">
-            <div id="itemsStatus" class="status idle">Idle</div>
-            <div class="row">
-              <button id="itemsNew" class="btn btn-secondary">New Task</button>
-              <button id="itemsClear" class="btn btn-ghost" title="Reset and start over">Clear</button>
-              <button id="itemsPreview" class="btn btn-secondary" disabled title="Upload a file first to enable preview">Preview Output</button>
-              <button id="itemsValidate" class="btn btn-secondary" disabled title="Upload a file first to validate rows">Validate Rows</button>
-              <button id="itemsRun" class="btn btn-primary" disabled title="Validate your data first before generating files">Generate Workbooks</button>
+          <div class="meta-layout">
+            <div class="meta-stack">
+              <div class="info-card">
+                <div class="meta-title">Selected Files</div>
+                <div id="itemsFileName" class="file-name-display">No files selected.</div>
+                <div class="file-format">Supported formats: CSV or JSON. Drop Line Items CSV + optional Header Attributes CSV together. You can upload multiple files at once.</div>
+              </div>
+              <div class="options-card">
+                <div class="meta-title">Options</div>
+                <div class="options-list">
+                  <label class="check"><input id="itemsBackup" type="checkbox" /> Keep a backup copy of existing files</label>
+                  <label class="check"><input id="itemsLogging" type="checkbox" checked /> Show activity log while processing</label>
+                </div>
+              </div>
+            </div>
+            <div class="controls-card">
+              <div id="itemsStatus" class="status idle"></div>
+              <div class="row">
+                <button id="itemsNew" class="btn btn-secondary" title="Start a new task">
+                  <iconify-icon icon="mdi:plus-circle-outline"></iconify-icon>
+                  New Task
+                </button>
+                <button id="itemsClear" class="btn btn-ghost" title="Reset and start over">
+                  <iconify-icon icon="mdi:close-circle-outline"></iconify-icon>
+                  Clear
+                </button>
+                <button id="itemsPreview" class="btn btn-secondary" disabled title="Upload a file first to enable preview">
+                  <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+                  Preview Output
+                </button>
+                <button id="itemsValidate" class="btn btn-secondary" disabled title="Upload a file first to validate rows">
+                  <iconify-icon icon="mdi:check"></iconify-icon>
+                  Validate Rows
+                </button>
+                <button id="itemsRun" class="btn btn-primary" disabled title="Validate your data first before generating output">
+                  <iconify-icon icon="mdi:download"></iconify-icon>
+                  Generate Output
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1149,12 +1401,31 @@
           </div>
 
           <div id="itemsDownloadBox" class="download-box">
-            <div style="font-weight:700;margin-bottom:8px;">✅ Your files are ready!</div>
-            <div class="help" style="margin:0 0 10px 0;">Excel workbooks have been generated. You can download them all at once, or individually below.</div>
-            <button id="itemsDownloadAllBtn" class="btn btn-primary" style="width:100%; margin-bottom: 12px;">
-              <iconify-icon icon="mdi:download-multiple"></iconify-icon> Download All Individually
-            </button>
-            <div id="itemsDownloadList" style="display:flex; flex-direction:column; gap:8px; max-height:200px; overflow:auto; padding-right:4px;"></div>
+            <div class="download-success-banner">
+              <div class="download-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <div class="download-success-text">
+                <strong>Processing Complete</strong>
+                <span id="itemsDownloadMeta">Your line items are ready for download</span>
+              </div>
+            </div>
+            <div class="download-meta-row">
+              <span class="download-meta-item">
+                <iconify-icon icon="mdi:file-excel"></iconify-icon>
+                <span id="itemsDownloadWorkbooks">â€” workbooks</span>
+              </span>
+              <span class="download-meta-item">
+                <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                <span id="itemsDownloadTime">Just now</span>
+              </span>
+            </div>
+            <a id="itemsDownloadLink" class="btn btn-primary download-btn-full" download="LineItems_Output.zip">
+              <iconify-icon icon="mdi:download"></iconify-icon>
+              Download ZIP
+            </a>
           </div>
         </div>
 
@@ -1165,10 +1436,10 @@
       <div class="card">
         <div class="card-body">
           <h2 class="section-title">
-            <iconify-icon icon="mdi:alert-circle-outline" style="color:#ea580c"></iconify-icon>
+            <iconify-icon icon="mdi:alert-circle-outline"></iconify-icon>
             Validation Issues
           </h2>
-          <p class="section-sub">We automatically check your data for common problems — missing contract IDs, duplicate entries, invalid dates, and more.</p>
+          <div id="issueSummaryBar"></div>
           <div id="issueList" class="issue-list"></div>
           <div id="issueAllClear" class="all-clear hidden">
             <iconify-icon icon="mdi:check-circle-outline"></iconify-icon>
@@ -1183,11 +1454,16 @@
 
       <div class="card">
         <div class="card-body">
-          <h2 class="section-title">
-            <iconify-icon icon="mdi:text-box-outline" style="color:#ea580c"></iconify-icon>
-            Execution Log
-          </h2>
-          <p class="section-sub">A live step-by-step record of everything happening behind the scenes — useful if something goes wrong.</p>
+          <div class="log-title-row">
+            <h2 class="section-title">
+              <iconify-icon icon="mdi:text-box-outline"></iconify-icon>
+              Execution Log
+            </h2>
+            <button id="logClearBtn" class="btn btn-secondary" style="padding:5px 11px;font-size:11px;gap:5px" title="Clear log">
+              <iconify-icon icon="mdi:eraser"></iconify-icon>
+              Clear
+            </button>
+          </div>
           <div id="log" class="log"></div>
         </div>
       </div>
@@ -1211,10 +1487,13 @@
     </div>
   </div>
 
-  <div class="footer">Aridata Contract Processing Platform © 2026 | ASMO Technology – IT Business Solutions</div>
+  <div class="footer">Aridata Contract Processing Platform Â© 2026 | ASMO Technology â€“ IT Business Solutions</div>
 </div>
 
+<script src="./app.js"></script>
 <script>
+// Wrap inside an IIFE to avoid polluting the global scope
+(function() {
 /* ============================================================================
    Shared constants
 ============================================================================ */
@@ -1315,20 +1594,6 @@ const DISPLAY_FIX = {
   hazardous_indicator: "Hazardous Indicator"
 };
 
-const ALT_COL_MAP = {
-  incoterms: "cus_Incoterms",
-  incoterm: "cus_Incoterms",
-  "delivery restriction": "cus_DeliveryRestriction",
-  deliveryrestriction: "cus_DeliveryRestriction",
-  "iktva flag": "cus_IKTVAFlag",
-  iktvaflag: "cus_IKTVAFlag",
-  "iktva target": "cus_IKTVATargets",
-  iktvatarget: "cus_IKTVATargets",
-  "plant restrictions": "cus_PlantRestrictions",
-  "plant restriction": "cus_PlantRestrictions",
-  "plant restrict": "cus_PlantRestrictions"
-};
-
 /* ============================================================================
    State + UI refs
 ============================================================================ */
@@ -1336,16 +1601,18 @@ const state = {
   headersFile: null,
   itemsFiles: [],
   headersDownloadUrl: null,
-  generatedItemFiles: [],
+  itemsDownloadUrl: null,
   lastHeaderRows: [],
   lastHeaderIssues: [],
   lastItemRows: [],
   lastItemIssues: [],
-  lastWorkbookPreviews: []
+  lastWorkbookPreviews: [],
+  lastGeneratedItemsBlob: null
 };
 
 const ui = {
   log: document.getElementById("log"),
+
   headers: {
     dropzone: document.getElementById("headersDropzone"),
     fileInput: document.getElementById("headersFile"),
@@ -1361,6 +1628,9 @@ const ui = {
     progressValue: document.getElementById("headersProgressValue"),
     downloadBox: document.getElementById("headersDownloadBox"),
     downloadLink: document.getElementById("headersDownloadLink"),
+    downloadMeta: document.getElementById("headersDownloadMeta"),
+    downloadRows: document.getElementById("headersDownloadRows"),
+    downloadTime: document.getElementById("headersDownloadTime"),
     previewTableHead: document.querySelector("#headersPreviewTable thead"),
     previewTableBody: document.querySelector("#headersPreviewTable tbody"),
     previewEmpty: document.getElementById("headersPreviewEmpty"),
@@ -1369,6 +1639,7 @@ const ui = {
     businessSystem: document.getElementById("businessSystemSelect"),
     businessSystemCustom: document.getElementById("businessSystemCustom"),
   },
+
   items: {
     dropzone: document.getElementById("itemsDropzone"),
     fileInput: document.getElementById("itemsFile"),
@@ -1382,13 +1653,15 @@ const ui = {
     progressText: document.getElementById("itemsProgressText"),
     progressValue: document.getElementById("itemsProgressValue"),
     downloadBox: document.getElementById("itemsDownloadBox"),
-    downloadList: document.getElementById("itemsDownloadList"),
-    downloadAllBtn: document.getElementById("itemsDownloadAllBtn"),
+    downloadLink: document.getElementById("itemsDownloadLink"),
+    downloadMeta: document.getElementById("itemsDownloadMeta"),
+    downloadWorkbooks: document.getElementById("itemsDownloadWorkbooks"),
+    downloadTime: document.getElementById("itemsDownloadTime"),
     logging: document.getElementById("itemsLogging"),
     backup: document.getElementById("itemsBackup"),
   },
   summary: {
-    workspace: document.getElementById("summaryWorkspace"),
+    workspace: null,
     headerRows: document.getElementById("summaryHeaderRows"),
     workbooks: document.getElementById("summaryWorkbooks"),
     issues: document.getElementById("summaryIssues")
@@ -1397,7 +1670,8 @@ const ui = {
     rows: document.getElementById("sumRows"),
     contracts: document.getElementById("sumContracts"),
     missing: document.getElementById("sumMissing"),
-    duplicates: document.getElementById("sumDup")
+    duplicates: document.getElementById("sumDup"),
+    pa: document.getElementById("sumPA")
   },
   issues: document.getElementById("issueList"),
   preview: {
@@ -1411,11 +1685,8 @@ const ui = {
 };
 
 /* ============================================================================
-   UI helpers & Shared Utils
+   UI helpers
 ============================================================================ */
-// Let the browser UI catch up during heavy synchronous processing
-const yieldThread = () => new Promise(r => setTimeout(r, 0));
-
 function log(msg,type="info"){
   const ts=new Date().toLocaleTimeString();
   let cls="log-info";
@@ -1432,9 +1703,21 @@ function log(msg,type="info"){
   ui.log.scrollTop=ui.log.scrollHeight;
 }
 
+const STATUS_ICONS = {
+  idle:    "mdi:minus-circle-outline",
+  success: "mdi:check-circle",
+  error:   "mdi:alert-circle",
+  warn:    "mdi:alert",
+  blocked: "mdi:cancel"
+  // 'running' uses a CSS ::before pulse dot â€” no icon needed
+};
+
 function setStatus(area, kind, text) {
   area.status.className = `status ${kind}`;
-  area.status.textContent = text;
+  const icon = STATUS_ICONS[kind];
+  area.status.innerHTML = icon
+    ? `<iconify-icon icon="${icon}" style="font-size:15px;flex-shrink:0"></iconify-icon><span>${escapeHtml(text)}</span>`
+    : escapeHtml(text);
 }
 
 function setProgress(area, value, text) {
@@ -1450,53 +1733,194 @@ function revokeUrl(url) {
   if (url) URL.revokeObjectURL(url);
 }
 
-function showDownload(area, url, filename, label) {
+/* â”€â”€ Toast notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+function showToast(message, type = "info", duration = 5000) {
+  const container = document.getElementById("toastContainer");
+  if (!container) return;
+  const ICONS = { error: "mdi:alert-circle", warn: "mdi:alert", success: "mdi:check-circle", info: "mdi:information" };
+  const toast = document.createElement("div");
+  toast.className = `toast t-${type}`;
+  toast.innerHTML = `<iconify-icon icon="${ICONS[type] || ICONS.info}"></iconify-icon><span>${escapeHtml(message)}</span>`;
+  container.appendChild(toast);
+  const dismiss = () => {
+    toast.style.animation = "toastOut .25s ease forwards";
+    setTimeout(() => toast.remove(), 260);
+  };
+  toast.addEventListener("click", dismiss);
+  setTimeout(dismiss, duration);
+}
+
+/* â”€â”€ Dropzone file-chip helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+function showDropzoneFile(dropzone, file) {
+  const input  = dropzone.querySelector("input[type=file]");
+  const sizeKb = Math.round((file.size || 0) / 1024);
+  dropzone.innerHTML = `
+    <iconify-icon icon="mdi:file-check-outline" style="color:#15803d;font-size:52px;opacity:.9;margin:4px 0"></iconify-icon>
+    <strong style="color:#15803d;font-size:14px">${escapeHtml(file.name)}</strong>
+    <div class="help">${sizeKb} KB Â· click to change file</div>`;
+  if (input) dropzone.appendChild(input);
+  dropzone.classList.add("file-loaded");
+}
+
+function showDropzoneFiles(dropzone, files) {
+  const input    = dropzone.querySelector("input[type=file]");
+  const totalKb  = Math.round(files.reduce((s, f) => s + (f.size || 0), 0) / 1024);
+  const label    = files.length === 1 ? escapeHtml(files[0].name) : `${files.length} files selected`;
+  const icon     = files.length > 1 ? "mdi:file-multiple-outline" : "mdi:file-check-outline";
+  dropzone.innerHTML = `
+    <iconify-icon icon="${icon}" style="color:#15803d;font-size:52px;opacity:.9;margin:4px 0"></iconify-icon>
+    <strong style="color:#15803d;font-size:14px">${label}</strong>
+    <div class="help">${totalKb} KB total Â· click to change</div>`;
+  if (input) dropzone.appendChild(input);
+  dropzone.classList.add("file-loaded");
+}
+
+function resetDropzone(dropzone, multi = false) {
+  const input = dropzone.querySelector("input[type=file]");
+  dropzone.innerHTML = `
+    <strong>${multi ? "Drop your files here to get started" : "Drop your file here to get started"}</strong>
+    <iconify-icon icon="mdi:cloud-upload-outline" style="color:#ea580c;margin:6px 0"></iconify-icon>
+    <div class="help">or click here to browse your computer</div>`;
+  if (input) dropzone.appendChild(input);
+  dropzone.classList.remove("file-loaded");
+}
+
+function showDownload(area, url, filename, label, meta) {
   area.downloadLink.href = url;
   area.downloadLink.download = filename;
-  area.downloadLink.textContent = label;
+  area.downloadLink.innerHTML = `<iconify-icon icon="mdi:download"></iconify-icon> ${escapeHtml(label)}`;
+  if (area.downloadMeta) area.downloadMeta.textContent = meta || "Your file is ready for download";
+  if (area.downloadRows) area.downloadRows.textContent = `${state.lastHeaderRows?.length || 0} rows`;
+  if (area.downloadWorkbooks) area.downloadWorkbooks.textContent = `${state.lastWorkbookPreviews?.length || 0} workbooks`;
+  if (area.downloadTime) area.downloadTime.textContent = "Just now";
   area.downloadBox.classList.add("show");
+  area.downloadLink.onclick = () => {
+    const btn = area.downloadLink;
+    const orig = btn.innerHTML;
+    btn.innerHTML = `<iconify-icon icon="mdi:check"></iconify-icon> Download started`;
+    btn.style.background = "#16a34a";
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = "";
+    }, 2500);
+  };
 }
 
 function hideDownload(area, oldUrlKey) {
   if (state[oldUrlKey]) revokeUrl(state[oldUrlKey]);
   state[oldUrlKey] = null;
   area.downloadBox.classList.remove("show");
-  if (area.downloadLink) area.downloadLink.removeAttribute("href");
-}
-
-function hideItemsDownload() {
-  if (state.generatedItemFiles) {
-    state.generatedItemFiles.forEach(f => revokeUrl(f.url));
-    state.generatedItemFiles = [];
-  }
-  ui.items.downloadBox.classList.remove("show");
-  if (ui.items.downloadList) ui.items.downloadList.innerHTML = "";
+  area.downloadLink.removeAttribute("href");
 }
 
 function updateSummary() {
-  ui.summary.workspace.textContent = state.headersFile || (state.itemsFiles && state.itemsFiles.length) ? "Loaded" : "Ready";
-  ui.summary.headerRows.textContent = String(state.lastHeaderRows.length || 0);
-  ui.summary.workbooks.textContent = String(state.lastWorkbookPreviews.length || 0);
+  ui.summary.headerRows.textContent = String(state.lastHeaderRows?.length || 0);
+  ui.summary.workbooks.textContent  = String(state.lastWorkbookPreviews?.length || 0);
   const issueCount = (state.lastHeaderIssues?.length || 0) + (state.lastItemIssues?.length || 0);
   ui.summary.issues.textContent = String(issueCount);
+
+  // Quality metric: percentage of rows free from errors
+  const totalRows  = (state.lastHeaderRows?.length || 0) + (state.lastItemRows?.length || 0);
+  const errorRows  = ((state.lastHeaderIssues?.filter(i => i.severity === "error").length) || 0) +
+                     ((state.lastItemIssues?.filter(i => i.severity === "error").length)  || 0);
+  const quality    = totalRows > 0 ? Math.max(0, Math.round(((totalRows - errorRows) / totalRows) * 100)) : 100;
+  const qualityEl  = document.getElementById("summaryQuality");
+  if (qualityEl) {
+    qualityEl.textContent = `${quality}%`;
+    qualityEl.className   = "metric-value " + (quality >= 95 ? "quality-good" : quality >= 75 ? "quality-warn" : "quality-bad");
+  }
+}
+
+// Updates the run button and status badge after validation runs.
+function applyValidationResult(area, issues, runBtn) {
+  const errCount  = issues.filter(i => i.severity === "error").length;
+  const warnCount = issues.filter(i => i.severity === "warn").length;
+  if (errCount > 0) {
+    setStatus(area, "blocked", `${errCount} error${errCount !== 1 ? "s" : ""} â€” fix before generating`);
+    runBtn.disabled = true;
+    runBtn.title    = "Resolve all validation errors before generating output";
+  } else if (warnCount > 0) {
+    setStatus(area, "warn", `${warnCount} warning${warnCount !== 1 ? "s" : ""} â€” review before generating`);
+    runBtn.disabled = false;
+    runBtn.title    = "Generate output (warnings present â€” review issues panel)";
+  } else {
+    setStatus(area, "success", "Validation passed â€” ready to generate");
+    runBtn.disabled = false;
+    runBtn.title    = "Generate output";
+  }
 }
 
 function renderIssues(issues) {
   ui.issues.innerHTML = "";
   const allClear = document.getElementById("issueAllClear");
-  if(allClear) allClear.classList.add("hidden");
-  if (!issues || !issues.length) {
-    ui.issues.innerHTML = '<div class="issue-empty">No validation issues detected in the latest run.</div>';
-    if(allClear && (state.headersFile || state.itemsFiles.length)) allClear.classList.remove("hidden");
+  const summaryBar = document.getElementById("issueSummaryBar");
+  if (allClear) allClear.classList.add("hidden");
+  if (summaryBar) summaryBar.style.display = "none";
+
+  if (issues == null) {
+    ui.issues.innerHTML = '<div class="issue-empty">Upload and validate a file to see results here.</div>';
     updateSummary();
     return;
   }
-  issues.slice(0, 200).forEach(issue => {
+
+  if (!issues.length) {
+    if (allClear) allClear.classList.remove("hidden");
+    updateSummary();
+    return;
+  }
+
+  const errCount = issues.filter(i => i.severity === "error").length;
+  const warnCount = issues.filter(i => i.severity === "warn").length;
+  const maxVisible = 10;
+
+  function normalizeIssueKey(message) {
+    return String(message ?? "")
+      .replace(/Contract\s+[^:]+:/gi, "Contract <id>:")
+      .replace(/item\s+[^:]+:/gi, "item <id>:")
+      .replace(/"[^"]*"/g, '"<value>"');
+  }
+
+  if (summaryBar) {
+    summaryBar.style.display = "flex";
+    summaryBar.innerHTML =
+      `<span class="issue-badge error-badge"><iconify-icon icon="mdi:alert-circle"></iconify-icon>${errCount} error${errCount !== 1 ? "s" : ""}</span>` +
+      (warnCount > 0 ? `<span class="issue-badge warn-badge"><iconify-icon icon="mdi:alert"></iconify-icon>${warnCount} warning${warnCount !== 1 ? "s" : ""}</span>` : "") +
+      `<span class="issue-badge"><iconify-icon icon="mdi:target"></iconify-icon>Fix top issues first</span>`;
+  }
+
+  const grouped = new Map();
+  issues.forEach(issue => {
+    const key = normalizeIssueKey(issue.message);
+    const current = grouped.get(key) || { count: 0, example: issue.message };
+    current.count += 1;
+    grouped.set(key, current);
+  });
+  const topPatterns = Array.from(grouped.entries())
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 3);
+
+  if (topPatterns.length) {
+    const panel = document.createElement("div");
+    panel.className = "issue-toplist";
+    const title = document.createElement("div");
+    title.className = "issue-top-title";
+    title.textContent = "Fix these first";
+    panel.appendChild(title);
+    topPatterns.forEach(([_, info]) => {
+      const row = document.createElement("div");
+      row.className = "issue-top-row";
+      row.innerHTML = `<span>${escapeHtml(info.example)}</span><span class="issue-top-count">${info.count}</span>`;
+      panel.appendChild(row);
+    });
+    ui.issues.appendChild(panel);
+  }
+
+  issues.slice(0, maxVisible).forEach(issue => {
     const item = document.createElement("div");
     item.className = `issue-item ${issue.severity === "error" ? "error" : ""}`;
     const title = document.createElement("div");
     title.className = "issue-title";
-    title.textContent = `${issue.severity.toUpperCase()} • ${issue.scope}`;
+    title.textContent = `${issue.severity.toUpperCase()} - ${issue.scope}`;
     const meta = document.createElement("div");
     meta.className = "issue-meta";
     meta.textContent = issue.message;
@@ -1504,16 +1928,26 @@ function renderIssues(issues) {
     item.appendChild(meta);
     ui.issues.appendChild(item);
   });
+
+  if (issues.length > maxVisible) {
+    const more = document.createElement("div");
+    more.className = "issue-empty";
+    more.textContent = `There are ${issues.length - maxVisible} more issues. Fix the first group, then validate again.`;
+    ui.issues.appendChild(more);
+  }
+
   updateSummary();
 }
 
 function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+  return String(value ?? "").replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 function makePreviewTable(rows, maxRows = 25) {
@@ -1568,68 +2002,178 @@ function closePreviewModal() {
 function validateHeaderRows(rows) {
   const issues = [];
   const seenContracts = new Set();
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const dateRe = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+
   rows.forEach((row, idx) => {
-    const cid = String(row["ContractId"] ?? "").trim();
-    const supplier = String(row["Supplier"] ?? "").trim();
-    const eff = String(row["EffectiveDate"] ?? "").trim();
-    const exp = String(row["ExpirationDate"] ?? "").trim();
-    if (!cid) issues.push({ severity: "error", scope: `Header Row ${idx + 1}`, message: "Missing ContractId." });
-    if (!supplier) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} is missing Supplier.` });
-    if (cid) {
-      if (seenContracts.has(cid)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Duplicate ContractId detected: ${cid}.` });
-      seenContracts.add(cid);
+    const n = idx + 1;
+    const cid      = String(row["ContractId"]     ?? "").trim();
+    const supplier = String(row["Supplier"]        ?? "").trim();
+    const eff      = String(row["EffectiveDate"]   ?? "").trim();
+    const exp      = String(row["ExpirationDate"]  ?? "").trim();
+    const amount   = String(row["Amount"]          ?? "").trim();
+
+    // â”€â”€ ContractId â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!cid) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: "ContractId is required and cannot be blank." });
+    } else {
+      if (seenContracts.has(cid.toUpperCase())) {
+        issues.push({ severity: "error", scope: `Row ${n}`, message: `Duplicate ContractId "${cid}" â€” each contract must be unique. Remove or merge this row.` });
+      }
+      seenContracts.add(cid.toUpperCase());
     }
-    if (eff && !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(eff)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `EffectiveDate format looks invalid: ${eff}` });
-    if (exp && !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(exp)) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `ExpirationDate format looks invalid: ${exp}` });
-    const amount = String(row["Amount"] ?? "").trim();
-    if (!amount) issues.push({ severity: "warn", scope: `Header Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} has blank Amount.` });
+
+    // â”€â”€ Supplier â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!supplier) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: Supplier is required.` });
+    }
+
+    // â”€â”€ EffectiveDate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    let effDate = null;
+    if (!eff) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: EffectiveDate is required.` });
+    } else if (!dateRe.test(eff)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: EffectiveDate "${eff}" must be MM/DD/YYYY format.` });
+    } else {
+      const [em, ed, ey] = eff.split("/").map(Number);
+      effDate = new Date(ey, em - 1, ed);
+      if (isNaN(effDate.getTime()) || effDate.getMonth() !== em - 1) {
+        issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: EffectiveDate "${eff}" is not a valid calendar date.` });
+        effDate = null;
+      }
+    }
+
+    // â”€â”€ ExpirationDate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    let expDate = null;
+    if (!exp) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: ExpirationDate is required.` });
+    } else if (!dateRe.test(exp)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: ExpirationDate "${exp}" must be MM/DD/YYYY format.` });
+    } else {
+      const [xm, xd, xy] = exp.split("/").map(Number);
+      expDate = new Date(xy, xm - 1, xd);
+      if (isNaN(expDate.getTime()) || expDate.getMonth() !== xm - 1) {
+        issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: ExpirationDate "${exp}" is not a valid calendar date.` });
+        expDate = null;
+      } else if (expDate < today) {
+        issues.push({ severity: "warn", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: ExpirationDate (${exp}) is in the past.` });
+      }
+    }
+
+    // â”€â”€ Date logic: effective must precede expiration â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (effDate && expDate && effDate >= expDate) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: EffectiveDate (${eff}) must be earlier than ExpirationDate (${exp}).` });
+    }
+
+    // â”€â”€ Amount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!amount) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: Amount is required.` });
+    } else {
+      const amtNum = cleanNum(amount);
+      if (amtNum === null || amtNum < 0) {
+        issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: Amount "${amount}" must be a valid non-negative number.` });
+      }
+    }
   });
+
   return issues;
 }
 
 function validateLineItemRows(rows) {
   const issues = [];
   const seenKeys = new Set();
-  rows.forEach((row, idx) => {
-    const cid = String(row.contract_id ?? "").trim();
-    const itemNumber = String(row.item_number ?? "").trim();
-    
-    // Safely parse numbers to avoid comma strings triggering NaN warnings
-    const qtyRaw = String(row.quantity ?? "").replace(/,/g, "");
-    const priceRaw = String(row.unit_price ?? "").replace(/,/g, "");
-    const qty = Number(qtyRaw);
-    const unitPrice = Number(priceRaw);
 
-    if (!cid) issues.push({ severity: "error", scope: `Line Row ${idx + 1}`, message: "Missing contract_id." });
-    if (!itemNumber) issues.push({ severity: "error", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} is missing item_number.` });
-    if (qtyRaw && (!Number.isFinite(qty) || qty < 0)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"} has invalid quantity: ${row.quantity}` });
-    if (priceRaw && (!Number.isFinite(unitPrice) || unitPrice < 0)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"} has invalid unit_price: ${row.unit_price}` });
-    
-    const pairKey = `${cid}||${itemNumber}`;
+  rows.forEach((row, idx) => {
+    const n          = idx + 1;
+    const cid        = String(row.contract_id ?? "").trim();
+    const itemNumber = String(row.item_number  ?? "").trim();
+    const desc       = String(row.description  ?? "").trim();
+    const qty        = Number(row.quantity);
+    const unitPrice  = Number(row.unit_price);
+    const materialNo = String(row.material_number ?? "").trim();
+    const materialCode = String(row.material_code ?? "").trim();
+    const materialGroup = String(row.material_group ?? "").trim();
+    const leadTimeDays = String(row.lead_time_days ?? "").trim();
+
+    // â”€â”€ contract_id â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!cid) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: "contract_id is required." });
+    }
+
+    // â”€â”€ item_number â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!itemNumber) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"}: item_number is required.` });
+    }
+
+    // â”€â”€ description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!desc) {
+      issues.push({ severity: "warn", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: description is empty.` });
+    }
+
+    // â”€â”€ quantity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!Number.isFinite(qty) || qty < 0) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: quantity must be a non-negative number (got: "${row.quantity ?? "blank"}").` });
+    } else if (qty === 0) {
+      issues.push({ severity: "warn", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: quantity is 0 â€” verify this is intentional.` });
+    }
+
+    // â”€â”€ unit_price â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    if (!Number.isFinite(unitPrice) || unitPrice < 0) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: unit_price must be a non-negative number (got: "${row.unit_price ?? "blank"}").` });
+    }
+
+    if (materialNo && !/^\d{10}$/.test(materialNo)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: material_number must be exactly 10 digits (got: "${materialNo}").` });
+    }
+    if (materialCode && !/^\d+$/.test(materialCode)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: material_code must be integer-only text (no decimals, got: "${materialCode}").` });
+    }
+    if (materialGroup && !/^\d+$/.test(materialGroup)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: material_group must be integer-only text (no decimals, got: "${materialGroup}").` });
+    }
+    if (leadTimeDays && !/^\d+$/.test(leadTimeDays)) {
+      issues.push({ severity: "error", scope: `Row ${n}`, message: `Contract ${cid || "(blank)"} item ${itemNumber || "(blank)"}: lead_time_days must be integer-only text (example: 180, not 180.0).` });
+    }
+
+    // â”€â”€ duplicate contract + item pair â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    const pairKey = `${cid.toUpperCase()}||${itemNumber}`;
     if (cid && itemNumber) {
-      if (seenKeys.has(pairKey)) issues.push({ severity: "warn", scope: `Line Row ${idx + 1}`, message: `Duplicate contract/item key detected: ${pairKey}` });
+      if (seenKeys.has(pairKey)) {
+        issues.push({ severity: "error", scope: `Row ${n}`, message: `Duplicate entry: contract "${cid}" + item "${itemNumber}" already appears earlier in the file. Remove the duplicate row.` });
+      }
       seenKeys.add(pairKey);
     }
   });
+
   return issues;
 }
 
 function wireDropzone(dropzone, input, onFile) {
   dropzone.addEventListener("click", () => input.click());
+
   input.addEventListener("change", e => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
     if (input.hasAttribute("multiple")) onFile(files);
     else onFile(files[0]);
   });
-  ["dragenter", "dragover"].forEach(evt => dropzone.addEventListener(evt, e => {
-    e.preventDefault(); e.stopPropagation();
-    dropzone.classList.add("dragover");
-  }));
-  ["dragleave", "drop"].forEach(evt => dropzone.addEventListener(evt, e => {
-    e.preventDefault(); e.stopPropagation();
-    dropzone.classList.remove("dragover");
-  }));
+
+  ["dragenter", "dragover"].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add("dragover");
+    });
+  });
+
+  ["dragleave", "drop"].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove("dragover");
+    });
+  });
+
   dropzone.addEventListener("drop", e => {
     const files = Array.from(e.dataTransfer.files || []);
     if (!files.length) return;
@@ -1649,7 +2193,8 @@ function updateItemsSelectionUi() {
   }
   const totalSizeKb = Math.round(state.itemsFiles.reduce((sum, file) => sum + (file.size || 0), 0) / 1024);
   if (count === 1) {
-    ui.items.fileName.textContent = `Selected: ${state.itemsFiles[0].name} (${Math.round(state.itemsFiles[0].size / 1024)} KB)`;
+    const fileSize = state.itemsFiles[0].size || 0;
+    ui.items.fileName.textContent = `Selected: ${state.itemsFiles[0].name} (${Math.round(fileSize / 1024)} KB)`;
   } else {
     ui.items.fileName.textContent = `${count} files selected (${totalSizeKb} KB total)`;
   }
@@ -1661,12 +2206,15 @@ function updateItemsSelectionUi() {
 function renderHeaderPreview(rows) {
   ui.headers.previewTableHead.innerHTML = "";
   ui.headers.previewTableBody.innerHTML = "";
+
   if (!rows || !rows.length) {
     ui.headers.previewEmpty.style.display = "block";
     return;
   }
+
   ui.headers.previewEmpty.style.display = "none";
   const columns = Object.keys(rows[0]);
+
   const headerRow = document.createElement("tr");
   columns.forEach(col => {
     const th = document.createElement("th");
@@ -1674,6 +2222,7 @@ function renderHeaderPreview(rows) {
     headerRow.appendChild(th);
   });
   ui.headers.previewTableHead.appendChild(headerRow);
+
   rows.slice(0, 20).forEach(row => {
     const tr = document.createElement("tr");
     columns.forEach(col => {
@@ -1689,17 +2238,24 @@ function updateHeaderDataSummary(rows) {
   const safeRows = Array.isArray(rows) ? rows : [];
   const contractSet = new Set();
   let missing = 0;
+  let paCount = 0;
+
   safeRows.forEach(row => {
     const contractId = String(row.ContractId ?? "").trim();
     const supplier = String(row.Supplier ?? "").trim();
     const amount = String(row.Amount ?? "").trim();
+    const parentAgreement = String(row.ParentAgreement ?? "").trim();
+
     if (!contractId || !supplier || !amount) missing++;
     if (contractId) contractSet.add(contractId);
+    if (parentAgreement) paCount++;
   });
+
   ui.headerDataSummary.rows.textContent = String(safeRows.length);
   ui.headerDataSummary.contracts.textContent = String(contractSet.size);
   ui.headerDataSummary.missing.textContent = String(missing);
   ui.headerDataSummary.duplicates.textContent = String(Math.max(0, safeRows.length - contractSet.size));
+  ui.headerDataSummary.pa.textContent = String(paCount);
 }
 
 function resetHeaderPreview() {
@@ -1707,6 +2263,16 @@ function resetHeaderPreview() {
   updateHeaderDataSummary([]);
 }
 
+function toggleActionButtons(area, disabled) {
+  area.run.disabled = disabled;
+  area.preview.disabled = disabled;
+  area.validate.disabled = disabled;
+  area.clear.disabled = disabled;
+}
+
+/* ============================================================================
+   Shared utility functions
+============================================================================ */
 function dedupe(cols) {
   const cnt = {};
   const out = [];
@@ -1747,7 +2313,12 @@ function detectCurrencyColumn(rows) {
 }
 
 function snakeKey(s) {
-  return String(s ?? "").trim().toLowerCase().replace(/[^0-9a-z]+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
+  return String(s ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^0-9a-z]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "");
 }
 
 function snakeColumns(rows) {
@@ -1759,18 +2330,31 @@ function snakeColumns(rows) {
 }
 
 function normalizeText(v) {
-  return String(v ?? "").replace(/[^A-Za-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  return String(v ?? "")
+    .replace(/[^A-Za-z0-9 ]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function parseCsvText(text) {
-  return Papa.parse(text, { header: false, skipEmptyLines: false }).data;
+  const result = Papa.parse(text, {
+    header: false,
+    skipEmptyLines: 'greedy'
+  });
+  return result.data;
 }
 
 function parseCsvWithHeader(text, headerRowIndex) {
-  const allRows = Papa.parse(text, { header: false, skipEmptyLines: false }).data;
+  const allRows = Papa.parse(text, {
+    header: false,
+    skipEmptyLines: 'greedy'
+  }).data;
+
   const header = (allRows[headerRowIndex] || []).map(x => String(x ?? "").trim());
   const bodyRows = allRows.slice(headerRowIndex + 1);
+
   const dedupedHeader = dedupe(header);
+
   return bodyRows
     .filter(row => row.some(v => String(v ?? "").trim() !== ""))
     .map(row => {
@@ -1796,14 +2380,14 @@ function formatDateValue(raw) {
     return `${date.getUTCMonth()+1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
   }
   const js = new Date(s);
-  if (!isNaN(js.getTime())) {
-    // Check if it's a date-only ISO format, prevent timezone shift
-    if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
-       return `${js.getUTCMonth()+1}/${js.getUTCDate()}/${js.getUTCFullYear()}`;
-    }
-    return `${js.getMonth()+1}/${js.getDate()}/${js.getFullYear()}`;
-  }
+  if (!isNaN(js.getTime())) return `${js.getMonth()+1}/${js.getDate()}/${js.getFullYear()}`;
   return s;
+}
+
+function downloadBlob(content, type, filename) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  return { blob, url, filename };
 }
 
 function groupBy(arr, keyFn) {
@@ -1814,6 +2398,24 @@ function groupBy(arr, keyFn) {
     m.get(key).push(item);
   }
   return m;
+}
+
+// Force all cells in a SheetJS worksheet to Excel Text format.
+// Prevents Excel from auto-converting IDs like "00001" to 1,
+// long numbers to scientific notation, or stripping leading zeros.
+function forceTextFormat(ws) {
+  if (!ws) return;
+  for (const ref in ws) {
+    if (ref.startsWith('!')) continue;
+    const cell = ws[ref];
+    if (cell == null) continue;
+    if (cell.t !== 's') {
+      cell.v = (cell.v == null || cell.v === '') ? '' : String(cell.v);
+      cell.w = cell.v;
+      cell.t = 's';
+    }
+    cell.z = '@';   // '@' = Excel Text format
+  }
 }
 
 function toSheetRows(rows, columns) {
@@ -1828,235 +2430,360 @@ function saveSettingsItems(inputName) {
   localStorage.setItem(SETTINGS_FILE_ITEMS_KEY, JSON.stringify({ input: inputName }));
 }
 
-function formatSupplier(val) {
-  const digits = String(val ?? "").replace(/\D/g, "");
-  return digits ? `${SUPPLIER_PREFIX}${digits.padStart(10, "0")}` : String(val ?? "").trim();
-}
-
 /* ============================================================================
    Contract Header logic
 ============================================================================ */
 async function processHeaders(file, options, previewOnly = false) {
+  toggleActionButtons(ui.headers, true);
   hideDownload(ui.headers, "headersDownloadUrl");
   setStatus(ui.headers, "running", previewOnly ? "Preview" : "In Progress");
   setProgress(ui.headers, 5, "Reading CSV");
-  await yieldThread();
   log(`Headers: reading file ${file.name}`);
 
-  const text = await file.text();
-  const sampleRows = parseCsvText(text).slice(0, 15);
-  let headerIdx = 0;
+  try {
+    const text = await file.text();
+    const sampleRows = parseCsvText(text).slice(0, 15);
+    let headerIdx = 0;
 
-  for (let i = 0; i < sampleRows.length; i++) {
-    if ((sampleRows[i] || []).some(v => /\bContractId\b/i.test(String(v)))) {
-      headerIdx = i;
-      break;
+    for (let i = 0; i < sampleRows.length; i++) {
+      if ((sampleRows[i] || []).some(v => /\bContractId\b/i.test(String(v)))) {
+        headerIdx = i;
+        break;
+      }
     }
-  }
 
-  setProgress(ui.headers, 10, "Detecting & Normalizing rows");
-  await yieldThread();
-  
-  let rows = parseCsvWithHeader(text, headerIdx).map(r => ({ ...r }));
+    let rows = parseCsvWithHeader(text, headerIdx);
+    setProgress(ui.headers, 10, "Detected header row");
 
-  // Optimization: Consolidate data modifications into 2 passes
-  setProgress(ui.headers, 30, "Normalizing columns");
-  await yieldThread();
+    rows = rows.map(r => ({ ...r }));
 
-  // Pass 1: Handle Column Swaps, Standardization & Defaults
-  for (const r of rows) {
-    if ("Discount Amount" in r && !("Amount" in r)) r["Amount"] = r["Discount Amount"];
+    // Friendly guard: detect line-item uploads in Headers flow.
+    const detectedCols = rows.length ? Object.keys(rows[0]).map(c => String(c).trim().toLowerCase()) : [];
+    const looksLikeLineItems =
+      detectedCols.includes("contract_id") &&
+      (detectedCols.includes("item_number") || detectedCols.includes("unit_price") || detectedCols.includes("quantity"));
+    const hasRequiredHeaderShape =
+      detectedCols.includes("contractid") &&
+      detectedCols.includes("supplier") &&
+      detectedCols.includes("effectivedate") &&
+      detectedCols.includes("expirationdate");
+    if (looksLikeLineItems && !hasRequiredHeaderShape) {
+      throw new Error('Wrong file type for Headers: this looks like a Line Items file (contract_id/item_number). Upload it in the "Line Items" section, and upload a Contract Header file here.');
+    }
 
-    for (const key of Object.keys(r)) {
-      const alt = String(key).trim().toLowerCase();
-      const std = ALT_COL_MAP[alt];
-      if (std) {
-        if (!r[std] || String(r[std]).trim() === "") r[std] = r[key];
+    for (const r of rows) {
+      if ("Discount Amount" in r && !("Amount" in r)) r["Amount"] = r["Discount Amount"];
+    }
+
+    // Swap logic for amount-like columns
+    const cols = rows.length ? Object.keys(rows[0]) : [];
+    const amountCols = cols.filter(c => /^Amount/i.test(c));
+    if (amountCols.length >= 2) {
+      const [firstAmtCol, secondAmtCol] = amountCols;
+      for (const r of rows) {
+        const valI = r[firstAmtCol];
+        const valJ = r[secondAmtCol];
+        r[firstAmtCol] = valJ;
+        r[secondAmtCol] = valI;
+        r["_OriginalAmount"] = String(r[firstAmtCol] ?? "");
+        r["Amount"] = String(r[secondAmtCol] ?? "");
+        for (const extraCol of amountCols.slice(1)) {
+          if (extraCol in r && extraCol !== "Amount") delete r[extraCol];
+        }
+      }
+    } else if (cols.includes("Amount")) {
+      for (const r of rows) {
+        if (!("_OriginalAmount" in r)) r["_OriginalAmount"] = String(r["Amount"] ?? "");
+      }
+    }
+
+    setProgress(ui.headers, 20, "Normalizing columns");
+
+    const ALT_COL_MAP = {
+      incoterms: "cus_Incoterms",
+      incoterm: "cus_Incoterms",
+      "delivery restriction": "cus_DeliveryRestriction",
+      deliveryrestriction: "cus_DeliveryRestriction",
+      "iktva flag": "cus_IKTVAFlag",
+      iktvaflag: "cus_IKTVAFlag",
+      "iktva target": "cus_IKTVATargets",
+      iktvatarget: "cus_IKTVATargets",
+      "plant restrictions": "cus_PlantRestrictions",
+      "plant restriction": "cus_PlantRestrictions",
+      "plant restrict": "cus_PlantRestrictions"
+    };
+
+    for (const r of rows) {
+      for (const key of Object.keys({ ...r })) {
+        const alt = String(key).trim().toLowerCase();
+        const std = ALT_COL_MAP[alt];
+        if (!std) continue;
+        if (!(std in r)) {
+          r[std] = r[key];
+        } else if ((!r[std] || String(r[std]).trim() === "") && r[key]) {
+          r[std] = r[key];
+        }
         if (key !== std) delete r[key];
       }
     }
 
-    if (!("cus_Incoterms" in r)) {
-      const hit = Object.keys(r).find(c => /incoterm/i.test(c));
-      if (hit) r["cus_Incoterms"] = String(r[hit] ?? "").trim();
-    }
-    if (!("Owner" in r) || !String(r["Owner"]).trim()) r["Owner"] = "legacyuser";
-
-    if ("ContractId" in r) {
-      const s = String(r["ContractId"] ?? "");
-      r["ContractId"] = s.startsWith("LC") ? s : (s ? `LC${s}` : "");
-    }
-    if ("Title" in r) r["Title"] = normalizeText(r["Title"]);
-    if ("Description" in r) r["Description"] = normalizeText(r["Description"]);
-  }
-
-  // Handle Amount Swap safely after normalizing keys
-  const cols = rows.length ? Object.keys(rows[0]) : [];
-  const amountCols = cols.filter(c => /^Amount/i.test(c));
-  if (amountCols.length >= 2) {
-    const [firstAmtCol, secondAmtCol] = amountCols;
     for (const r of rows) {
-      const valI = r[firstAmtCol], valJ = r[secondAmtCol];
-      r[firstAmtCol] = valJ; r[secondAmtCol] = valI;
-      r["_OriginalAmount"] = String(r[firstAmtCol] ?? "");
-      r["Amount"] = String(r[secondAmtCol] ?? "");
-      for (const extraCol of amountCols.slice(1)) {
-        if (extraCol in r && extraCol !== "Amount") delete r[extraCol];
+      if (!("cus_Incoterms" in r)) {
+        const hit = Object.keys(r).find(c => /incoterm/i.test(c));
+        if (hit) r["cus_Incoterms"] = String(r[hit] ?? "").trim();
       }
+
+      if (!("Owner" in r) || !String(r["Owner"]).trim()) r["Owner"] = "legacyuser";
+
+      if ("ContractId" in r) {
+        const s = String(r["ContractId"] ?? "");
+        r["ContractId"] = s.startsWith("LC") ? s : `LC${s}`;
+      }
+
+      if ("Title" in r) r["Title"] = normalizeText(r["Title"]);
+      if ("Description" in r) r["Description"] = normalizeText(r["Description"]);
     }
-  } else if (cols.includes("Amount")) {
+
+    // Derived Amount from Unit Price * Quantity
     for (const r of rows) {
-      if (!("_OriginalAmount" in r)) r["_OriginalAmount"] = String(r["Amount"] ?? "");
-    }
-  }
-
-  setProgress(ui.headers, 50, "Formatting Dates & Calculations");
-  await yieldThread();
-
-  // Pass 2: Complex derived values
-  const currencyCol = detectCurrencyColumn(rows);
-  let selectedSystem = ui.headers.businessSystem?.value || "S4QCLNT120";
-  if (selectedSystem === "__OTHER__") selectedSystem = ui.headers.businessSystemCustom?.value || "";
-
-  for (const r of rows) {
-    // Derived amount
-    if ("Unit Price" in r && "Quantity" in r) {
-      const unitPrice = Number(String(r["Unit Price"] ?? "").replace(/,/g, ""));
-      const qty = Number(String(r["Quantity"] ?? "").replace(/,/g, ""));
-      if (Number.isFinite(unitPrice) && Number.isFinite(qty)) {
-        const amountNum = unitPrice * qty;
-        let curCol = ("Unit Price Currency" in r) ? "Unit Price Currency" : ("Currency" in r ? "Currency" : null);
-        const mergedCur = curCol ? mapCurrency(r[curCol]) : "SAR";
-        r["Amount"] = amountNum > 0 ? `${amountNum.toFixed(2)} ${mergedCur}` : "";
+      if ("Unit Price" in r && "Quantity" in r) {
+        const unitPrice = Number(String(r["Unit Price"] ?? "").replace(/,/g, ""));
+        const qty = Number(String(r["Quantity"] ?? "").replace(/,/g, ""));
+        if (Number.isFinite(unitPrice) && Number.isFinite(qty)) {
+          const amountNum = unitPrice * qty;
+          let curCol = null;
+          if ("Unit Price Currency" in r) curCol = "Unit Price Currency";
+          else if ("Currency" in r) curCol = "Currency";
+          const mergedCur = curCol ? mapCurrency(r[curCol]) : "SAR";
+          r["Amount"] = amountNum > 0 ? `${amountNum.toFixed(2)} ${mergedCur}` : "";
+        }
       }
     }
 
-    if ("Unit Price Currency" in r) r["Unit Price Currency"] = mapCurrency(r["Unit Price Currency"]);
-    if ("Supplier" in r) r["Supplier"] = formatSupplier(r["Supplier"]);
+    setProgress(ui.headers, 40, "Formatting supplier and defaults");
 
-    r["HierarchicalType"] = String(r["HierarchicalType"] ?? "").trim() || "StandAlone";
-    r["ContractStatus"] = String(r["ContractStatus"] ?? "").trim() || "Published";
-    r["BaseLanguage"] = String(r["BaseLanguage"] ?? "").trim() || "English";
-    r["arb_CompanyCode"] = String(r["arb_CompanyCode"] ?? "1000").trim() || "1000";
-
-    const poOrg = String(r["arb_PurchasingOrganization"] ?? "1000").trim() || "1000";
-    r["arb_PurchasingOrganization"] = /^\d+$/.test(poOrg) ? poOrg.padStart(4, "0") : poOrg;
-    r["arb_DocumentType"] = String(r["arb_DocumentType"] ?? "").trim() || "Contract";
-
-    if ("arb_DocumentCategory" in r) {
-      const val = String(r["arb_DocumentCategory"] ?? "").trim();
-      r["arb_DocumentCategory"] = DOC_CAT_MAP[val] || val;
+    function formatSupplier(val) {
+      const digits = String(val ?? "").replace(/\D/g, "");
+      return digits ? `${SUPPLIER_PREFIX}${digits.padStart(10, "0")}` : String(val ?? "").trim();
     }
 
-    r["BusinessSystem"] = selectedSystem || "S4QCLNT120";
-    r["Commodity"] = "";
-    r["Region"] = String(r["Region"] ?? "").trim() || "SAU";
+    for (const r of rows) {
+      if ("Unit Price Currency" in r) r["Unit Price Currency"] = mapCurrency(r["Unit Price Currency"]);
+      if ("Supplier" in r) r["Supplier"] = formatSupplier(r["Supplier"]);
 
-    const clientRaw = String(r["Client"] ?? "").trim();
-    r["Client"] = (!clientRaw || Number(clientRaw) === 1000 || isNaN(Number(clientRaw))) ? "ARAMCO" : String(parseInt(clientRaw, 10));
+      r["HierarchicalType"] = String(r["HierarchicalType"] ?? "").trim() || "StandAlone";
 
-    if ("Amount" in r && !("Unit Price" in r)) {
-      const hdrCurrency = currencyCol ? mapCurrency(r[currencyCol]) : "SAR";
-      const proposedNum = cleanNum(r["_OriginalAmount"]);
-      const amountNum = cleanNum(r["Amount"]);
-      r["ProposedAmount"] = proposedNum !== null ? `${proposedNum.toFixed(2)} ${hdrCurrency}` : "";
-      r["Amount"] = amountNum !== null ? `${amountNum.toFixed(2)} ${hdrCurrency}` : "";
-      if (currencyCol && currencyCol in r) delete r[currencyCol];
-      delete r["_OriginalAmount"];
+      const defaults = {
+        ContractStatus: "Published",
+        BaseLanguage: "English",
+        arb_CompanyCode: "1000",
+        arb_PurchasingOrganization: "1000",
+        arb_DocumentType: "Contract"
+      };
+      for (const [k, v] of Object.entries(defaults)) {
+        r[k] = String(r[k] ?? "").trim() || v;
+      }
+
+      // BusinessSystem logic (supporting custom value)
+      let selectedSystem = ui.headers.businessSystem?.value || "S4QCLNT120";
+      if (selectedSystem === "__OTHER__") {
+        selectedSystem = ui.headers.businessSystemCustom?.value || "";
+      }
+      r["BusinessSystem"] = selectedSystem || "S4QCLNT120";
+      r["Commodity"] = "";
+      r["Region"] = String(r["Region"] ?? "").trim() || "SAU";
+
+      const clientRaw = String(r["Client"] ?? "").trim();
+      if (!clientRaw || Number(clientRaw) === 1000 || isNaN(Number(clientRaw))) r["Client"] = "ARAMCO";
+      else r["Client"] = String(parseInt(clientRaw, 10));
+
+      if ("arb_CompanyCode" in r) r["arb_CompanyCode"] = String(r["arb_CompanyCode"]);
+      if ("arb_PurchasingOrganization" in r) {
+        const s = String(r["arb_PurchasingOrganization"]);
+        r["arb_PurchasingOrganization"] = /^\d+$/.test(s) ? s.padStart(4, "0") : s;
+      }
+      if ("arb_DocumentCategory" in r) {
+        const val = String(r["arb_DocumentCategory"] ?? "").trim();
+        r["arb_DocumentCategory"] = DOC_CAT_MAP[val] || val;
+      }
     }
 
-    for (const dc of DATE_COLS) if (dc in r) r[dc] = formatDateValue(r[dc]);
-    for (const dyn of OPTIONAL_DYNAMIC) r[dyn] = String(r[dyn] ?? "").trim();
-
-    if ("cus_DeliveryRestriction" in r) {
-      const n = Number(r["cus_DeliveryRestriction"]);
-      r["cus_DeliveryRestriction"] = Number.isFinite(n) ? parseInt(n, 10) : "";
+    // Header-only numeric mapping
+    const currencyCol = detectCurrencyColumn(rows);
+    for (const r of rows) {
+      if ("Amount" in r && !("Unit Price" in r)) {
+        const hdrCurrency = currencyCol ? mapCurrency(r[currencyCol]) : "SAR";
+        const proposedNum = cleanNum(r["_OriginalAmount"]);
+        const amountNum = cleanNum(r["Amount"]);
+        r["ProposedAmount"] = proposedNum !== null ? `${proposedNum.toFixed(2)} ${hdrCurrency}` : "";
+        r["Amount"] = amountNum !== null ? `${amountNum.toFixed(2)} ${hdrCurrency}` : "";
+        if (currencyCol && currencyCol in r) delete r[currencyCol];
+        delete r["_OriginalAmount"];
+      }
     }
 
-    if ("cus_IKTVAFlag" in r) {
-      const v = String(r["cus_IKTVAFlag"]).trim().toUpperCase();
-      r["cus_IKTVAFlag"] = (v === "N") ? "No" : ((v === "Y") ? "Yes" : r["cus_IKTVAFlag"]);
+    setProgress(ui.headers, 60, "Formatting dates and optionals");
+
+    for (const r of rows) {
+      for (const dc of DATE_COLS) {
+        if (dc in r) r[dc] = formatDateValue(r[dc]);
+      }
+
+      for (const dyn of OPTIONAL_DYNAMIC) {
+        r[dyn] = String(r[dyn] ?? "").trim();
+      }
+
+      if ("cus_DeliveryRestriction" in r) {
+        const n = Number(r["cus_DeliveryRestriction"]);
+        r["cus_DeliveryRestriction"] = Number.isFinite(n) ? parseInt(n, 10) : "";
+      }
+
+      if ("cus_IKTVAFlag" in r) {
+        const v = String(r["cus_IKTVAFlag"]).trim().toUpperCase();
+        if (v === "N") r["cus_IKTVAFlag"] = "No";
+        else if (v === "Y") r["cus_IKTVAFlag"] = "Yes";
+      }
+
+      if (r["cus_IKTVAFlag"] === "No") r["cus_IKTVATargets"] = "";
+
+      if ("cus_PlantRestrictions" in r && !("cus_PlantRestriction" in r)) {
+        r["cus_PlantRestriction"] = r["cus_PlantRestrictions"];
+        delete r["cus_PlantRestrictions"];
+      }
     }
-    if (r["cus_IKTVAFlag"] === "No") r["cus_IKTVATargets"] = "";
 
-    if ("cus_PlantRestrictions" in r && !("cus_PlantRestriction" in r)) {
-      r["cus_PlantRestriction"] = r["cus_PlantRestrictions"];
-      delete r["cus_PlantRestrictions"];
+    // plant restriction grouping by ContractId
+    const byContract = groupBy(rows, r => String(r["ContractId"] ?? ""));
+    for (const [cid, group] of byContract.entries()) {
+      const mergedPlant = group.map(g => String(g["cus_PlantRestriction"] ?? "").trim()).find(Boolean) || "";
+      const formatted = mergedPlant
+        ? mergedPlant.split(",").map(p => p.trim()).filter(Boolean).map(p => `[${p}]`).join("")
+        : "";
+      group.forEach(g => g["cus_PlantRestriction"] = formatted);
     }
-  }
 
-  setProgress(ui.headers, 75, "Consolidating final outputs");
-  await yieldThread();
-
-  // Plant restriction grouping by ContractId
-  const byContract = groupBy(rows, r => String(r["ContractId"] ?? ""));
-  for (const [cid, group] of byContract.entries()) {
-    const mergedPlant = group.map(g => String(g["cus_PlantRestriction"] ?? "").trim()).find(Boolean) || "";
-    const formatted = mergedPlant
-      ? mergedPlant.split(",").map(p => p.trim()).filter(Boolean).map(p => `[${p}]`).join("")
-      : "";
-    group.forEach(g => g["cus_PlantRestriction"] = formatted);
-  }
-
-  // Deduplicate and filter final output format
-  const seenPair = new Set();
-  const seenContract = new Set();
-  const finalRows = [];
-  
-  for (const r of rows) {
-    const key = `${r["ContractId"] ?? ""}||${r["Material Number"] ?? ""}`;
-    if (("Material Number" in r) && seenPair.has(key)) continue;
-    seenPair.add(key);
-
-    const out = {};
-    OUTPUT_COLS_HEADERS.forEach(c => out[c] = r[c] ?? "");
-    finalRows.push(out);
-  }
-
-  state.lastHeaderRows = finalRows;
-  state.lastHeaderIssues = validateHeaderRows(finalRows);
-  renderIssues(state.lastHeaderIssues);
-  renderHeaderPreview(finalRows);
-  updateHeaderDataSummary(finalRows);
-
-  const deduplicatedOutput = finalRows.filter(r => {
-    const cid = String(r["ContractId"] ?? "");
-    if (!cid) return true;
-    if (seenContract.has(cid)) return false;
-    seenContract.add(cid);
-    return true;
-  });
-
-  setProgress(ui.headers, 90, "Preparing Output CSV");
-  await yieldThread();
-
-  const csv = Papa.unparse(deduplicatedOutput, { columns: OUTPUT_COLS_HEADERS, newline: "\n" });
-
-  if (previewOnly) {
-    setStatus(ui.headers, "success", "Preview Ready");
-    setProgress(ui.headers, 100, "Preview completed");
-    log(`Headers: preview completed with ${deduplicatedOutput.length} row(s)`);
-    openPreviewModal({
-      title: "Contracts.csv Preview",
-      subtitle: `${deduplicatedOutput.length} unique contract(s) prepared for output`,
-      sections: [{
-        name: "Contract Headers Output",
-        meta: `Showing up to 25 rows`,
-        html: makePreviewTable(deduplicatedOutput, 25)
-      }]
+    // remove duplicates ContractId + Material Number
+    const seenPair = new Set();
+    rows = rows.filter(r => {
+      const key = `${r["ContractId"] ?? ""}||${r["Material Number"] ?? ""}`;
+      if (!("Material Number" in r)) return true;
+      if (seenPair.has(key)) return false;
+      seenPair.add(key);
+      return true;
     });
-    return;
+
+    // ensure all output cols
+    rows = rows.map(r => {
+      const out = {};
+      OUTPUT_COLS_HEADERS.forEach(c => out[c] = r[c] ?? "");
+      return out;
+    });
+
+    state.lastHeaderRows = rows.map(r => ({ ...r }));
+    state.lastHeaderIssues = validateHeaderRows(state.lastHeaderRows);
+    renderIssues(state.lastHeaderIssues);
+    renderHeaderPreview(state.lastHeaderRows);
+    updateHeaderDataSummary(state.lastHeaderRows);
+    updateSummary();
+
+    // â”€â”€ Guard: block generation if validation errors exist â”€â”€â”€â”€
+    const _errCount  = state.lastHeaderIssues.filter(i => i.severity === "error").length;
+    const _warnCount = state.lastHeaderIssues.filter(i => i.severity === "warn").length;
+    ui.headers.run.disabled = _errCount > 0;
+
+    if (!previewOnly && _errCount > 0) {
+      setStatus(ui.headers, "blocked", `${_errCount} error${_errCount !== 1 ? "s" : ""} â€” output blocked`);
+      setProgress(ui.headers, 0, "Fix errors and re-validate before generating");
+      log(`Headers: generation BLOCKED â€” ${_errCount} error(s) must be resolved first.`, "error");
+      return;
+    }
+
+    // dedupe by ContractId keep first
+    const seenContract = new Set();
+    rows = rows.filter(r => {
+      const cid = String(r["ContractId"] ?? "");
+      if (!cid) return true;
+      if (seenContract.has(cid)) return false;
+      seenContract.add(cid);
+      return true;
+    });
+
+    setProgress(ui.headers, 85, "Preparing output");
+
+    // quotes:true forces every field to be wrapped in double-quotes in the CSV,
+    // which tells Ariba and Excel to treat all values as plain text â€” preventing
+    // auto-conversion of numeric IDs, dates, leading-zero codes, etc.
+    const csv = Papa.unparse(rows, {
+      columns: OUTPUT_COLS_HEADERS,
+      newline: "\n",
+      quotes: true
+    });
+
+    if (previewOnly) {
+      if (_errCount > 0)       setStatus(ui.headers, "blocked", `${_errCount} error${_errCount !== 1 ? "s" : ""} â€” fix before generating`);
+      else if (_warnCount > 0) setStatus(ui.headers, "warn",    `${_warnCount} warning${_warnCount !== 1 ? "s" : ""}`);
+      else                     setStatus(ui.headers, "success",  "Validation passed");
+      setProgress(ui.headers, 100, "Preview completed");
+      log(`Headers: preview completed â€” ${rows.length} row(s), ${_errCount} error(s), ${_warnCount} warning(s)`);
+      openPreviewModal({
+        title: "Contracts.csv Preview",
+        subtitle: `${rows.length} row(s) prepared for output`,
+        sections: [
+          {
+            name: "Contract Headers Output",
+            meta: `Showing up to 25 rows`,
+            html: makePreviewTable(rows, 25)
+          }
+        ]
+      });
+      return;
+    }
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    state.headersDownloadUrl = url;
+    updateSummary();
+
+    showDownload(ui.headers, url, "Contracts.csv", "Download Contracts.csv", `${rows.length} contracts ready for download`);
+    setStatus(ui.headers, "success", "Completed");
+    setProgress(ui.headers, 100, "Contracts.csv generated");
+
+    // â”€â”€ Show acknowledge overlay for contracts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    const _ackErrHdr  = state.lastHeaderIssues.filter(i => i.severity === "error").length;
+    const _ackWarnHdr = state.lastHeaderIssues.filter(i => i.severity === "warn").length;
+    document.getElementById("ackTitle").textContent = "Contracts Ready for Download";
+    document.getElementById("ackSub").textContent   = "Review the summary below, then authorize the download.";
+    document.getElementById("ackStats").innerHTML =
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:file-document"></iconify-icon> Total Rows</span><span class="ack-stat-value">${rows.length.toLocaleString()}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:alert-circle"></iconify-icon> Errors</span><span class="ack-stat-value" style="color:${_ackErrHdr > 0 ? '#b91c1c' : '#15803d'}">${_ackErrHdr}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:alert"></iconify-icon> Warnings</span><span class="ack-stat-value" style="color:${_ackWarnHdr > 0 ? '#b45309' : '#15803d'}">${_ackWarnHdr}</span></div>`;
+
+    const hdrOverlay     = document.getElementById("ackOverlay");
+    const hdrCheckbox    = document.getElementById("ackCheckbox");
+    const hdrDownloadBtn = document.getElementById("ackDownloadBtn");
+    hdrCheckbox.checked      = false;
+    hdrDownloadBtn.disabled  = true;
+    // Block download if there are validation errors
+    hdrCheckbox.onchange = () => { hdrDownloadBtn.disabled = !hdrCheckbox.checked || _ackErrHdr > 0; };
+    if (_ackErrHdr > 0) {
+      hdrDownloadBtn.title = "Cannot download â€” fix all validation errors first";
+      hdrDownloadBtn.style.opacity = "0.5";
+    } else {
+      hdrDownloadBtn.title = "";
+      hdrDownloadBtn.style.opacity = "";
+    }
+    hdrOverlay.classList.add("show");
+    hdrDownloadBtn.onclick = () => {
+      if (hdrCheckbox.checked && _ackErrHdr === 0) {
+        document.getElementById("headersDownloadLink").click();
+        hdrOverlay.classList.remove("show");
+      }
+    };
+    document.getElementById("ackCloseBtn").onclick = () => hdrOverlay.classList.remove("show");
+    log(`Headers: output ready, rows=${rows.length}`);
+  } finally {
+    toggleActionButtons(ui.headers, false);
   }
-
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  state.headersDownloadUrl = url;
-  updateSummary();
-
-  showDownload(ui.headers, url, "Contracts.csv", "Download Contracts.csv");
-  setStatus(ui.headers, "success", "Completed");
-  setProgress(ui.headers, 100, "Contracts.csv generated");
-  log(`Headers: output ready, unique contracts=${deduplicatedOutput.length}`);
 }
 
 /* ============================================================================
@@ -2080,7 +2807,9 @@ function getFormattedValue(key, val, row) {
     const n = Number(val);
     return Number.isFinite(n) ? String(parseInt(n, 10)) : String(val);
   } else if (key === "lead_time_days") {
-    return val !== "" && val !== null && val !== undefined ? String(parseInt(val, 10)) : "";
+    if (val === "" || val === null || val === undefined) return "";
+    const n = Number(val);
+    return Number.isFinite(n) ? String(Math.trunc(n)) : String(val).trim();
   } else if (key === "transportation_mode") {
     if (String(val).trim() === "") return "";
     const n = Number(String(val).trim());
@@ -2111,13 +2840,14 @@ function buildItemAttributes(rows) {
 
   for (const row of rows) {
     const desc = row.description ?? "";
+
     for (const key of ATTR_ORDER) {
       let rawVal = row[key];
       let valFmt = getFormattedValue(key, rawVal, row);
 
       if (["material_number", "material_code", "material_group"].includes(key) && valFmt) {
-        const n = Number(valFmt);
-        valFmt = Number.isFinite(n) ? String(parseInt(n, 10)) : String(valFmt);
+        const _n = Number(valFmt);
+        valFmt = Number.isFinite(_n) ? String(Math.trunc(_n)) : String(valFmt).trim();
       }
 
       if (typeof valFmt === "string" && ["nan", "none"].includes(valFmt.trim().toLowerCase())) {
@@ -2164,268 +2894,349 @@ function buildItemAttributes(rows) {
 }
 
 async function processLineItems(files, options, previewOnly = false) {
-  hideItemsDownload();
+  toggleActionButtons(ui.items, true);
+  hideDownload(ui.items, "itemsDownloadUrl");
   setStatus(ui.items, "running", previewOnly ? "Preview" : "In Progress");
   setProgress(ui.items, 10, "Reading input file(s)");
-  await yieldThread();
 
-  const inputFiles = Array.isArray(files) ? files : [files];
-  if (!inputFiles.length) throw new Error("No input files selected.");
+  try {
+    const inputFiles = Array.isArray(files) ? files : [files];
+    if (!inputFiles.length) throw new Error("No input files selected.");
 
-  let rows = [];
-  for (const file of inputFiles) {
-    log(`LineItems: reading file ${file.name}`);
-    const ext = file.name.toLowerCase().split(".").pop();
-    let fileRows = [];
+    let rows = [];
+    let headerAttrData = {}; // contract_id -> array of header attribute rows
 
-    if (ext === "json") {
-      fileRows = JSON.parse(await file.text());
-    } else if (ext === "csv") {
-      const text = await file.text();
-      fileRows = Papa.parse(text, { header: true, skipEmptyLines: false }).data;
-    } else {
-      throw new Error(`Unsupported file type: ${ext}`);
+    for (const file of inputFiles) {
+      log(`LineItems: reading file ${file.name}`);
+      const ext = file.name.toLowerCase().split(".").pop();
+      let fileRows = [];
+
+      // Detect: is this a Header Attributes file?
+      const isHeaderAttr = /header[_-]?attr/i.test(file.name);
+
+      if (ext === "json") {
+        fileRows = JSON.parse(await file.text());
+      } else if (ext === "csv") {
+        const text = await file.text();
+        fileRows = Papa.parse(text, { header: true, skipEmptyLines: 'greedy' }).data;
+      } else {
+        throw new Error(`Unsupported file type: ${ext}`);
+      }
+
+      if (isHeaderAttr) {
+        // Parse Header Attributes CSV and group by contract_id
+        // Expected columns: attribute_name, attribute_value, display_text, type, description, table_section_column, contract_id
+        fileRows.forEach(r => {
+          const cid = String(r.contract_id ?? r.contractid ?? "").replace(/\D/g, "").padStart(10, "0");
+          if (!cid) return;
+          if (!headerAttrData[cid]) headerAttrData[cid] = [];
+          // Normalize column names
+          const row = {};
+          for (const [k, v] of Object.entries(r)) {
+            const kn = k.toLowerCase().replace(/[^a-z0-9_]/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
+            row[kn] = v ?? "";
+          }
+          if (row.attribute_name && String(row.attribute_name).trim()) {
+            headerAttrData[cid].push({
+              "Attribute Name": row.attribute_name ?? "",
+              "Attribute Value": row.attribute_value ?? "",
+              "Display Text": row.display_text ?? row.attribute_name ?? "",
+              "Type": row.type ?? "Text (single line limited)",
+              "Description": row.description ?? "",
+              "Table Section Column": row.table_section_column ?? ""
+            });
+          }
+        });
+        log(`LineItems: loaded Header Attributes for ${Object.keys(headerAttrData).length} contract(s)`);
+      } else {
+        // Line items file
+        rows.push(...fileRows);
+      }
     }
-    rows.push(...fileRows);
-  }
 
-  setProgress(ui.items, 25, "Normalizing inputs");
-  await yieldThread();
-  
-  rows = snakeColumns(rows);
-  rows.forEach(r => {
-    if ("contractid" in r && !("contract_id" in r)) r.contract_id = r.contractid;
-  });
+    rows = snakeColumns(rows);
+    rows.forEach(r => {
+      if ("contractid" in r && !("contract_id" in r)) r.contract_id = r.contractid;
+    });
 
-  log(`LineItems: rows loaded = ${rows.length}`);
+    setProgress(ui.items, 25, "Normalizing input");
+    log(`LineItems: rows loaded = ${rows.length}`);
 
-  for (const r of rows) {
-    if (r.contract_id !== undefined) {
-      r.contract_id = String(r.contract_id).replace(/\D/g, "").padStart(10, "0");
-    }
+    for (const r of rows) {
+      if (r.contract_id !== undefined) {
+        r.contract_id = String(r.contract_id).replace(/\D/g, "").padStart(10, "0");
+      }
 
-    if ("item_category" in r) {
-      if (r.item_category === 0 || r.item_category === "0" || r.item_category === "" || r.item_category == null) {
+      if ("item_category" in r) {
+        if (r.item_category === 0 || r.item_category === "0" || r.item_category === "" || r.item_category == null) {
+          r.item_category = DEFAULT_ITEM_CATEGORY;
+        }
+      } else {
         r.item_category = DEFAULT_ITEM_CATEGORY;
       }
-    } else {
-      r.item_category = DEFAULT_ITEM_CATEGORY;
+
+      if (!("plant" in r)) {
+        r.plant = "";
+      } else {
+        const s = String(r.plant ?? "").trim();
+        r.plant = ["", "0", "nan", "NaN", "None"].includes(s) ? "" : "2001";
+      }
+
+      delete r.incoterms;
+      delete r.incoterms_location;
+
+      for (const key of Object.keys(r)) {
+        if (typeof r[key] === "string") r[key] = r[key].trim();
+      }
+
+      if ("unit_price" in r) {
+        const n = Number(String(r.unit_price).replace(/,/g, ""));
+        r.unit_price = Number.isFinite(n) ? n : 0;
+      }
+      if ("quantity" in r) {
+        const n = Number(String(r.quantity).replace(/,/g, ""));
+        r.quantity = Number.isFinite(n) ? n : 0;
+      }
+      if ("lead_time_days" in r) {
+        r.lead_time_days = String(r.lead_time_days ?? "").trim();
+      }
+
+      if ("unit_price" in r && "quantity" in r) {
+        r.extended_price = (Number(r.unit_price) || 0) * (Number(r.quantity) || 0);
+      } else {
+        r.extended_price = "";
+      }
     }
 
-    if (!("plant" in r)) {
-      r.plant = "";
-    } else {
-      const s = String(r.plant ?? "").trim();
-      r.plant = ["", "0", "nan", "NaN", "None"].includes(s) ? "" : "2001";
+    // Contract 4600005068: clear material_po_text for item numbers 2, 3, 4
+    for (const r of rows) {
+      if (String(r.contract_id) === "4600005068" && [2, 3, 4].includes(Number(r.item_number))) {
+        r.material_po_text = "";
+      }
     }
 
-    delete r.incoterms;
-    delete r.incoterms_location;
+    state.lastItemRows = rows.map(r => ({ ...r }));
+    state.lastItemIssues = validateLineItemRows(state.lastItemRows);
+    renderIssues(state.lastItemIssues);
+    updateSummary();
 
-    for (const key of Object.keys(r)) {
-      if (typeof r[key] === "string") r[key] = r[key].trim();
+    // â”€â”€ Guard: block generation if validation errors exist â”€â”€â”€â”€
+    const _iErrCount  = state.lastItemIssues.filter(i => i.severity === "error").length;
+    const _iWarnCount = state.lastItemIssues.filter(i => i.severity === "warn").length;
+    ui.items.run.disabled = _iErrCount > 0;
+
+    if (!previewOnly && _iErrCount > 0) {
+      setStatus(ui.items, "blocked", `${_iErrCount} error${_iErrCount !== 1 ? "s" : ""} â€” output blocked`);
+      setProgress(ui.items, 0, "Fix errors and re-validate before generating");
+      log(`LineItems: generation BLOCKED â€” ${_iErrCount} error(s) must be resolved first.`, "error");
+      return;
     }
 
-    if ("unit_price" in r) {
-      const n = Number(String(r.unit_price).replace(/,/g, ""));
-      r.unit_price = Number.isFinite(n) ? n : 0;
-    }
-    if ("quantity" in r) {
-      const n = Number(String(r.quantity).replace(/,/g, ""));
-      r.quantity = Number.isFinite(n) ? n : 0;
-    }
-    if ("lead_time_days" in r) {
-      const n = Number(r.lead_time_days);
-      r.lead_time_days = Number.isFinite(n) ? n : "";
-    }
+    const itemAttrRows = buildItemAttributes(rows);
 
-    if ("unit_price" in r && "quantity" in r) {
-      r.extended_price = (Number(r.unit_price) || 0) * (Number(r.quantity) || 0);
-    } else {
-      r.extended_price = "";
-    }
-  }
-
-  state.lastItemRows = rows.map(r => ({ ...r }));
-  state.lastItemIssues = validateLineItemRows(state.lastItemRows);
-  renderIssues(state.lastItemIssues);
-
-  setProgress(ui.items, 40, "Building Attribute Definitions");
-  await yieldThread();
-  const itemAttrRows = buildItemAttributes(rows);
-
-  if (previewOnly) {
-    const previewGroups = groupBy(rows, r => r.contract_id || "");
-    const firstEntry = previewGroups.entries().next().value;
-    if (!firstEntry) throw new Error("No contract groups available for preview.");
-    
-    const [previewContractId, previewRows] = firstEntry;
-    const previewItemAttrRows = itemAttrRows
-      .filter(r => r.contract_id === previewContractId)
-      .map(r => {
-        const out = { ...r };
-        delete out.contract_id;
+    if (previewOnly) {
+      const previewGroups = groupBy(rows, r => r.contract_id || "");
+      const firstEntry = previewGroups.entries().next().value;
+      if (!firstEntry) throw new Error("No contract groups available for preview.");
+      const [previewContractId, previewRows] = firstEntry;
+      const previewItemAttrRows = buildItemAttributes(previewRows)
+        .filter(r => r.contract_id === previewContractId)
+        .map(r => {
+          const out = { ...r };
+          delete out.contract_id;
+          return out;
+        });
+      const previewContentRows = previewRows.map(r => {
+        const out = {};
+        Object.entries(r).forEach(([k, v]) => {
+          const key = k === "extended_description" ? "Extended Description" : k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+          out[key] = v;
+        });
         return out;
       });
-      
-    const previewContentRows = previewRows.map(r => {
-      const out = {};
-      Object.entries(r).forEach(([k, v]) => {
-        const key = k === "extended_description" ? "Extended Description" : k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-        out[key] = v;
+      if (_iErrCount > 0)       setStatus(ui.items, "blocked", `${_iErrCount} error${_iErrCount !== 1 ? "s" : ""} â€” fix before generating`);
+      else if (_iWarnCount > 0) setStatus(ui.items, "warn",    `${_iWarnCount} warning${_iWarnCount !== 1 ? "s" : ""}`);
+      else                      setStatus(ui.items, "success",  "Validation passed");
+      setProgress(ui.items, 100, "Preview completed");
+      log(`LineItems: preview completed â€” contracts=${new Set(rows.map(r => r.contract_id)).size}, ${_iErrCount} error(s), ${_iWarnCount} warning(s)`);
+      const previewHeaderAttrRows = headerAttrData[previewContractId] || [];
+      openPreviewModal({
+        title: `Excel Preview â€¢ Contract ${previewContractId}`,
+        subtitle: `Preview of workbook sheets before ZIP generation`,
+        sections: [
+          {
+            name: "Contract Header",
+            meta: `${HEADER_TEMPLATE_COLUMNS.length} column(s)`,
+            html: makePreviewTable([Object.fromEntries(HEADER_TEMPLATE_COLUMNS.map(col => [col, ""]))], 1)
+          },
+          {
+            name: "Contract Item Information",
+            meta: `${previewRows.length} row(s) in selected contract`,
+            html: makePreviewTable(previewContentRows, 20)
+          },
+          {
+            name: "Header Attributes",
+            meta: previewHeaderAttrRows.length ? `${previewHeaderAttrRows.length} row(s)` : "No Header Attributes file provided",
+            html: previewHeaderAttrRows.length
+              ? makePreviewTable(previewHeaderAttrRows, 20)
+              : '<div class="issue-empty">Include a Header Attributes CSV file alongside your Line Items file to populate this tab. The filename should contain \'header\' and \'attr\' (e.g. Contract_Header_Attributes.csv).</div>'
+          },
+          {
+            name: "Item Attributes",
+            meta: `${previewItemAttrRows.length} attribute row(s)`,
+            html: makePreviewTable(previewItemAttrRows, 20)
+          }
+        ]
       });
-      return out;
-    });
-    
-    setStatus(ui.items, "success", "Preview Ready");
-    setProgress(ui.items, 100, "Preview completed");
-    log(`LineItems: preview completed, contracts=${new Set(rows.map(r => r.contract_id)).size}`);
-    
-    openPreviewModal({
-      title: `Excel Preview • Contract ${previewContractId}`,
-      subtitle: `Preview of workbook sheets before generation`,
-      sections: [
-        {
-          name: "Contract Header",
-          meta: `${HEADER_TEMPLATE_COLUMNS.length} column(s)`,
-          html: makePreviewTable([Object.fromEntries(HEADER_TEMPLATE_COLUMNS.map(col => [col, ""]))], 1)
-        },
-        {
-          name: "Contract Item Information",
-          meta: `${previewRows.length} row(s) in selected contract`,
-          html: makePreviewTable(previewContentRows, 20)
-        },
-        {
-          name: "Header Attributes",
-          meta: `Browser version placeholder sheet`,
-          html: '<div class="issue-empty">Header Attributes is currently generated as an empty placeholder in the browser build.</div>'
-        },
-        {
-          name: "Item Attributes",
-          meta: `${previewItemAttrRows.length} attribute row(s)`,
-          html: makePreviewTable(previewItemAttrRows, 20)
+      return;
+    }
+
+    setProgress(ui.items, 45, "Grouping by contract");
+
+    const groups = groupBy(rows, r => r.contract_id || "");
+    state.lastWorkbookPreviews = Array.from(groups.keys()).filter(Boolean).map(cid => ({ contractId: cid }));
+    updateSummary();
+    const zip = new JSZip();
+    let processed = 0;
+    const total = groups.size || 1;
+    let totalItemRows = 0;
+    let totalAttrRows = 0;
+
+    for (const [cid, grp] of groups.entries()) {
+      const g = grp.map(r => ({ ...r }));
+
+      for (const row of g) {
+        row.extended_description = row.description ?? "";
+        row.commodity = "";
+        row.classification_code = "";
+      }
+
+      const contentSheetRows = g.map(r => {
+        const out = {};
+        for (const [k, v] of Object.entries(r)) {
+          let newKey;
+          if (k === "extended_description") newKey = "Extended Description";
+          else newKey = k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+          out[newKey] = v;
         }
-      ]
-    });
-    return;
-  }
+        for (const col of CONTRACT_ITEM_COLUMNS) {
+          if (!(col in out)) out[col] = "";
+        }
+        return out;
+      });
+      totalItemRows += contentSheetRows.length;
 
-  setProgress(ui.items, 50, "Grouping Data by Contract");
-  await yieldThread();
+      let itemAttrSheet = itemAttrRows
+        .filter(r => r.contract_id === cid)
+        .map(r => {
+          const out = { ...r };
+          delete out.contract_id;
+          return out;
+        });
 
-  const groups = groupBy(rows, r => r.contract_id || "");
-  // O(N) optimization: Pre-group attribute rows so we don't scan all records repeatedly inside loop
-  const attrGroups = groupBy(itemAttrRows, r => r.contract_id || "");
-  
-  state.lastWorkbookPreviews = Array.from(groups.keys()).filter(Boolean).map(cid => ({ contractId: cid }));
-  updateSummary();
-  
-  let processed = 0;
-  const total = groups.size || 1;
+      const seen = new Set();
+      itemAttrSheet = itemAttrSheet.filter(r => {
+        const key = `${r["Item Number"]}||${r["Attribute Name"]}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      totalAttrRows += itemAttrSheet.length;
 
-  for (const [cid, grp] of groups.entries()) {
-    const g = grp.map(r => ({ ...r }));
+      const wb = XLSX.utils.book_new();
 
-    for (const row of g) {
-      row.extended_description = row.description ?? "";
-      row.commodity = "";
-      row.classification_code = "";
-    }
+      // Contract Header
+      const headerSheet = XLSX.utils.json_to_sheet([]);
+      XLSX.utils.sheet_add_json(headerSheet, [], { header: HEADER_TEMPLATE_COLUMNS, skipHeader: false });
+      forceTextFormat(headerSheet);
+      XLSX.utils.book_append_sheet(wb, headerSheet, "Contract Header");
 
-    const contentSheetRows = g.map(r => {
-      const out = {};
-      for (const [k, v] of Object.entries(r)) {
-        let newKey = k === "extended_description" ? "Extended Description" : k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-        out[newKey] = v;
-      }
-      for (const col of CONTRACT_ITEM_COLUMNS) {
-        if (!(col in out)) out[col] = "";
-      }
-      return out;
-    });
+      // Contract Item Information
+      const contractItemSheet = XLSX.utils.json_to_sheet(toSheetRows(contentSheetRows, CONTRACT_ITEM_COLUMNS));
+      forceTextFormat(contractItemSheet);
+      XLSX.utils.book_append_sheet(wb, contractItemSheet, "Contract Item Information");
 
-    let itemAttrSheet = (attrGroups.get(cid) || []).map(r => {
-      const out = { ...r };
-      delete out.contract_id;
-      return out;
-    });
+      // Header Attributes (populated from headerAttrData if available)
+      const headerAttrRows = headerAttrData[cid] || [];
+      const headerAttrSheet = XLSX.utils.json_to_sheet(headerAttrRows.length > 0 ? headerAttrRows : [], {
+        header: ["Attribute Name", "Attribute Value", "Display Text", "Type", "Description", "Table Section Column"]
+      });
+      forceTextFormat(headerAttrSheet);
+      XLSX.utils.book_append_sheet(wb, headerAttrSheet, "Header Attributes");
 
-    const seen = new Set();
-    itemAttrSheet = itemAttrSheet.filter(r => {
-      const key = `${r["Item Number"]}||${r["Attribute Name"]}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
+      // Item Attributes
+      const itemAttrColumns = [
+        "Item Number", "Attribute Name", "Attribute Value", "Display Text",
+        "Type", "Description", "Is Term added from Item Master", "Formula"
+      ];
+      const itemAttrSheetWs = XLSX.utils.json_to_sheet(toSheetRows(itemAttrSheet, itemAttrColumns));
+      forceTextFormat(itemAttrSheetWs);
+      XLSX.utils.book_append_sheet(wb, itemAttrSheetWs, "Item Attributes");
 
-    const wb = XLSX.utils.book_new();
+      const wbArray = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      zip.file(`LC${cid}.xlsx`, wbArray);
 
-    // Add standard document properties. This prevents Windows Defender / SmartScreen
-    // from heuristically flagging the browser-generated file as "potentially harmful".
-    wb.Props = {
-      Title: `Contract ${cid} Import Data`,
-      Subject: "Aridata Export",
-      Author: "Aridata Contract Processor",
-      CreatedDate: new Date()
-    };
-
-    // Contract Header
-    const headerSheet = XLSX.utils.json_to_sheet([]);
-    XLSX.utils.sheet_add_json(headerSheet, [], { header: HEADER_TEMPLATE_COLUMNS, skipHeader: false });
-    XLSX.utils.book_append_sheet(wb, headerSheet, "Contract Header");
-
-    // Contract Item Information
-    const contractItemSheet = XLSX.utils.json_to_sheet(toSheetRows(contentSheetRows, CONTRACT_ITEM_COLUMNS));
-    XLSX.utils.book_append_sheet(wb, contractItemSheet, "Contract Item Information");
-
-    // Header Attributes (empty placeholder in this JS version)
-    const headerAttrSheet = XLSX.utils.json_to_sheet([]);
-    XLSX.utils.book_append_sheet(wb, headerAttrSheet, "Header Attributes");
-
-    // Item Attributes
-    const itemAttrColumns = [
-      "Item Number", "Attribute Name", "Attribute Value", "Display Text",
-      "Type", "Description", "Is Term added from Item Master", "Formula"
-    ];
-    const itemAttrSheetWs = XLSX.utils.json_to_sheet(toSheetRows(itemAttrSheet, itemAttrColumns));
-    XLSX.utils.book_append_sheet(wb, itemAttrSheetWs, "Item Attributes");
-
-    const wbArray = XLSX.write(wb, { bookType: "xlsx", type: "array", compression: true });
-    const blob = new Blob([wbArray], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const url = URL.createObjectURL(blob);
-    state.generatedItemFiles.push({ name: `LC${cid}.xlsx`, url });
-
-    processed++;
-    if (processed % 15 === 0 || processed === total) {
-      const pct = 50 + Math.round((processed / total) * 45);
+      processed++;
+      const pct = 45 + Math.round((processed / total) * 50);
       setProgress(ui.items, pct, `Generated workbook ${processed} of ${total}`);
-      await yieldThread();
     }
+
+    setProgress(ui.items, 98, "Building ZIP");
+    const zipBlob = await zip.generateAsync({ type: "blob", mimeType: "application/zip", compression: "DEFLATE", compressionOptions: { level: 6 } });
+    const url = URL.createObjectURL(zipBlob);
+    state.lastGeneratedItemsBlob = zipBlob;
+    state.itemsDownloadUrl = url;
+
+    showDownload(ui.items, url, "LineItems_Output.zip", "Download ZIP", `${groups.size} workbooks ready for download`);
+    setStatus(ui.items, "success", "Completed");
+    setProgress(ui.items, 100, "ZIP generated successfully");
+
+    // â”€â”€ Show modern acknowledge overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    const zipSizeKB    = Math.round((zipBlob.size || 0) / 1024);
+    const zipSizeMB    = (zipBlob.size / (1024 * 1024)).toFixed(1);
+    const sizeLabel    = zipSizeMB >= 1 ? `${zipSizeMB} MB` : `${zipSizeKB} KB`;
+    const _ackErrItm   = state.lastItemIssues.filter(i => i.severity === "error").length;
+    const _ackWarnItm  = state.lastItemIssues.filter(i => i.severity === "warn").length;
+    document.getElementById("ackTitle").textContent = "Line Items Ready for Download";
+    document.getElementById("ackSub").textContent   = "Review the summary below, then authorize the download.";
+    document.getElementById("ackStats").innerHTML =
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:file-document"></iconify-icon> Contracts</span><span class="ack-stat-value">${groups.size}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:format-list-bulleted"></iconify-icon> Line Items</span><span class="ack-stat-value">${totalItemRows.toLocaleString()}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:tag-outline"></iconify-icon> Attributes</span><span class="ack-stat-value">${totalAttrRows.toLocaleString()}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:zip-box"></iconify-icon> ZIP Size</span><span class="ack-stat-value">${sizeLabel}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:alert-circle"></iconify-icon> Errors</span><span class="ack-stat-value" style="color:${_ackErrItm > 0 ? '#b91c1c' : '#15803d'}">${_ackErrItm}</span></div>` +
+      `<div class="ack-stat"><span class="ack-stat-label"><iconify-icon icon="mdi:alert"></iconify-icon> Warnings</span><span class="ack-stat-value" style="color:${_ackWarnItm > 0 ? '#b45309' : '#15803d'}">${_ackWarnItm}</span></div>`;
+
+    const overlay     = document.getElementById("ackOverlay");
+    const checkbox    = document.getElementById("ackCheckbox");
+    const downloadBtn = document.getElementById("ackDownloadBtn");
+    checkbox.checked     = false;
+    downloadBtn.disabled = true;
+    checkbox.onchange = () => { downloadBtn.disabled = !checkbox.checked || _ackErrItm > 0; };
+    if (_ackErrItm > 0) {
+      downloadBtn.title   = "Cannot download â€” fix all validation errors first";
+      downloadBtn.style.opacity = "0.5";
+    } else {
+      downloadBtn.title   = "";
+      downloadBtn.style.opacity = "";
+    }
+    overlay.classList.add("show");
+    downloadBtn.onclick = () => {
+      if (checkbox.checked && _ackErrItm === 0) {
+        document.getElementById("itemsDownloadLink").click();
+        overlay.classList.remove("show");
+      }
+    };
+    document.getElementById("ackCloseBtn").onclick = () => overlay.classList.remove("show");
+    saveSettingsItems(inputFiles.map(f => f.name).join(", "));
+    log(`LineItems: output ready, contracts=${groups.size}`);
+  } finally {
+    toggleActionButtons(ui.items, false);
   }
-
-  setProgress(ui.items, 98, "Finalizing files");
-  await yieldThread();
-  
-  ui.items.downloadList.innerHTML = "";
-  state.generatedItemFiles.forEach(file => {
-    const a = document.createElement("a");
-    a.className = "btn btn-secondary";
-    a.style.justifyContent = "flex-start";
-    a.href = file.url;
-    a.download = file.name;
-    a.innerHTML = `<iconify-icon icon="mdi:file-excel" style="color:#107c41;"></iconify-icon> ${file.name}`;
-    ui.items.downloadList.appendChild(a);
-  });
-
-  ui.items.downloadBox.classList.add("show");
-  setStatus(ui.items, "success", "Completed");
-  setProgress(ui.items, 100, "Files generated successfully");
-  saveSettingsItems(inputFiles.map(f => f.name).join(", "));
-  log(`LineItems: output ready, contracts=${groups.size}`);
 }
 
 /* ============================================================================
-   Tab handling & Core Wiring
+   Tab handling
 ============================================================================ */
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -2438,27 +3249,79 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
+/* ============================================================================
+   File wiring
+============================================================================ */
 wireDropzone(ui.headers.dropzone, ui.headers.fileInput, file => {
   state.headersFile = file;
-  const label = `Selected: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-  ui.headers.fileName.textContent = label;
+  showDropzoneFile(ui.headers.dropzone, file);
+  const label = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+  ui.headers.fileName.textContent    = label;
   ui.headers.fileDisplay.textContent = label;
-  ui.headers.preview.disabled = false;
+  ui.headers.preview.disabled  = false;
   ui.headers.validate.disabled = false;
-  ui.headers.run.disabled = false;
-  setStatus(ui.headers, "idle", "Ready");
+  ui.headers.run.disabled      = true;
+  ui.headers.run.title         = "Run Validate Data first before generating output";
+  setStatus(ui.headers, "success", "File loaded â€” click Validate Data");
   setProgress(ui.headers, 0, "File selected");
-  log(`Headers: file selected ${file.name}`);
+  log(`Headers: file selected â€” ${file.name}`);
+  renderIssues(null);
   updateSummary();
+  setTimeout(() => ui.headers.validate.focus(), 80);
 });
 
 wireDropzone(ui.items.dropzone, ui.items.fileInput, files => {
   state.itemsFiles = Array.isArray(files) ? files : [files];
+  showDropzoneFiles(ui.items.dropzone, state.itemsFiles);
   updateItemsSelectionUi();
-  setStatus(ui.items, "idle", "Ready");
+  ui.items.run.disabled = true;
+  ui.items.run.title    = "Run Validate Rows first before generating output";
+  setStatus(ui.items, "success", "File loaded â€” click Validate Rows");
   setProgress(ui.items, 0, state.itemsFiles.length > 1 ? "Files selected" : "File selected");
   log(`LineItems: ${state.itemsFiles.length} file(s) selected`);
+  renderIssues(null);
   updateSummary();
+  setTimeout(() => ui.items.validate.focus(), 80);
+});
+
+ui.headers.validate.addEventListener("click", async () => {
+  if (!state.headersFile) return;
+  try {
+    await processHeaders(state.headersFile, {
+      backup: ui.headers.backup.checked,
+      logging: ui.headers.logging.checked
+    }, true);
+    renderIssues(state.lastHeaderIssues);
+    applyValidationResult(ui.headers, state.lastHeaderIssues, ui.headers.run);
+    const ec = state.lastHeaderIssues.filter(i => i.severity === "error").length;
+    const wc = state.lastHeaderIssues.filter(i => i.severity === "warn").length;
+    log(`Headers: validation complete â€” ${ec} error(s), ${wc} warning(s)`, ec > 0 ? "error" : wc > 0 ? "warn" : "success");
+  } catch (e) {
+    setStatus(ui.headers, "error", "Validation failed");
+    setProgress(ui.headers, 100, "Validation failed");
+    log(`Headers VALIDATION ERROR: ${e.message}`, "error");
+    showToast(`Header validation failed: ${e.message}`, "error");
+  }
+});
+
+ui.items.validate.addEventListener("click", async () => {
+  if (!state.itemsFiles.length) return;
+  try {
+    await processLineItems(state.itemsFiles, {
+      backup: ui.items.backup.checked,
+      logging: ui.items.logging.checked
+    }, true);
+    renderIssues(state.lastItemIssues);
+    applyValidationResult(ui.items, state.lastItemIssues, ui.items.run);
+    const ec = state.lastItemIssues.filter(i => i.severity === "error").length;
+    const wc = state.lastItemIssues.filter(i => i.severity === "warn").length;
+    log(`LineItems: validation complete â€” ${ec} error(s), ${wc} warning(s)`, ec > 0 ? "error" : wc > 0 ? "warn" : "success");
+  } catch (e) {
+    setStatus(ui.items, "error", "Validation failed");
+    setProgress(ui.items, 100, "Validation failed");
+    log(`LineItems VALIDATION ERROR: ${e.message}`, "error");
+    showToast(`Line item validation failed: ${e.message}`, "error");
+  }
 });
 
 ui.preview.close.addEventListener("click", closePreviewModal);
@@ -2472,29 +3335,31 @@ ui.preview.modal.addEventListener("click", e => {
 document.getElementById("itemsNew").addEventListener("click", () => {
   state.itemsFiles = [];
   ui.items.fileInput.value = "";
+  resetDropzone(ui.items.dropzone, true);
   updateItemsSelectionUi();
   setStatus(ui.items, "idle", "Idle");
   setProgress(ui.items, 0, "New task started");
   log("LineItems: new task initialized");
-  hideItemsDownload();
+  hideDownload(ui.items, "itemsDownloadUrl");
   state.lastItemRows = [];
   state.lastItemIssues = [];
   state.lastWorkbookPreviews = [];
-  renderIssues([]);
+  renderIssues(null);
   updateSummary();
 });
 
 document.getElementById("itemsClear").addEventListener("click", () => {
   state.itemsFiles = [];
   ui.items.fileInput.value = "";
+  resetDropzone(ui.items.dropzone, true);
   updateItemsSelectionUi();
   setStatus(ui.items, "idle", "Idle");
   setProgress(ui.items, 0, "Selection cleared");
-  hideItemsDownload();
+  hideDownload(ui.items, "itemsDownloadUrl");
   state.lastItemRows = [];
   state.lastItemIssues = [];
   state.lastWorkbookPreviews = [];
-  renderIssues([]);
+  renderIssues(null);
   updateSummary();
   log("LineItems: selection cleared");
 });
@@ -2502,6 +3367,7 @@ document.getElementById("itemsClear").addEventListener("click", () => {
 document.getElementById("headersClear").addEventListener("click", () => {
   state.headersFile = null;
   ui.headers.fileInput.value = "";
+  resetDropzone(ui.headers.dropzone, false);
   ui.headers.fileName.textContent = "No file selected.";
   ui.headers.fileDisplay.textContent = "No file selected.";
   ui.headers.preview.disabled = true;
@@ -2512,74 +3378,76 @@ document.getElementById("headersClear").addEventListener("click", () => {
   hideDownload(ui.headers, "headersDownloadUrl");
   state.lastHeaderRows = [];
   state.lastHeaderIssues = [];
-  renderIssues([]);
+  renderIssues(null);
   resetHeaderPreview();
   updateSummary();
   log("Headers: selection cleared");
 });
 
-const wrapAsyncAction = (area, fn) => async () => {
+ui.headers.preview.addEventListener("click", async () => {
+  if (!state.headersFile) return;
   try {
-    await fn();
-  } catch(e) {
-    setStatus(area, "error", "Failed");
-    setProgress(area, 100, "Processing failed");
-    log(`ERROR: ${e.message}`, "error");
-    alert(`Processing failed:\n${e.message}`);
+    await processHeaders(state.headersFile, {
+      backup: ui.headers.backup.checked,
+      logging: ui.headers.logging.checked
+    }, true);
+  } catch (e) {
+    setStatus(ui.headers, "error", "Failed");
+    setProgress(ui.headers, 100, "Processing failed");
+    log(`Headers ERROR: ${e.message}`);
+    showToast(`Headers processing failed: ${e.message}`, "error");
   }
-};
+});
 
-ui.headers.validate.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
+ui.headers.run.addEventListener("click", async () => {
   if (!state.headersFile) return;
-  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, true);
-  log(`Headers: validation completed, issues=${state.lastHeaderIssues.length}`);
-}));
+  try {
+    await processHeaders(state.headersFile, {
+      backup: ui.headers.backup.checked,
+      logging: ui.headers.logging.checked
+    }, false);
+  } catch (e) {
+    setStatus(ui.headers, "error", "Failed");
+    setProgress(ui.headers, 100, "Processing failed");
+    log(`Headers ERROR: ${e.message}`);
+    showToast(`Headers processing failed: ${e.message}`, "error");
+  }
+});
 
-ui.headers.preview.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
-  if (!state.headersFile) return;
-  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, true);
-}));
-
-ui.headers.run.addEventListener("click", wrapAsyncAction(ui.headers, async () => {
-  if (!state.headersFile) return;
-  await processHeaders(state.headersFile, { backup: ui.headers.backup.checked, logging: ui.headers.logging.checked }, false);
-}));
-
-ui.items.validate.addEventListener("click", wrapAsyncAction(ui.items, async () => {
+ui.items.preview.addEventListener("click", async () => {
   if (!state.itemsFiles.length) return;
-  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, true);
-  log(`LineItems: validation completed, issues=${state.lastItemIssues.length}`);
-}));
+  try {
+    await processLineItems(state.itemsFiles, {
+      backup: ui.items.backup.checked,
+      logging: ui.items.logging.checked
+    }, true);
+  } catch (e) {
+    setStatus(ui.items, "error", "Failed");
+    setProgress(ui.items, 100, "Processing failed");
+    log(`LineItems ERROR: ${e.message}`);
+    showToast(`Line item processing failed: ${e.message}`, "error");
+  }
+});
 
-ui.items.preview.addEventListener("click", wrapAsyncAction(ui.items, async () => {
+ui.items.run.addEventListener("click", async () => {
   if (!state.itemsFiles.length) return;
-  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, true);
-}));
-
-ui.items.run.addEventListener("click", wrapAsyncAction(ui.items, async () => {
-  if (!state.itemsFiles.length) return;
-  await processLineItems(state.itemsFiles, { backup: ui.items.backup.checked, logging: ui.items.logging.checked }, false);
-}));
-
-ui.items.downloadAllBtn.addEventListener("click", async () => {
-  if (!state.generatedItemFiles.length) return;
-  log(`LineItems: starting batch download of ${state.generatedItemFiles.length} files`);
-  for (let i = 0; i < state.generatedItemFiles.length; i++) {
-    const file = state.generatedItemFiles[i];
-    const a = document.createElement("a");
-    a.href = file.url;
-    a.download = file.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    // Stagger downloads by 300ms to prevent browser blocking
-    if (i < state.generatedItemFiles.length - 1) await new Promise(r => setTimeout(r, 300));
+  try {
+    await processLineItems(state.itemsFiles, {
+      backup: ui.items.backup.checked,
+      logging: ui.items.logging.checked
+    }, false);
+  } catch (e) {
+    setStatus(ui.items, "error", "Failed");
+    setProgress(ui.items, 100, "Processing failed");
+    log(`LineItems ERROR: ${e.message}`);
+    showToast(`Line item processing failed: ${e.message}`, "error");
   }
 });
 
 /* ============================================================================
    Init
 ============================================================================ */
+// Show/hide custom business system input
 ui.headers.businessSystem.addEventListener("change", () => {
   if (ui.headers.businessSystem.value === "__OTHER__") {
     ui.headers.businessSystemCustom.style.display = "block";
@@ -2595,7 +3463,7 @@ setProgress(ui.headers, 0, "Waiting for file...");
 setStatus(ui.items, "idle", "Idle");
 setProgress(ui.items, 0, "Waiting for file...");
 log("Application ready. Welcome to Aridata!");
-renderIssues([]);
+renderIssues(null);
 resetHeaderPreview();
 updateSummary();
 log("Upload a file using the tabs above to get started. All processing happens locally in your browser.");
@@ -2605,6 +3473,47 @@ document.getElementById("sessionTime").textContent =
     dateStyle:"medium",
     timeStyle:"short"
   });
+
+// Clear log
+document.getElementById("logClearBtn").addEventListener("click", () => {
+  ui.log.innerHTML = "";
+  log("Log cleared.");
+});
+
+// Escape closes the preview modal
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closePreviewModal();
+});
+
+})(); // End IIFE
 </script>
+
+<!-- â”€â”€ Toast notification container â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<div id="toastContainer"></div>
+
+<!-- â”€â”€ Centered Success Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<div id="ackOverlay" class="ack-overlay">
+  <div class="ack-card">
+    <div class="ack-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="ack-title" id="ackTitle">Processing Complete</div>
+    <div class="ack-sub" id="ackSub"></div>
+    <div class="ack-stats" id="ackStats"></div>
+    <label class="ack-certify" id="ackCertify">
+      <input type="checkbox" id="ackCheckbox" />
+      <span class="ack-certify-text">I confirm that the data summary above is correct and I authorize the download.</span>
+    </label>
+    <div class="ack-actions">
+      <button class="ack-btn ack-btn-secondary" id="ackCloseBtn">Cancel</button>
+      <button class="ack-btn ack-btn-primary" id="ackDownloadBtn" disabled>Download</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+
+
